@@ -124,7 +124,7 @@ input::placeholder {
   align-items: left;
   justify-content: left;
   margin-bottom: 10px;
-  align-self: flex-start;  /* This will align the container to the left */
+  align-self: flex-start;
 }
 
 
@@ -135,7 +135,7 @@ input::placeholder {
   transition: all 0.3s ease;
 }
 
-/* Adjust existing styles */
+
 .login-section {
   flex: 1;
   padding: 50px;
@@ -296,7 +296,7 @@ input::placeholder {
   }
 }
 
-/* Add for very small devices */
+
 @media (max-width: 320px) {
   .container {
       margin: 10px;
@@ -312,7 +312,7 @@ input::placeholder {
   }
 }
 
-/* Add for height-based media queries */
+
 @media (max-height: 700px) {
   .container {
       margin: 15px 0;

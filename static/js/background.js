@@ -14,15 +14,15 @@ class ParticleSystem {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.container.appendChild(this.renderer.domElement);
 
-        // Create particles with golden color
+
         const geometry = new THREE.SphereGeometry(0.1, 8, 8);
         const material = new THREE.MeshBasicMaterial({
-            color: 0xFFD700, // Golden yellow
+            color: 0xFFD700,
             transparent: true,
             opacity: 0.6
         });
 
-        // Create white particles
+
         const whiteMaterial = new THREE.MeshBasicMaterial({
             color: 0xFFFFFF,
             transparent: true,
@@ -45,7 +45,7 @@ class ParticleSystem {
                 Math.random() * 0.02 - 0.01
             );
 
-            // Add shimmer effect
+
             particle.pulseSpeed = Math.random() * 0.02 + 0.01;
             particle.pulsePhase = Math.random() * Math.PI * 2;
 
@@ -55,7 +55,7 @@ class ParticleSystem {
 
         this.camera.position.z = 30;
 
-        // Handle window resize
+
         window.addEventListener('resize', () => {
             const width = window.innerWidth;
             const height = window.innerHeight;
@@ -71,15 +71,15 @@ class ParticleSystem {
 
         const time = Date.now() * 0.001;
 
-        // Update particle positions and effects
+
         this.particles.forEach(particle => {
-            // Update position
+
             particle.position.add(particle.velocity);
 
-            // Shimmer effect
+
             particle.material.opacity = 0.3 + Math.sin(time * particle.pulseSpeed + particle.pulsePhase) * 0.2;
 
-            // Bounce off boundaries
+
             ['x', 'y', 'z'].forEach(axis => {
                 if (Math.abs(particle.position[axis]) > 20) {
                     particle.velocity[axis] *= -1;
@@ -87,7 +87,7 @@ class ParticleSystem {
             });
         });
 
-        // Gentle rotation of entire scene
+
         this.scene.rotation.y += 0.0005;
         this.scene.rotation.x += 0.0002;
 
@@ -95,5 +95,5 @@ class ParticleSystem {
     }
 }
 
-// Initialize particle system
+
 new ParticleSystem();

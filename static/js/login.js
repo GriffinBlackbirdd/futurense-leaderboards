@@ -1,4 +1,4 @@
-// Particles.js configuration
+
 particlesJS('particles-js',
   {
     "particles": {
@@ -75,12 +75,7 @@ particlesJS('particles-js',
   }
 );
 
-// Particles.js configuration remains the same as before...
 
-// Keep your existing particles.js configuration...
-
-// Update form submission handling
-// script.js
 document.querySelector('form').addEventListener('submit', async function(e) {
   e.preventDefault();
 
@@ -102,14 +97,14 @@ document.querySelector('form').addEventListener('submit', async function(e) {
       const data = await response.json();
 
       if (data.success) {
-          // Store the token and user data in localStorage
+
           localStorage.setItem('token', data.access_token);
           localStorage.setItem('userData', JSON.stringify(data.user));
 
-          // Redirect to welcome page
+
           window.location.href = '/welcome';
       } else {
-          // Show error message
+
           alert(data.detail || 'Login failed. Please check your credentials.');
       }
   } catch (error) {

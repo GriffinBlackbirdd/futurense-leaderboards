@@ -87,12 +87,12 @@ const DEADLINES = {
     problemSolving: '2025-03-01'
 };
 
-// Function to format numbers with commas
+
 function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// Function to calculate days remaining and return appropriate color
+
 function calculateDaysRemaining(deadline) {
     const today = new Date();
     const deadlineDate = new Date(deadline);
@@ -101,11 +101,11 @@ function calculateDaysRemaining(deadline) {
 
     let color;
     if (diffDays <= 15) {
-        color = '#FF2D55'; // Red for urgent
+        color = '#FF2D55';
     } else if (diffDays <= 30) {
-        color = '#FFD60A'; // Yellow for warning
+        color = '#FFD60A';
     } else {
-        color = '#2ECC71'; // Green for safe
+        color = '#2ECC71';
     }
 
     return {
@@ -114,7 +114,7 @@ function calculateDaysRemaining(deadline) {
     };
 }
 
-// Function to update deadline displays
+
 function updateDeadlines() {
     const deadlineElements = {
         resume: document.getElementById('resumeDays'),
@@ -137,15 +137,15 @@ function updateDeadlines() {
     }
 }
 
-// Function to update future glow based on rank
+
 function updateFutureGlow(rank) {
     const futureGlow = document.getElementById('futureGlow');
     console.log('Updating future glow for rank:', rank);
 
-    // Remove all existing classes
+
     futureGlow.className = 'future-indicator';
 
-    // Parse rank as number and add appropriate class
+
     const rankNum = parseInt(rank);
     if (rankNum === 1) {
         futureGlow.classList.add('future-bright-100');
@@ -160,15 +160,15 @@ function updateFutureGlow(rank) {
     }
 }
 
-// Function to calculate progress percentage
+
 function calculateProgress(earned, max) {
     if (!earned || isNaN(earned)) return 0;
     return Math.min(100, (earned / max) * 100);
 }
 
-// Function to update points distribution
+
 function updatePointsDistribution(userData) {
-    // Define maximum points for each category
+
     const maxPoints = {
         resume: 1,
         aptitude: 1,
@@ -182,7 +182,6 @@ function updatePointsDistribution(userData) {
 
     const totalMaxPoints = Object.values(maxPoints).reduce((a, b) => a + b, 0); // Total is 18
 
-    // Update individual points and progress bars
     // Resume
     document.getElementById('resumePoints').textContent = formatNumber(userData.resumePoints || 0);
     document.getElementById('resumeProgress').style.width = `${calculateProgress(userData.resumePoints, maxPoints.resume)}%`;
@@ -229,32 +228,32 @@ function updatePointsDistribution(userData) {
     document.getElementById('totalProgress').style.width = `${calculateProgress(total, totalMaxPoints)}%`;
 }
 
-// Main initialization
+
 document.addEventListener('DOMContentLoaded', function() {
     const userData = JSON.parse(localStorage.getItem('userData'));
 
     if (userData) {
-        // Update user information
+n
         document.getElementById('welcomeName').textContent = `Welcome back, ${userData.name}!`;
         document.querySelector('.user-email').textContent = userData.email;
         document.getElementById('userCategory').textContent = userData.category;
         document.getElementById('userRank').textContent = `#${userData.rank}`;
         document.getElementById('userPoints').textContent = formatNumber(userData.points);
 
-        // Update detailed points distribution
+
         updatePointsDistribution(userData);
 
-        // Update future glow
+
         updateFutureGlow(userData.rank);
 
-        // Update deadlines
+
         updateDeadlines();
     } else {
         window.location.href = '/';
     }
 });
 
-// Logout function
+
 function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');

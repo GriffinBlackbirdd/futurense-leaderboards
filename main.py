@@ -10,23 +10,21 @@ import logging
 from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 
-# Set up logging
+
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-# Load environment variables
 load_dotenv()
 
-# Initialize FastAPI
 app = FastAPI()
 
-# Configure CORS
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with your frontend domain
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -35,10 +33,9 @@ app.add_middleware(
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Initialize templates
+
 templates = Jinja2Templates(directory="templates")
 
-# Initialize Supabase with error handling
 SUPABASE_URL = "https://qqeanlpfsgowrbzukhie.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZWFubHBmc2dvd3JienVraGllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg5NzI3ODUsImV4cCI6MjAzNDU0ODc4NX0.qC1V67KzK6iCRh1CuuKkZSS4PbBYtBiMZ0SAY7AKQ-c"  # Replace with your Supabase anon or service key
 
@@ -114,7 +111,7 @@ async def login(login_data: LoginData):
     try:
         logger.info(f"Login attempt for email: {login_data.email}")
 
-        # Step 1: Authenticate with Supabase
+        # Authenticate with Supabase
         try:
             auth_response = supabase.auth.sign_in_with_password({
                 "email": login_data.email,
@@ -131,7 +128,7 @@ async def login(login_data: LoginData):
                 }
             )
 
-        # Step 2: Fetch user details
+        # Fetch user details
         try:
             user_data = supabase.table('users').select('*').eq('email', login_data.email).execute()
 
@@ -157,7 +154,7 @@ async def login(login_data: LoginData):
                 }
             )
 
-        # Step 3: Prepare and return response
+
         response_data = {
             "success": True,
             "access_token": auth_response.session.access_token,
