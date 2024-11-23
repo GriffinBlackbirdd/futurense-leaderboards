@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation</title>
+    <link rel="icon" href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico?t=2024-11-23T14%3A47%3A36.771Z" type="image/x-icon">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f8fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(45deg, #1e3a8a, #1e40af);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .logo-container {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            padding: 8px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            max-width: 45px;
+            height: auto;
+        }
+
+        .content {
+            padding: 30px;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 22px;
+            margin: 0 0 20px 0;
+        }
+
+        p {
+            color: #4b5563;
+            font-size: 15px;
+            line-height: 1.5;
+            margin: 0 0 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: linear-gradient(45deg, #1e3a8a, #1e40af);
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #1e40af, #2563eb);
+        }
+
+        .footer {
+            background: #f8f9ff;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer p {
+            color: #6b7280;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+
+        .expiry-note {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 20px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+                width: auto;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+
+            .logo-container {
+                width: 50px;
+                height: 50px;
+            }
+
+            .logo {
+                max-width: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico?t=2024-11-23T14%3A47%3A36.771Z" alt="Futurense Academy" class="logo">
+            </div>
+        </div>
+
+        <div class="content">
+            <h1>Welcome to Futurense Placements</h1>
+            <p>Please confirm your email address to get started.</p>
+            <p><a class="btn" href="{{ .ConfirmationURL }}">Confirm Email</a></p>
+            <p class="expiry-note">This confirmation link will expire in 24 hours.</p>
+        </div>
+
+        <div class="footer">
+            <p>Futurense Pvt Ltd</p>
+            <p>© 2024 All rights reserved</p>
+            <p>If you didn't create this account, please ignore this email.</p>
+        </div>
+    </div>
+</body>
+</html>
