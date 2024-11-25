@@ -1,0 +1,322 @@
+/* Well hello there if you are reading this in the inspect mode. */
+/* login.css */
+
+@keyframes gradientBG {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(
+    -45deg,
+    #2b1055,
+    #7597de,
+    #4b6cb7,
+    #182848,
+    #2b1055
+);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+.login-section {
+  flex: 1;
+  padding: 50px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-section {
+  flex: 1;
+  padding: 50px;
+  background: linear-gradient(45deg, #2980b9, #3498db);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+h1 {
+  color: #2c3e50;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+.welcome-text {
+  color: #666;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.input-group {
+  margin-bottom: 25px;
+  position: relative;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #eee;
+  background: white;
+  border-radius: 10px;
+  color: #333;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 15px rgba(52, 152, 219, 0.2);
+}
+
+input::placeholder {
+  color: #999;
+}
+
+.logo-container {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+
+
+
+.logo {
+  max-width: 45px;
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+
+.login-section {
+  flex: 1;
+  padding: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-section {
+  padding-top: 20px;
+}
+
+.login-btn {
+  padding: 15px 30px;
+  background: linear-gradient(45deg, #e74c3c, #f39c12);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+  background: linear-gradient(45deg, #c0392b, #d35400);
+}
+
+.hero-title {
+  font-size: 3em;
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle {
+  color: white;
+  text-align: center;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.trophy-icon {
+  font-size: 80px;
+  margin-bottom: 30px;
+  animation: float 3s ease-in-out infinite;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+@media (max-width: 768px) {
+  .container {
+      flex-direction: column;
+      height: auto;
+  }
+
+  .login-section, .hero-section {
+      padding: 30px;
+  }
+
+  .hero-title {
+      font-size: 2em;
+  }
+
+  .hero-subtitle {
+      font-size: 1em;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+      width: 95%;
+      height: auto;
+      min-height: 550px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+      flex-direction: column;
+      height: auto;
+      margin: 20px;
+      width: calc(100% - 40px);
+  }
+
+  .login-section,
+  .hero-section {
+      width: 100%;
+      padding: 30px;
+  }
+
+  .hero-section {
+      padding: 40px 30px;
+  }
+
+  .hero-title {
+      font-size: 2em;
+  }
+
+  .hero-subtitle {
+      font-size: 1em;
+  }
+
+  .login-btn {
+      width: 100%;
+      padding: 12px 20px;
+  }
+
+  input {
+      font-size: 14px;
+      padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+      margin: 15px;
+      width: calc(100% - 30px);
+  }
+
+  .login-section,
+  .hero-section {
+      padding: 20px;
+  }
+
+  h1 {
+      font-size: 2em;
+  }
+
+  .welcome-text {
+      font-size: 0.9em;
+      margin-bottom: 30px;
+  }
+
+  .trophy-icon {
+      font-size: 60px;
+  }
+
+  .input-group {
+      margin-bottom: 15px;
+  }
+}
+
+
+@media (max-width: 320px) {
+  .container {
+      margin: 10px;
+      width: calc(100% - 20px);
+  }
+
+  h1 {
+      font-size: 1.8em;
+  }
+
+  .hero-title {
+      font-size: 1.5em;
+  }
+}
+
+
+@media (max-height: 700px) {
+  .container {
+      margin: 15px 0;
+      min-height: auto;
+  }
+}
