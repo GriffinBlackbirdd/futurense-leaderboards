@@ -63,7 +63,6 @@ python-jose==3.3.0
 python-jwt==4.1.0
 python-multipart==0.0.17
 pytz==2024.2
-pywin32==308
 pyzmq==26.2.0
 realtime==2.0.6
 rsa==4.9
