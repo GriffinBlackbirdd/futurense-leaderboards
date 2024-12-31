@@ -71,10 +71,10 @@ particlesJS('particles-js', {
         }
     },
     "retina_detect": true
-});
+  });
 
-// Constants
-const DEADLINES = {
+  // Constants
+  const DEADLINES = {
     resume: '2025-02-26',
     aptitude: '2025-02-26',
     mock: '2025-03-05',
@@ -83,9 +83,9 @@ const DEADLINES = {
     finalProject: '2025-03-05',
     aiCert: '2025-03-31',
     problemSolving: '2025-03-01'
-};
+  };
 
-const BADGES = {
+  const BADGES = {
     BRONZE: {
         name: 'Bronze',
         icon: '🏆',
@@ -104,9 +104,9 @@ const BADGES = {
         points: 15,
         message: 'Congratulations! You\'ve achieved the Gold badge!'
     }
-};
+  };
 
-const MAX_POINTS = {
+  const MAX_POINTS = {
     resume: 1,
     aptitude: 1,
     mock: 2,
@@ -115,14 +115,27 @@ const MAX_POINTS = {
     finalProject: 3,
     aiCert: 4,
     problemSolving: 3
-};
+  };
 
-// Utility Functions
-function formatNumber(num) {
+// Add these styles to the head of the document
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+  // Utility Functions
+  function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+  }
 
-function formatScore(score, element) {
+  function formatScore(score, element) {
     const formattedScore = formatNumber(score);
     if (score < 0) {
         element.classList.add('negative-score');
@@ -130,14 +143,14 @@ function formatScore(score, element) {
         element.classList.remove('negative-score');
     }
     return formattedScore;
-}
+  }
 
-function calculateProgress(earned, max) {
+  function calculateProgress(earned, max) {
     if (!earned || isNaN(earned) || earned <= 0) return 0;
     return Math.min(100, (earned / max) * 100);
-}
+  }
 
-function calculateDaysRemaining(deadline) {
+  function calculateDaysRemaining(deadline) {
     const today = new Date();
     const deadlineDate = new Date(deadline);
     const diffTime = deadlineDate - today;
@@ -156,10 +169,30 @@ function calculateDaysRemaining(deadline) {
         days: diffDays,
         color: color
     };
-}
+  }
 
-// Badge Functions
-function showBadgeNotification(badge) {
+  // Badge Functions
+  function checkBadges(points) {
+    if (points <= 0) return;
+
+    const earnedBadges = [];
+    const previousPoints = parseInt(localStorage.getItem('previousPoints')) || 0;
+
+    Object.values(BADGES).forEach(badge => {
+        if (points >= badge.points) {
+            earnedBadges.push(badge);
+            if (previousPoints < badge.points && points >= badge.points) {
+                showBadgeNotification(badge);
+            }
+        }
+    });
+
+    localStorage.setItem('previousPoints', points);
+    updateBadgesDisplay(earnedBadges);
+    updateBadgeMarkers(points);
+  }
+
+  function showBadgeNotification(badge) {
     // Remove any existing notifications
     const existingNotifications = document.querySelectorAll('.badge-notification');
     existingNotifications.forEach(notification => notification.remove());
@@ -207,41 +240,8 @@ function showBadgeNotification(badge) {
     }, 5000);
 }
 
-// Add these styles to the head of the document
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes fadeOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
 
-function checkBadges(points) {
-    if (points <= 0) return;
-
-    const earnedBadges = [];
-    const previousPoints = parseInt(localStorage.getItem('previousPoints')) || 0;
-
-    Object.values(BADGES).forEach(badge => {
-        if (points >= badge.points) {
-            earnedBadges.push(badge);
-            if (previousPoints < badge.points && points >= badge.points) {
-                showBadgeNotification(badge);
-            }
-        }
-    });
-
-    localStorage.setItem('previousPoints', points);
-    updateBadgesDisplay(earnedBadges);
-    updateBadgeMarkers(points);
-}
-
-function updateBadgeMarkers(points) {
+  function updateBadgeMarkers(points) {
     document.querySelectorAll('.badge-marker').forEach(marker => {
         const requiredPoints = parseInt(marker.dataset.points);
         const badgeIcon = marker.querySelector('.badge-icon');
@@ -252,9 +252,9 @@ function updateBadgeMarkers(points) {
             badgeIcon.classList.remove('earned');
         }
     });
-}
+  }
 
-function updateBadgesDisplay(earnedBadges) {
+  function updateBadgesDisplay(earnedBadges) {
     const showcase = document.getElementById('earnedBadges');
     showcase.innerHTML = earnedBadges.map(badge => `
         <div class="badge-item">
@@ -262,10 +262,10 @@ function updateBadgesDisplay(earnedBadges) {
             <span class="badge-name">${badge.name}</span>
         </div>
     `).join('');
-}
+  }
 
-// Update Functions
-function updateFutureGlow(rank) {
+  // Update Functions
+  function updateFutureGlow(rank) {
     const futureGlow = document.getElementById('futureGlow');
 
     futureGlow.className = 'future-indicator';
@@ -282,9 +282,9 @@ function updateFutureGlow(rank) {
     } else {
         futureGlow.classList.add('future-dim-20');
     }
-}
+  }
 
-function updateDeadlines() {
+  function updateDeadlines() {
     Object.entries(DEADLINES).forEach(([key, deadline]) => {
         const element = document.getElementById(`${key}Days`);
         if (element) {
@@ -293,9 +293,9 @@ function updateDeadlines() {
             element.style.color = color;
         }
     });
-}
+  }
 
-function updatePointsDistribution(userData) {
+  function updatePointsDistribution(userData) {
     // Update individual points and progress bars
     Object.keys(MAX_POINTS).forEach(key => {
         const pointsElement = document.getElementById(`${key}Points`);
@@ -339,10 +339,10 @@ function updatePointsDistribution(userData) {
     progressText.textContent = `${total}/15 points`;
 
     checkBadges(total);
-}
+  }
 
-// Main Initialization
-document.addEventListener('DOMContentLoaded', function() {
+  // Main Initialization
+  document.addEventListener('DOMContentLoaded', function() {
     const userData = JSON.parse(localStorage.getItem('userData'));
 
     if (userData) {
@@ -358,11 +358,11 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         window.location.href = '/';
     }
-});
+  });
 
-// Logout Function
-function logout() {
+  // Logout Function
+  function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
     window.location.href = '/';
-}
+  }
