@@ -1,4 +1,9 @@
-/* Base Styles */
+/* Well hello there if you are reading this in the inspect mode. */
+
+
+/* Dashboard Styles */
+
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +11,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* Background Animation */
 @keyframes gradientBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -92,11 +96,31 @@ body {
 .user-email {
   color: rgba(255, 255, 255, 0.7);
   font-size: 1.1em;
-  max-width: 100%;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 0 10px;
+}
+
+/* Logo Container */
+.logo-container {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  align-self: flex-start;
+  position: relative;
+  z-index: 4;
+}
+
+.logo {
+  max-width: 45px;
+  height: auto;
+  transition: all 0.3s ease;
 }
 
 /* Stats Grid */
@@ -153,72 +177,66 @@ body {
   letter-spacing: 1px;
 }
 
+/* Future text specific style */
+.future .stat-info h3 {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
 .stat-info p {
   font-size: 1.5em;
   font-weight: 700;
   color: #fff;
 }
 
-/* Days Left styles */
-.days-left {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: 500;
-  transition: color 0.3s ease;
+/* Progress Bar and Badges */
+.total-progress-container {
+  margin-top: 10px;
+  width: 100%;
+  position: relative;
+  z-index: 4;
 }
 
-.days-left::before {
-  content: "⏰";
-  margin-right: 5px;
-  font-size: 0.9em;
+.progress-bar-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 20px 0 5px 0;
 }
 
-/* Badge Notification */
-.badge-notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
-  z-index: 1000;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.5s ease-out;
-  max-width: 300px;
+.badge-marker {
+  position: absolute;
+  top: -25px;
+  transform: translateX(-50%);
+  z-index: 6;
 }
 
-.notification-content {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.badge-marker .badge-icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  opacity: 1;
+  filter: brightness(1.5) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
 }
 
-
-.notification-icon {
-  font-size: 2em;
-  min-width: 40px;
-  text-align: center;
-  filter: brightness(1.2);
+.badge-marker .badge-icon.earned {
+  opacity: 1;
+  filter: brightness(1.8) drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+  animation: badgeEarned 0.5s ease-out;
 }
 
-.notification-text h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #ffffff;
+.badge-marker::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
 }
 
-.notification-text p {
-  margin: 0;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.4;
-}
-
-/* Progress Bar */
 .progress-bar {
   width: 100%;
   height: 8px;
@@ -256,7 +274,7 @@ body {
   background: linear-gradient(90deg, #4ecdc4, #2ecc71) !important;
 }
 
-/* Future Globe */
+/* Future Globe Styles */
 .future-indicator {
   width: 80px;
   height: 80px;
@@ -267,6 +285,7 @@ body {
   z-index: 4;
 }
 
+/* Rank-based styles */
 .future-bright-100 {
   background: radial-gradient(circle at center, #FFD700, #FFA500);
   box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
@@ -287,114 +306,73 @@ body {
 
 .future-dim-40 {
   background: radial-gradient(circle at center, #A9A9A9, #808080);
-  box-shadow: 0 0 15px rgba(169, 169, 169, 0.3);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
   animation: pulse-dim 2s infinite;
 }
 
 .future-dim-20 {
   background: radial-gradient(circle at center, #808080, #696969);
-  box-shadow: 0 0 10px rgba(169, 169, 169, 0.2);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
   animation: pulse-dim 2s infinite;
 }
 
-/* Animations */
-@keyframes pulse-bright {
-  0% { transform: scale(1); }
-  50% {
-      transform: scale(1.05);
-      box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
-  }
-  100% { transform: scale(1); }
-}
-
-@keyframes pulse-dim {
-  0% { transform: scale(1); }
-  50% {
-      transform: scale(1.02);
-      box-shadow: 0 0 15px rgba(169, 169, 169, 0.3);
-  }
-  100% { transform: scale(1); }
-}
-
-@keyframes slideIn {
-  from {
-      transform: translateX(120%);
-      opacity: 0;
-  }
-  to {
-      transform: translateX(0);
-      opacity: 1;
-  }
-}
-
-
-.fade-out {
-  animation: slideOut 0.5s ease-out forwards;
-}
-
-@keyframes slideOut {
-  from {
-      transform: translateX(0);
-      opacity: 1;
-  }
-  to {
-      transform: translateX(120%);
-      opacity: 0;
-  }
-}
-
-
-/* Negative Score */
-.negative-score {
-  color: #ff4444 !important;
-}
-
-/* Points Distribution Table */
-.points-distribution {
-  margin-top: 40px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
+/* Badges Showcase */
+.badges-showcase {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
   position: relative;
-  z-index: 3;
+  z-index: 5;
 }
 
-.points-distribution h2 {
-  color: #fff;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 1.8em;
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
-.table-container {
-  overflow-x: auto;
-  border-radius: 15px;
+.badge-item .badge-icon {
+  font-size: 24px;
+  opacity: 1;
+  filter: brightness(1.5) drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
 }
 
-.points-table {
-  width: 100%;
-  color: #fff;
-  border-collapse: separate;
-  border-spacing: 0;
+.badge-name {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.points-table th,
-.points-table td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* Badge Tooltips */
+.badge-marker:hover .badge-icon {
+  transform: scale(1.2);
 }
 
-.points-table th {
-  background: rgba(255, 255, 255, 0.1);
-  font-weight: 600;
+.badge-marker::before {
+  content: attr(data-badge);
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: transform 0.3s ease;
+  opacity: 0;
+  z-index: 7;
 }
 
-.points-table tr:hover {
-  background: rgba(255, 255, 255, 0.05);
+.badge-marker:hover::before {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
 }
 
-/* Logout Button */
+/* Logout Button Styles */
 .logout-container {
   width: 100%;
   display: flex;
@@ -429,26 +407,75 @@ body {
   box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
 }
 
-/* Custom Scrollbar */
-.container::-webkit-scrollbar {
-  width: 8px;
+/* Points Distribution Table */
+.points-distribution {
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.container::-webkit-scrollbar-track {
+.points-distribution h2 {
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.8em;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 15px;
+}
+
+.points-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #fff;
+}
+
+.points-table th,
+.points-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.points-table th {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  font-weight: 600;
 }
 
-.container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+.points-table tr:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.container::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+/* Animations */
+@keyframes pulse-bright {
+  0% { transform: scale(1); }
+  50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  }
+  100% { transform: scale(1); }
 }
 
-/* Responsive Styles */
+@keyframes pulse-dim {
+  0% { transform: scale(1); }
+  50% {
+      transform: scale(1.02);
+      box-shadow: 0 0 15px rgba(169, 169, 169, 0.3);
+  }
+  100% { transform: scale(1); }
+}
+
+@keyframes badgeEarned {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
 @media (max-width: 768px) {
   .container {
       padding: 20px;
@@ -465,6 +492,22 @@ body {
       padding: 20px;
   }
 
+  .future-indicator {
+      width: 60px;
+      height: 60px;
+  }
+
+  .profile-header h1 {
+      font-size: 2em;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .user-email {
+      font-size: 0.9em;
+  }
+
   .points-table {
       font-size: 0.9em;
   }
@@ -474,37 +517,9 @@ body {
       padding: 10px;
   }
 
-  .future-indicator {
-      width: 60px;
-      height: 60px;
+  .badge-marker .badge-icon {
+      font-size: 16px;
   }
-
-  .profile-header h1 {
-      font-size: 2em;
-  }
-
-  .user-email {
-      font-size: 0.9em;
-      padding: 0 5px;
-      word-break: break-all;
-  }
-
-  .badge-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 9999;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    animation: slideIn 0.5s ease-out;
-    min-width: 300px;
-    max-width: 400px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
 
   .logout-btn {
       min-width: 120px;
@@ -527,6 +542,10 @@ body {
       font-size: 1.5em;
   }
 
+  .badge-marker .badge-icon {
+      font-size: 14px;
+  }
+
   .future-indicator {
       width: 50px;
       height: 50px;
@@ -542,77 +561,53 @@ body {
   }
 
   .logout-btn {
-    min-width: 100px;
-    padding: 8px 20px;
-    font-size: 13px;
+      min-width: 100px;
+      padding: 8px 20px;
+      font-size: 13px;
+  }
+
+  .badge-name {
+      font-size: 10px;
+  }
+
+  .points-distribution h2 {
+      font-size: 1.5em;
+  }
 }
 
-.notification-text h4 {
-    font-size: 14px;
+/* Custom Scrollbar */
+.container::-webkit-scrollbar {
+  width: 8px;
 }
 
-.notification-text p {
-    font-size: 12px;
+.container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
 
-.notification-icon {
-    font-size: 1.5em;
+.container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
 }
 
-.points-distribution h2 {
-    font-size: 1.5em;
+.container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .days-left {
-    font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: inherit;
+}
+
+.clock-icon {
+  font-size: 1em;
+  opacity: 0.8;
 }
 
 .days-left::before {
-    font-size: 0.8em;
-}
-}
-
-/* Small height screens */
-@media (max-height: 700px) {
-.container {
-    margin: 10px;
-    max-height: 95vh;
-}
-
-.profile-header {
-    margin-bottom: 20px;
-    padding: 15px;
-}
-
-.stats-grid {
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.points-distribution {
-    margin-top: 20px;
-}
-}
-
-@media (max-width: 768px) {
-  .badge-notification {
-      top: 10px;
-      right: 10px;
-      left: 10px;
-      min-width: unset;
-      max-width: unset;
-      padding: 15px;
-  }
-
-  .notification-icon {
-      font-size: 1.5em;
-  }
-
-  .notification-text h4 {
-      font-size: 14px;
-  }
-
-  .notification-text p {
-      font-size: 12px;
-  }
+  content: "⏰";
+  margin-right: 5px;
+  font-size: 0.9em;
 }
