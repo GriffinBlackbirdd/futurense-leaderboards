@@ -1,0 +1,41 @@
+<!-- Well hello there if you are reading this in the inspect mode. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futurense Placements | Login</title>
+    <link rel="icon" href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico?t=2024-11-23T14%3A47%3A36.771Z" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/login.css') }}">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="login-section">
+            <div class="logo-container">
+                <img src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico?t=2024-11-23T14%3A47%3A36.771Z" alt="Futurense Logo" class="logo">
+            </div>
+            <h1>Welcome Back!</h1>
+            <p class="welcome-text">Log in to climb the leaderboard and showcase your skills.</p>
+            <form>
+                <div class="input-group">
+                    <input type="email" placeholder="Email address" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="login-btn">Login to Compete</button>
+            </form>
+        </div>
+        <div class="hero-section">
+            <div class="trophy-icon">🏆</div>
+            <h2 class="hero-title">Compete. Conquer. Climb.</h2>
+            <p class="hero-subtitle">Join the elite ranks of top performers</p>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ url_for('static', path='js/login.js') }}"></script>
+</body>
+</html>

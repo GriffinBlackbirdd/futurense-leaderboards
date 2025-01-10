@@ -1,0 +1,613 @@
+/* Well hello there if you are reading this in the inspect mode. */
+
+
+/* Dashboard Styles */
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes textGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(
+      -45deg,
+      #1a1a2e,
+      #16213e,
+      #1e3a8a,
+      #1e40af,
+      #312e81,
+      #4c1d95
+  );
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Container Styles */
+.container {
+  width: 90%;
+  max-width: 1000px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+/* Profile Header */
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 3;
+}
+
+.profile-header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  font-weight: 700;
+  background: linear-gradient(45deg, #60a5fa, #818cf8);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textGradient 5s ease infinite;
+}
+
+.user-email {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Logo Container */
+.logo-container {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  align-self: flex-start;
+  position: relative;
+  z-index: 4;
+}
+
+.logo {
+  max-width: 45px;
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 3;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: visible;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.stat-icon,
+.badge-icon {
+  font-size: 2em;
+  min-width: 45px;
+  text-align: center;
+  position: relative;
+  z-index: 5;
+  filter: brightness(1.2);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.stat-info {
+  flex-grow: 1;
+  position: relative;
+  z-index: 4;
+}
+
+.stat-info h3 {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Future text specific style */
+.future .stat-info h3 {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.stat-info p {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Progress Bar and Badges */
+.total-progress-container {
+  margin-top: 10px;
+  width: 100%;
+  position: relative;
+  z-index: 4;
+}
+
+.progress-bar-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 20px 0 5px 0;
+}
+
+.badge-marker {
+  position: absolute;
+  top: -25px;
+  transform: translateX(-50%);
+  z-index: 6;
+}
+
+.badge-marker .badge-icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  opacity: 1;
+  filter: brightness(1.5) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.badge-marker .badge-icon.earned {
+  opacity: 1;
+  filter: brightness(1.8) drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+  animation: badgeEarned 0.5s ease-out;
+}
+
+.badge-marker::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  z-index: 4;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #4ecdc4, #2ecc71);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: right;
+  margin-top: 5px;
+}
+
+/* Progress States */
+.progress-low {
+  background: linear-gradient(90deg, #ff4444, #ff6b6b) !important;
+}
+
+.progress-medium {
+  background: linear-gradient(90deg, #ffd60a, #ffc107) !important;
+}
+
+.progress-high {
+  background: linear-gradient(90deg, #4ecdc4, #2ecc71) !important;
+}
+
+/* Future Globe Styles */
+.future-indicator {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 10px auto;
+  transition: all 0.5s ease;
+  position: relative;
+  z-index: 4;
+}
+
+/* Rank-based styles */
+.future-bright-100 {
+  background: radial-gradient(circle at center, #FFD700, #FFA500);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  animation: pulse-bright 2s infinite;
+}
+
+.future-bright-80 {
+  background: radial-gradient(circle at center, #FFA500, #FF8C00);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+  animation: pulse-bright 2s infinite;
+}
+
+.future-bright-60 {
+  background: radial-gradient(circle at center, #FF8C00, #FF7F50);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  animation: pulse-bright 2s infinite;
+}
+
+.future-dim-40 {
+  background: radial-gradient(circle at center, #A9A9A9, #808080);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+  animation: pulse-dim 2s infinite;
+}
+
+.future-dim-20 {
+  background: radial-gradient(circle at center, #808080, #696969);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+  animation: pulse-dim 2s infinite;
+}
+
+/* Badges Showcase */
+.badges-showcase {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 5;
+}
+
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-item .badge-icon {
+  font-size: 24px;
+  opacity: 1;
+  filter: brightness(1.5) drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+}
+
+.badge-name {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Badge Tooltips */
+.badge-marker:hover .badge-icon {
+  transform: scale(1.2);
+}
+
+.badge-marker::before {
+  content: attr(data-badge);
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: transform 0.3s ease;
+  opacity: 0;
+  z-index: 7;
+}
+
+.badge-marker:hover::before {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+/* Logout Button Styles */
+.logout-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  position: relative;
+  z-index: 3;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  padding: 12px 30px;
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+}
+
+/* Points Distribution Table */
+.points-distribution {
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.points-distribution h2 {
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.8em;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 15px;
+}
+
+.points-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #fff;
+}
+
+.points-table th,
+.points-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.points-table th {
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+}
+
+.points-table tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Animations */
+@keyframes pulse-bright {
+  0% { transform: scale(1); }
+  50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse-dim {
+  0% { transform: scale(1); }
+  50% {
+      transform: scale(1.02);
+      box-shadow: 0 0 15px rgba(169, 169, 169, 0.3);
+  }
+  100% { transform: scale(1); }
+}
+
+@keyframes badgeEarned {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  .container {
+      padding: 20px;
+      margin: 15px;
+      width: calc(100% - 30px);
+  }
+
+  .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+  }
+
+  .stat-card {
+      padding: 20px;
+  }
+
+  .future-indicator {
+      width: 60px;
+      height: 60px;
+  }
+
+  .profile-header h1 {
+      font-size: 2em;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .user-email {
+      font-size: 0.9em;
+  }
+
+  .points-table {
+      font-size: 0.9em;
+  }
+
+  .points-table th,
+  .points-table td {
+      padding: 10px;
+  }
+
+  .badge-marker .badge-icon {
+      font-size: 16px;
+  }
+
+  .logout-btn {
+      min-width: 120px;
+      padding: 10px 25px;
+      font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+      padding: 15px;
+  }
+
+  .profile-header h1 {
+      font-size: 1.8em;
+  }
+
+  .stat-icon,
+  .badge-icon {
+      font-size: 1.5em;
+  }
+
+  .badge-marker .badge-icon {
+      font-size: 14px;
+  }
+
+  .future-indicator {
+      width: 50px;
+      height: 50px;
+  }
+
+  .points-table {
+      font-size: 0.8em;
+  }
+
+  .points-table th,
+  .points-table td {
+      padding: 8px;
+  }
+
+  .logout-btn {
+      min-width: 100px;
+      padding: 8px 20px;
+      font-size: 13px;
+  }
+
+  .badge-name {
+      font-size: 10px;
+  }
+
+  .points-distribution h2 {
+      font-size: 1.5em;
+  }
+}
+
+/* Custom Scrollbar */
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.days-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: inherit;
+}
+
+.clock-icon {
+  font-size: 1em;
+  opacity: 0.8;
+}
+
+.days-left::before {
+  content: "⏰";
+  margin-right: 5px;
+  font-size: 0.9em;
+}
