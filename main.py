@@ -7,10 +7,9 @@ import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
 import logging
-from typing import Optional, List
+from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
-
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -62,8 +61,10 @@ class UserResponse(BaseModel):
 class ActivityData(BaseModel):
     date: str
     userid: str
-    dsa_questions: int
-    dsa_platform: str
+    dsa_attempted: bool = False
+    dsa_easy: int = 0
+    dsa_medium: int = 0
+    dsa_hard: int = 0
     sql_questions: int
     sql_platform: str
     learning_hours: float
@@ -212,11 +213,9 @@ async def login(login_data: LoginData):
 async def track_activity(activity_data: ActivityData):
     """Handle daily activity tracking"""
     try:
-        # Convert the incoming date to UTC
+        # Convert activity date to UTC
         activity_date = datetime.fromisoformat(activity_data.date.replace('Z', '+00:00'))
 
-        # Instead of comparing exact dates, let's allow a wider window
-        # This will consider activities valid if they're within a 24-hour period
         try:
             # Check if user has already logged activity for today
             existing_activity = supabase.table('daily_activities').select('*').eq('userid', activity_data.userid).eq('date', activity_date.date().isoformat()).execute()
@@ -234,8 +233,9 @@ async def track_activity(activity_data: ActivityData):
             activity_insert = supabase.table('daily_activities').insert({
                 "userid": activity_data.userid,
                 "date": activity_date.date().isoformat(),
-                "dsa_questions": activity_data.dsa_questions,
-                "dsa_platform": activity_data.dsa_platform,
+                "dsa_easy": activity_data.dsa_easy,
+                "dsa_medium": activity_data.dsa_medium,
+                "dsa_hard": activity_data.dsa_hard,
                 "sql_questions": activity_data.sql_questions,
                 "sql_platform": activity_data.sql_platform,
                 "learning_hours": activity_data.learning_hours,
@@ -266,9 +266,6 @@ async def track_activity(activity_data: ActivityData):
                 "detail": "Failed to log activity"
             }
         )
-
-
-
 
 if __name__ == "__main__":
     import uvicorn
