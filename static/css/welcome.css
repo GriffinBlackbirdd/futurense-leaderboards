@@ -611,3 +611,38 @@ body {
   margin-right: 5px;
   font-size: 0.9em;
 }
+.track-btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: linear-gradient(45deg, #4158D0, #C850C0);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.track-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(45deg, #C850C0, #4158D0);
+}
+
+.daily-stats {
+  margin-top: 10px;
+}
+
+.daily-stats p {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9em;
+}
+
+.daily-stats span:first-child {
+  color: rgba(255, 255, 255, 0.7);
+}

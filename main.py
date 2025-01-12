@@ -7,8 +7,9 @@ import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
 import logging
-from typing import Optional
+from typing import Optional, List
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
 
 
 logging.basicConfig(
@@ -21,7 +22,6 @@ load_dotenv()
 
 app = FastAPI()
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -33,15 +33,14 @@ app.add_middleware(
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
 templates = Jinja2Templates(directory="templates")
 
 SUPABASE_URL = "https://qqeanlpfsgowrbzukhie.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZWFubHBmc2dvd3JienVraGllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg5NzI3ODUsImV4cCI6MjAzNDU0ODc4NX0.qC1V67KzK6iCRh1CuuKkZSS4PbBYtBiMZ0SAY7AKQ-c"  # Replace with your Supabase anon or service key
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZWFubHBmc2dvd3JienVraGllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg5NzI3ODUsImV4cCI6MjAzNDU0ODc4NX0.qC1V67KzK6iCRh1CuuKkZSS4PbBYtBiMZ0SAY7AKQ-c"
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-
+# Models
 class LoginData(BaseModel):
     email: str
     password: str
@@ -60,7 +59,19 @@ class UserResponse(BaseModel):
     aiCertPoints: Optional[int] = 0
     problemSolvingPoints: Optional[int] = 0
 
+class ActivityData(BaseModel):
+    date: str
+    userid: str
+    dsa_questions: int
+    dsa_platform: str
+    sql_questions: int
+    sql_platform: str
+    learning_hours: float
+    learning_topic: str
+    project_hours: float
+    project_description: str
 
+# Exception Handlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Handle HTTP exceptions"""
@@ -73,6 +84,7 @@ async def http_exception_handler(request: Request, exc: HTTPException):
             "detail": exc.detail
         }
     )
+
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     """Handle general exceptions"""
@@ -86,7 +98,7 @@ async def general_exception_handler(request: Request, exc: Exception):
         }
     )
 
-
+# Page Routes
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     """Render the login page"""
@@ -105,6 +117,16 @@ async def welcome(request: Request):
         logger.error(f"Error rendering welcome page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+@app.get("/tracker", response_class=HTMLResponse)
+async def tracker_page(request: Request):
+    """Render the activity tracker page"""
+    try:
+        return templates.TemplateResponse("tracker.html", {"request": request})
+    except Exception as e:
+        logger.error(f"Error rendering tracker page: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+# API Routes
 @app.post("/login")
 async def login(login_data: LoginData):
     """Handle user login"""
@@ -154,7 +176,6 @@ async def login(login_data: LoginData):
                 }
             )
 
-
         response_data = {
             "success": True,
             "access_token": auth_response.session.access_token,
@@ -169,7 +190,7 @@ async def login(login_data: LoginData):
                 "mockPoints": user_details.get('mock_points', 0),
                 "dp900Points": user_details.get('dpai900_points', 0),
                 "dp203Points": user_details.get('dp203etc_points', 0),
-                "finalProjectPoints": user_details.get('final_project', 0),  # Added this line
+                "finalProjectPoints": user_details.get('final_project', 0),
                 "aiCertPoints": user_details.get('ai_cert_points', 0),
                 "problemSolvingPoints": user_details.get('problem_solving_points', 0)
             }
@@ -186,6 +207,68 @@ async def login(login_data: LoginData):
                 "detail": "An unexpected error occurred"
             }
         )
+
+@app.post("/api/track-activity")
+async def track_activity(activity_data: ActivityData):
+    """Handle daily activity tracking"""
+    try:
+        # Convert the incoming date to UTC
+        activity_date = datetime.fromisoformat(activity_data.date.replace('Z', '+00:00'))
+
+        # Instead of comparing exact dates, let's allow a wider window
+        # This will consider activities valid if they're within a 24-hour period
+        try:
+            # Check if user has already logged activity for today
+            existing_activity = supabase.table('daily_activities').select('*').eq('userid', activity_data.userid).eq('date', activity_date.date().isoformat()).execute()
+
+            if existing_activity.data:
+                return JSONResponse(
+                    status_code=400,
+                    content={
+                        "success": False,
+                        "detail": "Activity has already been logged for today"
+                    }
+                )
+
+            # Insert activity data
+            activity_insert = supabase.table('daily_activities').insert({
+                "userid": activity_data.userid,
+                "date": activity_date.date().isoformat(),
+                "dsa_questions": activity_data.dsa_questions,
+                "dsa_platform": activity_data.dsa_platform,
+                "sql_questions": activity_data.sql_questions,
+                "sql_platform": activity_data.sql_platform,
+                "learning_hours": activity_data.learning_hours,
+                "learning_topic": activity_data.learning_topic,
+                "project_hours": activity_data.project_hours,
+                "project_description": activity_data.project_description
+            }).execute()
+
+            logger.info(f"Activity logged successfully for user: {activity_data.userid}")
+            return JSONResponse(content={"success": True})
+
+        except Exception as db_error:
+            logger.error(f"Database error: {db_error}")
+            return JSONResponse(
+                status_code=500,
+                content={
+                    "success": False,
+                    "detail": "Database error occurred"
+                }
+            )
+
+    except Exception as e:
+        logger.error(f"Error tracking activity: {e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "success": False,
+                "detail": "Failed to log activity"
+            }
+        )
+
+
+
 
 if __name__ == "__main__":
     import uvicorn

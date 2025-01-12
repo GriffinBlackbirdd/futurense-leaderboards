@@ -1,0 +1,124 @@
+<!-- Well hello there if you are reading this in the inspect mode. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Activity Tracker | Futurense</title>
+    <link rel="icon" href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico?t=2024-11-23T14%3A47%3A36.771Z" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/tracker.css') }}">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="tracker-content">
+            <!-- Header Section -->
+            <div class="profile-header">
+                <div class="logo-container">
+                    <img src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico?t=2024-11-23T14%3A47%3A36.771Z" alt="Futurense Logo" class="logo">
+                </div>
+                <h1>Daily Progress Tracker</h1>
+                <p class="current-date" id="currentDate"></p>
+            </div>
+
+            <!-- Form Section -->
+            <div class="tracker-form">
+                <form id="activityForm">
+                    <div class="form-grid">
+                        <!-- DSA Section -->
+                        <div class="activity-card">
+                            <div class="card-header">
+                                <div class="icon">⚡</div>
+                                <h3>DSA Practice</h3>
+                            </div>
+                            <div class="input-group">
+                                <label for="dsaQuestions">Number of Problems Solved:</label>
+                                <input type="number" id="dsaQuestions" name="dsaQuestions" min="0" required>
+                            </div>
+                            <div class="input-group">
+                              <label for="dsaPlatform">Platform Used:</label>
+                              <select id="dsaPlatform" name="dsaPlatform" class="styled-select" required>
+                                  <option value="" disabled selected>Select Platform</option>
+                                  <option value="leetcode">LeetCode</option>
+                                  <option value="hackerrank">HackerRank</option>
+                                  <option value="codechef">CodeChef</option>
+                                  <option value="other">Other</option>
+                              </select>
+                          </div>
+                        </div>
+
+                        <!-- SQL Section -->
+                        <div class="activity-card">
+                            <div class="card-header">
+                                <div class="icon">🔍</div>
+                                <h3>SQL Practice</h3>
+                            </div>
+                            <div class="input-group">
+                                <label for="sqlQuestions">Number of Queries Written:</label>
+                                <input type="number" id="sqlQuestions" name="sqlQuestions" min="0" required>
+                            </div>
+                            <div class="input-group">
+                              <label for="sqlPlatform">Platform Used:</label>
+                              <select id="sqlPlatform" name="sqlPlatform" class="styled-select" required>
+                                  <option value="" disabled selected>Select Platform</option>
+                                  <option value="hackerrank">HackerRank</option>
+                                  <option value="leetcode">LeetCode</option>
+                                  <option value="sqlzoo">SQLZoo</option>
+                                  <option value="other">Other</option>
+                              </select>
+                          </div>
+                        </div>
+
+                        <!-- Learning Section -->
+                        <div class="activity-card">
+                            <div class="card-header">
+                                <div class="icon">📚</div>
+                                <h3>Learning Activity</h3>
+                            </div>
+                            <div class="input-group">
+                                <label for="learningHours">Hours Spent Learning:</label>
+                                <input type="number" id="learningHours" name="learningHours" min="0" step="0.5" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="learningTopic">Topic Covered:</label>
+                                <input type="text" id="learningTopic" name="learningTopic" required>
+                            </div>
+                        </div>
+
+                        <!-- Project Work Section -->
+                        <div class="activity-card">
+                            <div class="card-header">
+                                <div class="icon">💻</div>
+                                <h3>Project Work</h3>
+                            </div>
+                            <div class="input-group">
+                                <label for="projectHours">Hours Spent on Project:</label>
+                                <input type="number" id="projectHours" name="projectHours" min="0" step="0.5" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="projectDescription">Brief Description:</label>
+                                <textarea id="projectDescription" name="projectDescription" rows="2" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Section -->
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">Log Today's Progress</button>
+                    </div>
+                </form>
+            </div
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="window.location.href='/welcome'">Back to Dashboard</button>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ url_for('static', path='js/tracker.js') }}"></script>
+</body>
+</html>
