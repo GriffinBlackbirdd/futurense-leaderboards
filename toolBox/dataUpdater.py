@@ -21,5 +21,5 @@ def update_supabase_records(file_path):
             print(f"Error updating {row['name']}: {str(e)}")
 
 if __name__ == "__main__":
-    file_path = "E:\\leaderboards\\data\\pointsData.csv"
+    file_path = "E:\\leaderboards\\futurense-leaderboards\\data\\pointsData.csv"
     update_supabase_records(file_path)

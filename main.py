@@ -9,7 +9,8 @@ from pydantic import BaseModel
 import logging
 from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime
+from datetime import datetime, time, timedelta
+import pytz
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -39,6 +40,26 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+def is_same_tracking_day(date1, date2):
+    """
+    Compare two dates based on 4 AM IST cutoff.
+    A day is considered from 4 AM IST to 3:59 AM IST the next day
+    """
+    ist = pytz.timezone('Asia/Kolkata')
+    cutoff_time = time(4, 0)  # 4 AM
+
+    # bothdates to IST
+    date1_ist = date1.astimezone(ist)
+    date2_ist = date2.astimezone(ist)
+
+
+    if date1_ist.time() < cutoff_time:
+        date1_ist = date1_ist - timedelta(days=1)
+    if date2_ist.time() < cutoff_time:
+        date2_ist = date2_ist - timedelta(days=1)
+
+    return date1_ist.date() == date2_ist.date()
+
 # Models
 class LoginData(BaseModel):
     email: str
@@ -65,14 +86,26 @@ class ActivityData(BaseModel):
     dsa_easy: int = 0
     dsa_medium: int = 0
     dsa_hard: int = 0
-    sql_questions: int
-    sql_platform: str
-    learning_hours: float
-    learning_topic: str
-    project_hours: float
-    project_description: str
+    sql_attempted: bool = False
+    sql_questions: int = 0
+    youtube_checked: bool = False
+    youtube_link: Optional[str] = None
+    linkedin_checked: bool = False
+    linkedin_link: Optional[str] = None
+    ml_checked: bool = False
+    ml_hours: float = 0
+    de_checked: bool = False
+    de_hours: float = 0
+    ds_checked: bool = False
+    ds_hours: float = 0
+    cert_checked: bool = False
+    cert_hours: float = 0
+    proj_checked: bool = False
+    proj_hours: float = 0
+    sd_checked: bool = False
+    sd_hours: float = 0
 
-# Exception Handlers
+#ExceptionHandlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Handle HTTP exceptions"""
@@ -99,7 +132,7 @@ async def general_exception_handler(request: Request, exc: Exception):
         }
     )
 
-# Page Routes
+#Rooooooutes
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     """Render the login page"""
@@ -127,14 +160,14 @@ async def tracker_page(request: Request):
         logger.error(f"Error rendering tracker page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
-# API Routes
+# API Roooooooooooutes
 @app.post("/login")
 async def login(login_data: LoginData):
     """Handle user login"""
     try:
         logger.info(f"Login attempt for email: {login_data.email}")
 
-        # Authenticate with Supabase
+        # Authenticate supa
         try:
             auth_response = supabase.auth.sign_in_with_password({
                 "email": login_data.email,
@@ -151,7 +184,7 @@ async def login(login_data: LoginData):
                 }
             )
 
-        # Fetch user details
+        #Fetch user
         try:
             user_data = supabase.table('users').select('*').eq('email', login_data.email).execute()
 
@@ -213,49 +246,61 @@ async def login(login_data: LoginData):
 async def track_activity(activity_data: ActivityData):
     """Handle daily activity tracking"""
     try:
-        # Convert activity date to UTC
+        #activity date to IST
         activity_date = datetime.fromisoformat(activity_data.date.replace('Z', '+00:00'))
+        ist_now = datetime.now(pytz.timezone('Asia/Kolkata'))
 
-        try:
-            # Check if user has already logged activity for today
-            existing_activity = supabase.table('daily_activities').select('*').eq('userid', activity_data.userid).eq('date', activity_date.date().isoformat()).execute()
+        #if user has already logged activity for the current tracking day
+        existing_activity = supabase.table('daily_activities').select('*').eq('userid', activity_data.userid).execute()
 
-            if existing_activity.data:
-                return JSONResponse(
-                    status_code=400,
-                    content={
-                        "success": False,
-                        "detail": "Activity has already been logged for today"
-                    }
-                )
+        if existing_activity.data:
+            for activity in existing_activity.data:
+                activity_timestamp = datetime.fromisoformat(activity['date']).replace(tzinfo=pytz.UTC)
+                if is_same_tracking_day(activity_timestamp, ist_now):
+                    return JSONResponse(
+                        status_code=400,
+                        content={
+                            "success": False,
+                            "detail": "Activity has already been logged for today's tracking period"
+                        }
+                    )
 
-            # Insert activity data
-            activity_insert = supabase.table('daily_activities').insert({
-                "userid": activity_data.userid,
-                "date": activity_date.date().isoformat(),
-                "dsa_easy": activity_data.dsa_easy,
-                "dsa_medium": activity_data.dsa_medium,
-                "dsa_hard": activity_data.dsa_hard,
-                "sql_questions": activity_data.sql_questions,
-                "sql_platform": activity_data.sql_platform,
-                "learning_hours": activity_data.learning_hours,
-                "learning_topic": activity_data.learning_topic,
-                "project_hours": activity_data.project_hours,
-                "project_description": activity_data.project_description
-            }).execute()
+        # Setthe date to the current tracking day
+        if ist_now.time() < time(4, 0):
+            tracking_date = (ist_now - timedelta(days=1)).date()
+        else:
+            tracking_date = ist_now.date()
 
-            logger.info(f"Activity logged successfully for user: {activity_data.userid}")
-            return JSONResponse(content={"success": True})
+        # Insert activity data
+        activity_insert = supabase.table('daily_activities').insert({
+            "userid": activity_data.userid,
+            "date": tracking_date.isoformat(),
+            "dsa_attempted": activity_data.dsa_attempted,
+            "dsa_easy": activity_data.dsa_easy,
+            "dsa_medium": activity_data.dsa_medium,
+            "dsa_hard": activity_data.dsa_hard,
+            "sql_attempted": activity_data.sql_attempted,
+            "sql_questions": activity_data.sql_questions,
+            "youtube_checked": activity_data.youtube_checked,
+            "youtube_link": activity_data.youtube_link,
+            "linkedin_checked": activity_data.linkedin_checked,
+            "linkedin_link": activity_data.linkedin_link,
+            "ml_checked": activity_data.ml_checked,
+            "ml_hours": activity_data.ml_hours,
+            "de_checked": activity_data.de_checked,
+            "de_hours": activity_data.de_hours,
+            "ds_checked": activity_data.ds_checked,
+            "ds_hours": activity_data.ds_hours,
+            "cert_checked": activity_data.cert_checked,
+            "cert_hours": activity_data.cert_hours,
+            "proj_checked": activity_data.proj_checked,
+            "proj_hours": activity_data.proj_hours,
+            "sd_checked": activity_data.sd_checked,
+            "sd_hours": activity_data.sd_hours
+        }).execute()
 
-        except Exception as db_error:
-            logger.error(f"Database error: {db_error}")
-            return JSONResponse(
-                status_code=500,
-                content={
-                    "success": False,
-                    "detail": "Database error occurred"
-                }
-            )
+        logger.info(f"Activity logged successfully for user: {activity_data.userid}")
+        return JSONResponse(content={"success": True})
 
     except Exception as e:
         logger.error(f"Error tracking activity: {e}")

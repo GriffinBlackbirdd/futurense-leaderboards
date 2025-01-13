@@ -24,6 +24,6 @@ def excel_to_ranks(excel_path, output_csv_path=None):
 
     return df
 if __name__ == "__main__":
-    excelPath = "E:\\leaderboards\\data\\pointsData.xlsx"
+    excelPath = "E:\\leaderboards\\futurense-leaderboards\\data\\pointsData.xlsx"
     updated_df = excel_to_ranks(excelPath)
     print(updated_df[['name', 'category', 'points', 'rank']].to_string())

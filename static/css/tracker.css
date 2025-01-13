@@ -90,7 +90,7 @@ body {
   }
 }
 
-/* Enhanced Select Dropdown */
+
 .input-group select {
   appearance: none;
   background: rgba(255, 255, 255, 0.1)
@@ -114,7 +114,7 @@ body {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
-/* Enhanced Submit Button */
+
 .submit-btn {
   background: linear-gradient(45deg, #4158d0, #c850c0);
   border: none;
@@ -160,7 +160,7 @@ body {
   margin: 20px 0;
 }
 
-/* Profile Header Styles */
+
 .profile-header {
   text-align: center;
   margin-bottom: 40px;
@@ -202,7 +202,7 @@ body {
   display: block;
 }
 
-/* Form Grid Layout */
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -210,7 +210,6 @@ body {
   margin-bottom: 30px;
 }
 
-/* Activity Card Styles */
 .activity-card {
   background: rgba(255, 255, 255, 0.05);
   padding: 25px;
@@ -242,7 +241,7 @@ body {
   font-weight: 600;
 }
 
-/* Form Input Styles */
+
 .input-group {
   margin-bottom: 15px;
 }
@@ -275,7 +274,7 @@ body {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* Submit Button Styles */
+
 .submit-section {
   padding: 0 40px;
   margin-bottom: 30px;
@@ -300,7 +299,7 @@ body {
   box-shadow: 0 5px 15px rgba(200, 80, 192, 0.4);
   background: linear-gradient(45deg, #c850c0, #4158d0);
 }
-/* Previous Activity Section */
+
 .previous-activity {
   margin-top: 40px;
   padding: 25px;
@@ -339,7 +338,7 @@ body {
   color: #fff;
 }
 
-/* Navigation Buttons */
+
 .nav-buttons {
   display: flex;
   justify-content: flex-start;
@@ -349,7 +348,7 @@ body {
 }
 
 .nav-btn {
-  margin-left: auto; /* This pushes the button to the right */
+  margin-left: auto;
   min-width: 180px;
   padding: 12px 30px;
   background: linear-gradient(45deg, #3498db, #2980b9);
@@ -375,7 +374,7 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
   .container {
     width: 95%;
@@ -385,7 +384,7 @@ body {
 
 @media (max-width: 768px) {
   .submit-section {
-    padding: 0 20px; /* Adjust padding for mobile */
+    padding: 0 20px;
   }
   .form-grid {
     grid-template-columns: 1fr;
@@ -441,7 +440,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 24px;
-  padding: 40px 0 40px 40px; /* Adjusted padding: top right bottom left */
+  padding: 40px 0 40px 40px;
   position: relative;
   z-index: 2;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -458,7 +457,7 @@ body {
   overflow-y: auto;
 }
 
-/* Custom Scrollbar */
+
 .tracker-content::-webkit-scrollbar {
   width: 6px;
 }
@@ -479,12 +478,12 @@ body {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* Hide main container scrollbar */
+
 .container::-webkit-scrollbar {
   display: none;
 }
 
-/* Modal Styles */
+
 .modal {
   display: none;
   position: fixed;
@@ -590,7 +589,6 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* DSA Button Group Styles */
 .dsa-button-group {
   text-align: center;
   margin-top: 15px;
@@ -631,7 +629,7 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Active state for buttons */
+
 .dsa-btn.active {
   transform: scale(0.95);
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -723,7 +721,7 @@ body {
   margin-bottom: 8px;
 }
 
-/* SQL Modal Input Styles */
+
 .sql-input-group input {
   width: 100%;
   padding: 10px;
@@ -740,7 +738,7 @@ body {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* SQL Modal Save Button */
+
 .save-sql-btn {
   width: 100%;
   padding: 12px;
@@ -759,7 +757,7 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* SQL Modal Close Button */
+
 .close-sql {
   color: white;
   font-size: 28px;
@@ -770,4 +768,156 @@ body {
 
 .close-sql:hover {
   transform: scale(1.1);
+}
+
+.platform-checkboxes {
+  display: flex;
+  gap: 80px;
+  margin-top: 15px;
+  padding: 10px 0;
+  justify-content: center;
+}
+
+.platform-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.platform-name i {
+  font-size: 1.2em;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.1em;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.checkbox-label:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.checkbox-custom::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: all 0.2s ease;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+  border-color: white;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.checkbox-label:hover .checkbox-custom {
+  border-color: white;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon i {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2em;
+}
+
+.input-with-icon input {
+  padding-left: 40px !important;
+  width: 100%;
+}
+
+.fa-youtube {
+  color: #FF0000;
+}
+
+
+.fa-linkedin {
+  color: #0077B5;
+}
+
+
+.project-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.hours-input {
+  animation: fadeIn 0.3s ease-out;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hours-input label {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9em;
+  margin-bottom: 8px;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon i {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2em;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 1em;
+}
+
+@media (max-width: 768px) {
+  .project-checkboxes {
+      grid-template-columns: 1fr;
+  }
 }
