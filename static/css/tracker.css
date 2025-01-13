@@ -90,7 +90,6 @@ body {
   }
 }
 
-
 .input-group select {
   appearance: none;
   background: rgba(255, 255, 255, 0.1)
@@ -114,11 +113,12 @@ body {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
-
+/* Submit Button and Loading Spinner Styles */
 .submit-btn {
+  width: 100%;
+  padding: 15px;
   background: linear-gradient(45deg, #4158d0, #c850c0);
   border: none;
-  padding: 15px 40px;
   border-radius: 12px;
   color: white;
   font-size: 1.1em;
@@ -126,12 +126,60 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
   overflow: hidden;
 }
-
 .submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(200, 80, 192, 0.4);
+  background: linear-gradient(45deg, #c850c0, #4158d0);
+}
+
+.btn-text {
+  position: relative;
+  transition: opacity 0.3s ease;
+}
+
+.loading-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+  display: none;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.submit-btn.loading .btn-text {
+  opacity: 0;
+}
+
+.submit-btn.loading .loading-spinner {
+  display: block;
+}
+
+.submit-btn.loading {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.submit-section {
+  padding: 0 40px;
+  margin-bottom: 30px;
+  margin-top: -10px;
 }
 
 #particles-js {
@@ -159,7 +207,6 @@ body {
   max-height: 90vh;
   margin: 20px 0;
 }
-
 
 .profile-header {
   text-align: center;
@@ -202,7 +249,6 @@ body {
   display: block;
 }
 
-
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -241,7 +287,6 @@ body {
   font-weight: 600;
 }
 
-
 .input-group {
   margin-bottom: 15px;
 }
@@ -273,7 +318,6 @@ body {
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.15);
 }
-
 
 .submit-section {
   padding: 0 40px;
@@ -338,7 +382,6 @@ body {
   color: #fff;
 }
 
-
 .nav-buttons {
   display: flex;
   justify-content: flex-start;
@@ -373,7 +416,6 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
-
 
 @media (max-width: 1024px) {
   .container {
@@ -457,7 +499,6 @@ body {
   overflow-y: auto;
 }
 
-
 .tracker-content::-webkit-scrollbar {
   width: 6px;
 }
@@ -478,11 +519,9 @@ body {
   background: rgba(255, 255, 255, 0.3);
 }
 
-
 .container::-webkit-scrollbar {
   display: none;
 }
-
 
 .modal {
   display: none;
@@ -629,7 +668,6 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-
 .dsa-btn.active {
   transform: scale(0.95);
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -721,7 +759,6 @@ body {
   margin-bottom: 8px;
 }
 
-
 .sql-input-group input {
   width: 100%;
   padding: 10px;
@@ -737,7 +774,6 @@ body {
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.15);
 }
-
 
 .save-sql-btn {
   width: 100%;
@@ -757,7 +793,6 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-
 .close-sql {
   color: white;
   font-size: 28px;
@@ -767,6 +802,123 @@ body {
 }
 
 .close-sql:hover {
+  transform: scale(1.1);
+}
+
+/* Aptitude Button Styles */
+.aptitude-btn {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.aptitude-btn.yes {
+  background: linear-gradient(45deg, #2ecc71, #27ae60);
+  color: white;
+}
+
+.aptitude-btn.no {
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.aptitude-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.aptitude-btn.active {
+  transform: scale(0.95);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.save-aptitude-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: linear-gradient(45deg, #4158d0, #c850c0);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-aptitude-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.aptitude-response {
+  margin-top: 15px;
+  text-align: center;
+  min-height: 60px;
+  transition: all 0.3s ease;
+}
+
+.aptitude-response img {
+  max-height: 50px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+.aptitude-response.show img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.aptitude-button-group {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.aptitude-button-group p {
+  color: white;
+  margin-bottom: 15px;
+  font-size: 1em;
+  font-weight: 400;
+}
+
+.aptitude-input-group {
+  margin: 15px 0;
+}
+
+.aptitude-input-group label {
+  display: block;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.aptitude-input-group input {
+  width: 100%;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 1em;
+}
+
+.aptitude-input-group input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.close-aptitude {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-aptitude:hover {
   transform: scale(1.1);
 }
 
@@ -820,7 +972,7 @@ body {
 }
 
 .checkbox-custom::before {
-  content: '';
+  content: "";
   width: 12px;
   height: 12px;
   background: white;
@@ -864,14 +1016,12 @@ body {
 }
 
 .fa-youtube {
-  color: #FF0000;
+  color: #ff0000;
 }
-
 
 .fa-linkedin {
-  color: #0077B5;
+  color: #0077b5;
 }
-
 
 .project-checkboxes {
   display: grid;
@@ -918,6 +1068,6 @@ body {
 
 @media (max-width: 768px) {
   .project-checkboxes {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 }
