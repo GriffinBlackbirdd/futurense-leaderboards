@@ -189,7 +189,8 @@ function resetDSAValues() {
 }
 
 function showResponseImage() {
-  responseImage.src = "https://www.youtube.com/watch?v=sR0trYogzT4";
+  responseImage.src =
+    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/big-thumbs-down-emoticon-emoticon.gif";
   responseImage.style.display = "block";
   dsaResponse.classList.add("show");
 }
@@ -206,7 +207,8 @@ function resetSQLValues() {
 }
 
 function showSQLResponseImage() {
-  sqlResponseImage.src = "https://www.youtube.com/watch?v=sR0trYogzT4";
+  sqlResponseImage.src =
+    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/big-thumbs-down-emoticon-emoticon.gif";
   sqlResponseImage.style.display = "block";
   sqlResponse.classList.add("show");
 }
@@ -223,7 +225,8 @@ function resetAptitudeValues() {
 }
 
 function showAptitudeResponseImage() {
-  aptitudeResponseImage.src = "https://www.youtube.com/watch?v=sR0trYogzT4";
+  aptitudeResponseImage.src =
+    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/big-thumbs-down-emoticon-emoticon.gif";
   aptitudeResponseImage.style.display = "block";
   aptitudeResponse.classList.add("show");
 }
