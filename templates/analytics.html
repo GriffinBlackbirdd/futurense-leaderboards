@@ -1,0 +1,181 @@
+<!-- Well hello there if you are reading this in the inspect mode.  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard | Futurense</title>
+    <link rel="icon" href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/analytics.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="logo-container">
+                <img src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" alt="Futurense Logo" class="logo">
+            </div>
+            <h1>Analytics Dashboard</h1>
+            <p>Track your learning progress and achievements</p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-container">
+            <div class="kpi-card">
+                <div class="kpi-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="kpi-title">Total DSA Questions</div>
+                <div class="kpi-value" id="total-dsa">0</div>
+                <div class="kpi-subtitle">Questions solved across all difficulties</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="kpi-title">Average Daily Hours</div>
+                <div class="kpi-value" id="avg-hours">0</div>
+                <div class="kpi-subtitle">Hours spent on learning activities</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="kpi-title">Total Content Created</div>
+                <div class="kpi-value" id="total-content">0</div>
+                <div class="kpi-subtitle">Combined YouTube and LinkedIn content</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div class="kpi-title">Total Aptitude Solved</div>
+                <div class="kpi-value" id="total-aptitude">0</div>
+                <div class="kpi-subtitle">Total Aptitude questions solved</div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+            <!-- DSA Progress Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">DSA Progress</h3>
+                    <select id="dsa-week-selector" class="week-selector">
+                        <option value="1">Week 1 (Jan 13 - Jan 20)</option>
+                        <option value="2">Week 2 (Jan 21 - Jan 28)</option>
+                        <option value="3">Week 3 (Jan 29 - Feb 5)</option>
+                        <option value="4">Week 4 (Feb 6 - Feb 13)</option>
+                    </select>
+                </div>
+                <div class="stats-summary" id="dsa-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Easy:</span>
+                        <span class="stat-value" id="dsa-easy-total">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Medium:</span>
+                        <span class="stat-value" id="dsa-medium-total">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Hard:</span>
+                        <span class="stat-value" id="dsa-hard-total">0</span>
+                    </div>
+                </div>
+                <div id="dsa-line-chart"></div>
+            </div>
+
+            <!-- Aptitude Progress Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Aptitude Progress</h3>
+                    <select id="aptitude-week-selector" class="week-selector">
+                        <option value="1">Week 1 (Jan 13 - Jan 20)</option>
+                        <option value="2">Week 2 (Jan 21 - Jan 28)</option>
+                        <option value="3">Week 3 (Jan 29 - Feb 5)</option>
+                        <option value="4">Week 4 (Feb 6 - Feb 13)</option>
+                    </select>
+                </div>
+                <div class="stats-summary" id="aptitude-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Questions:</span>
+                        <span class="stat-value" id="aptitude-total">0</span>
+                    </div>
+                </div>
+                <div id="aptitude-line-chart"></div>
+            </div>
+
+            <!-- SQL Progress Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">SQL Progress</h3>
+                    <select id="sql-week-selector" class="week-selector">
+                        <option value="1">Week 1 (Jan 13 - Jan 20)</option>
+                        <option value="2">Week 2 (Jan 21 - Jan 28)</option>
+                        <option value="3">Week 3 (Jan 29 - Feb 5)</option>
+                        <option value="4">Week 4 (Feb 6 - Feb 13)</option>
+                    </select>
+                </div>
+                <div class="stats-summary" id="sql-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Queries:</span>
+                        <span class="stat-value" id="sql-total">0</span>
+                    </div>
+                </div>
+                <div id="sql-line-chart"></div>
+            </div>
+
+            <!-- Hours Distribution Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Hours Distribution</h3>
+                </div>
+                <div id="hours-bar-chart"></div>
+            </div>
+
+            <!-- Content Calendar -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Content Calendar</h3>
+                </div>
+                <div class="content-calendar">
+                    <div class="week">
+                        <div class="week-header">Week 1</div>
+                        <div class="week-content" id="week1-content"></div>
+                    </div>
+                    <div class="week">
+                        <div class="week-header">Week 2</div>
+                        <div class="week-content" id="week2-content"></div>
+                    </div>
+                    <div class="week">
+                        <div class="week-header">Week 3</div>
+                        <div class="week-content" id="week3-content"></div>
+                    </div>
+                    <div class="week">
+                        <div class="week-header">Week 4</div>
+                        <div class="week-content" id="week4-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="window.location.href='/welcome'">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/papaparse/5.3.0/papaparse.min.js"></script>
+    <script src="{{ url_for('static', path='js/analytics.js') }}"></script>
+</body>
+</html>

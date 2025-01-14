@@ -339,8 +339,9 @@ closeAptitudeBtn.onclick = function () {
   }
 };
 
-saveAptitudeBtn.onclick = function () {
+saveAptitudeBtn.onclick = function() {
   const questions = document.getElementById("aptitudeQuestionsCount").value;
+  console.log('Saving aptitude questions:', questions); // Add this log
   aptitudeQuestionsInput.value = questions;
   aptitudeModal.style.display = "none";
 };

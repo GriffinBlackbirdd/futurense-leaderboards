@@ -1,7 +1,8 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Depends, status
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import create_client, Client
 import os
 from dotenv import load_dotenv
@@ -21,6 +22,9 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 app = FastAPI()
+
+# Security
+security = HTTPBearer()
 
 app.add_middleware(
     CORSMiddleware,
@@ -48,10 +52,9 @@ def is_same_tracking_day(date1, date2):
     ist = pytz.timezone('Asia/Kolkata')
     cutoff_time = time(4, 0)  # 4 AM
 
-    # bothdates to IST
+    # Convert both dates to IST
     date1_ist = date1.astimezone(ist)
     date2_ist = date2.astimezone(ist)
-
 
     if date1_ist.time() < cutoff_time:
         date1_ist = date1_ist - timedelta(days=1)
@@ -88,6 +91,8 @@ class ActivityData(BaseModel):
     dsa_hard: int = 0
     sql_attempted: bool = False
     sql_questions: int = 0
+    aptitude_attempted: bool = False
+    aptitude_questions: int = 0
     youtube_checked: bool = False
     youtube_link: Optional[str] = None
     linkedin_checked: bool = False
@@ -105,7 +110,7 @@ class ActivityData(BaseModel):
     sd_checked: bool = False
     sd_hours: float = 0
 
-#ExceptionHandlers
+#Exception Handlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Handle HTTP exceptions"""
@@ -132,7 +137,7 @@ async def general_exception_handler(request: Request, exc: Exception):
         }
     )
 
-#Rooooooutes
+# Routes
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     """Render the login page"""
@@ -160,14 +165,23 @@ async def tracker_page(request: Request):
         logger.error(f"Error rendering tracker page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
-# API Roooooooooooutes
+@app.get("/analytics", response_class=HTMLResponse)
+async def analytics_page(request: Request):
+    """Render the analytics page"""
+    try:
+        return templates.TemplateResponse("analytics.html", {"request": request})
+    except Exception as e:
+        logger.error(f"Error rendering analytics page: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+# API Routes
 @app.post("/login")
 async def login(login_data: LoginData):
     """Handle user login"""
     try:
         logger.info(f"Login attempt for email: {login_data.email}")
 
-        # Authenticate supa
+        # Authenticate with Supabase
         try:
             auth_response = supabase.auth.sign_in_with_password({
                 "email": login_data.email,
@@ -184,7 +198,7 @@ async def login(login_data: LoginData):
                 }
             )
 
-        #Fetch user
+        # Fetch user data
         try:
             user_data = supabase.table('users').select('*').eq('email', login_data.email).execute()
 
@@ -242,15 +256,55 @@ async def login(login_data: LoginData):
             }
         )
 
+@app.get("/api/user-activities")
+async def get_user_activities(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Get all activities for a user"""
+    try:
+        # Verify the token
+        try:
+            user = supabase.auth.get_user(credentials.credentials)
+            user_email = user.user.email
+        except Exception as auth_error:
+            logger.error(f"Authentication failed: {auth_error}")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid authentication credentials"
+            )
+
+        # Fetch user's activities from the database
+        activities = supabase.table('daily_activities')\
+            .select('*')\
+            .eq('userid', user_email)\
+            .order('date', desc=True)\
+            .execute()
+
+        if not activities.data:
+            return {
+                "success": True,
+                "activities": []
+            }
+
+        return {
+            "success": True,
+            "activities": activities.data
+        }
+
+    except Exception as e:
+        logger.error(f"Error fetching user activities: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch activity data"
+        )
+
 @app.post("/api/track-activity")
 async def track_activity(activity_data: ActivityData):
     """Handle daily activity tracking"""
     try:
-        #activity date to IST
+        # Convert activity date to IST
         activity_date = datetime.fromisoformat(activity_data.date.replace('Z', '+00:00'))
         ist_now = datetime.now(pytz.timezone('Asia/Kolkata'))
 
-        #if user has already logged activity for the current tracking day
+        # Check if user has already logged activity for the current tracking day
         existing_activity = supabase.table('daily_activities').select('*').eq('userid', activity_data.userid).execute()
 
         if existing_activity.data:
@@ -265,7 +319,7 @@ async def track_activity(activity_data: ActivityData):
                         }
                     )
 
-        # Setthe date to the current tracking day
+        # Set the date to the current tracking day
         if ist_now.time() < time(4, 0):
             tracking_date = (ist_now - timedelta(days=1)).date()
         else:
@@ -281,6 +335,8 @@ async def track_activity(activity_data: ActivityData):
             "dsa_hard": activity_data.dsa_hard,
             "sql_attempted": activity_data.sql_attempted,
             "sql_questions": activity_data.sql_questions,
+            "aptitude_attempted": activity_data.aptitude_attempted,
+            "aptitude_questions": activity_data.aptitude_questions,
             "youtube_checked": activity_data.youtube_checked,
             "youtube_link": activity_data.youtube_link,
             "linkedin_checked": activity_data.linkedin_checked,
