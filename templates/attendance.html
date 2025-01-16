@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Attendance | Futurense</title>
+    <link rel="icon" href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/attendance.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="attendance-header">
+            <div class="logo-container">
+                <img src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" alt="Futurense Logo" class="logo">
+            </div>
+            <h1>Session Attendance</h1>
+        </div>
+
+        <div class="attendance-form">
+            <div class="form-controls">
+                <div class="date-picker">
+                    <label for="attendanceDate">Select Date:</label>
+                    <input type="date" id="attendanceDate" required>
+                </div>
+                <div class="session-selector">
+                    <label for="sessionSelect">Select Session:</label>
+                    <select id="sessionSelect" required>
+                        <option value="">Choose Session</option>
+                        <option value="1">Session 1 (10 AM - 1 PM)</option>
+                        <option value="2">Session 2 (2 PM - 5 PM)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="attendance-list">
+                <div class="list-header">
+                    <span class="header-name">Student Name</span>
+                    <span class="header-status">Status</span>
+                </div>
+                <div id="studentList" class="student-list">
+                    <!-- Students will be populated here via JavaScript -->
+                </div>
+            </div>
+
+            <button type="submit" id="submitAttendance" class="submit-btn">
+                <span class="btn-text">Submit Attendance</span>
+                <div class="loading-spinner"></div>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ url_for('static', path='js/attendance.js') }}"></script>
+</body>
+</html>

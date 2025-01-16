@@ -110,6 +110,16 @@ class ActivityData(BaseModel):
     sd_checked: bool = False
     sd_hours: float = 0
 
+class AttendanceRecord(BaseModel):
+    student_email: str
+    student_name: str
+    status: str
+
+class AttendanceData(BaseModel):
+    date: str
+    session: int  # 1 for morning, 2 for afternoon
+    attendance: list[AttendanceRecord]
+
 #Exception Handlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
@@ -366,6 +376,122 @@ async def track_activity(activity_data: ActivityData):
                 "success": False,
                 "detail": "Failed to log activity"
             }
+        )
+
+
+# ATTERDANCE FUNCTIONS
+@app.get("/attendance", response_class=HTMLResponse)
+async def attendance_page(request: Request):
+    """Render the attendance page"""
+    try:
+        return templates.TemplateResponse("attendance.html", {"request": request})
+    except Exception as e:
+        logger.error(f"Error rendering attendance page: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@app.get("/api/get-students")
+async def get_students():
+    """Get list of students from users table"""
+    try:
+        #fetch from users table instead of attendance
+        response = supabase.table('users')\
+            .select('email, name')\
+            .execute()
+
+        if not response.data:
+            return {
+                "success": True,
+                "students": []
+            }
+
+
+        students = [
+            {
+                "email": user['email'],
+                "name": user['name'] or user['email']  #fallbak toe emaol if error occur with name
+            }
+            for user in response.data
+        ]
+
+        return {
+            "success": True,
+            "students": students
+        }
+    except Exception as e:
+        logger.error(f"Error fetching students: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to fetch students"
+        )
+
+
+@app.post("/api/submit-attendance")
+async def submit_attendance(attendance_data: AttendanceData):
+    """Submit attendance records"""
+    try:
+        #figure out whith session to add to
+        session_column = 'morning_session' if attendance_data.session == 1 else 'afternoon_session'
+
+        for record in attendance_data.attendance:
+            #chek if att alr exist or no in the bekend
+            existing = supabase.table('attendance')\
+                .select('*')\
+                .eq('date', attendance_data.date)\
+                .eq('student_email', record.student_email)\
+                .execute()
+
+            if existing.data:
+                #upserting existing rekord
+                supabase.table('attendance')\
+                    .update({
+                        session_column: record.status,
+                        'marked_at': datetime.now().isoformat()
+                    })\
+                    .eq('date', attendance_data.date)\
+                    .eq('student_email', record.student_email)\
+                    .execute()
+            else:
+                #creating new record
+                new_record = {
+                    'date': attendance_data.date,
+                    'student_name': record.student_name,
+                    'student_email': record.student_email,
+                    session_column: record.status,
+                    'marked_at': datetime.now().isoformat()
+                }
+                supabase.table('attendance').insert(new_record).execute()
+
+        return {"success": True}
+
+    except Exception as e:
+        logger.error(f"Error submitting attendance: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to submit attendance"
+        )
+
+@app.get("/api/check-attendance/{date}/{session}")
+async def check_attendance(date: str, session: int):
+    """Check if attendance has already been marked for a session"""
+    try:
+        session_column = 'morning_session' if session == 1 else 'afternoon_session'
+
+        response = supabase.table('attendance')\
+            .select('*')\
+            .eq('date', date)\
+            .not_.is_(session_column, 'null')\
+            .execute()
+
+        return {
+            "success": True,
+            "exists": len(response.data) > 0,
+            "attendance": response.data
+        }
+    except Exception as e:
+        logger.error(f"Error checking attendance: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to check attendance"
         )
 
 if __name__ == "__main__":
