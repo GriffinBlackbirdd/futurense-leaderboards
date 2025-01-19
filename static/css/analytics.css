@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -15,9 +15,15 @@ body {
 }
 
 @keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .container {
@@ -110,7 +116,7 @@ body {
   color: white;
   font-size: 2.5rem;
   font-weight: bold;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .kpi-subtitle {
@@ -206,8 +212,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {
@@ -222,51 +232,51 @@ body {
 
 @media (max-width: 768px) {
   body {
-      padding: 1rem;
+    padding: 1rem;
   }
 
   .container {
-      padding: 1rem;
+    padding: 1rem;
   }
 
   .charts-grid {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 
   .dashboard-header h1 {
-      font-size: 2rem;
+    font-size: 2rem;
   }
 
   .logo-container {
-      position: relative;
-      margin: 0 auto 1rem;
+    position: relative;
+    margin: 0 auto 1rem;
   }
 
   .kpi-card {
-      padding: 1rem;
+    padding: 1rem;
   }
 
   .kpi-value {
-      font-size: 2rem;
+    font-size: 2rem;
   }
 
   .chart-container {
-      padding: 1rem;
+    padding: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .dashboard-header h1 {
-      font-size: 1.5rem;
+    font-size: 1.5rem;
   }
 
   .kpi-value {
-      font-size: 1.5rem;
+    font-size: 1.5rem;
   }
 
   .nav-btn {
-      padding: 10px 20px;
-      font-size: 0.9em;
+    padding: 10px 20px;
+    font-size: 0.9em;
   }
 }
 
@@ -305,7 +315,6 @@ body {
   background-position: right 0.5rem center;
   background-size: 1.2em;
 }
-
 
 .week-selector:hover {
   background: rgba(255, 255, 255, 0.15);
@@ -415,4 +424,128 @@ body {
 .content-item:hover .content-tooltip {
   transform: translateX(-50%) scale(1);
   opacity: 1;
+}
+
+/* Attendance Circle Styles */
+.attendance-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 40px;
+}
+
+.attendance-circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.progress-ring__svg {
+  transform: rotate(-90deg);
+}
+
+.progress-ring__circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 10;
+}
+
+.progress-ring__circle {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: all 1s ease-in-out;
+}
+
+.attendance-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+}
+
+.attendance-percentage span {
+  display: block;
+}
+
+#attendance-percent {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.attendance-label {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.attendance-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.attendance-stat {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* AI Report Placeholder Styles */
+.ai-report-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  color: white;
+  gap: 20px;
+}
+
+.ai-icon {
+  font-size: 4rem;
+  opacity: 0.5;
+  animation: float 3s ease-in-out infinite;
+}
+
+.beta-tag {
+  background: rgba(52, 152, 219, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: white;
+}
+
+.ai-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }

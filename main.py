@@ -494,6 +494,45 @@ async def check_attendance(date: str, session: int):
             detail="Failed to check attendance"
         )
 
+@app.get("/api/user-attendance")
+async def get_user_attendance(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Get attendance records for a user"""
+    try:
+        # Verify the token
+        try:
+            user = supabase.auth.get_user(credentials.credentials)
+            user_email = user.user.email
+        except Exception as auth_error:
+            logger.error(f"Authentication failed: {auth_error}")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid authentication credentials"
+            )
+
+        # Fetch attendance records from Supabase
+        attendance_records = supabase.table('attendance')\
+            .select('*')\
+            .eq('student_email', user_email)\
+            .execute()
+
+        if not attendance_records.data:
+            return {
+                "success": True,
+                "attendance": []
+            }
+
+        return {
+            "success": True,
+            "attendance": attendance_records.data
+        }
+
+    except Exception as e:
+        logger.error(f"Error fetching attendance records: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch attendance records"
+        )
+
 if __name__ == "__main__":
     import uvicorn
     logger.info("Starting application...")
