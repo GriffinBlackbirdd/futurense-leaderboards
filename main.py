@@ -384,7 +384,7 @@ async def track_activity(activity_data: ActivityData):
 async def attendance_page(request: Request):
     """Render the attendance page"""
     try:
-        return templates.TemplateResponse("attendance.html", {"request": request})
+        return templates.TemplateResponse("maintainence.html", {"request": request})
     except Exception as e:
         logger.error(f"Error rendering attendance page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
