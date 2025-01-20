@@ -630,9 +630,16 @@ function updateAttendanceChart(stats) {
   // Update circle progress
   const circle = document.querySelector(".progress-ring__circle");
   const radius = circle.r.baseVal.value;
-  const circumference = radius * 2 * Math.PI;
+  const circumference = 2 * Math.PI * radius;
 
+  // Set up the circle
   circle.style.strokeDasharray = `${circumference} ${circumference}`;
+  circle.style.strokeWidth = "12";
+  circle.style.strokeLinecap = "round";
+
+  // Calculate offset
+  const offset = circumference - (stats.percentage / 100) * circumference;
+  circle.style.strokeDashoffset = offset;
 
   // Set color based on percentage
   let color;
@@ -645,10 +652,6 @@ function updateAttendanceChart(stats) {
   }
 
   circle.style.stroke = color;
-
-  // Animate the progress
-  const offset = circumference - (stats.percentage / 100) * circumference;
-  circle.style.strokeDashoffset = offset;
 }
 
 function processData(data) {
