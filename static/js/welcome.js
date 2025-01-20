@@ -366,3 +366,40 @@ document.head.appendChild(style);
     localStorage.removeItem('userData');
     window.location.href = '/';
   }
+
+  // Handle dropdown menus
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+        const trigger = dropdown.querySelector('.dropdown-trigger');
+        const content = dropdown.querySelector('.dropdown-content');
+
+        // Toggle dropdown on click
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Close all other dropdowns
+            dropdowns.forEach(other => {
+                if (other !== dropdown) {
+                    other.querySelector('.dropdown-content').classList.remove('show');
+                }
+            });
+
+            content.classList.toggle('show');
+        });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.matches('.dropdown-trigger')) {
+            dropdowns.forEach(dropdown => {
+                const content = dropdown.querySelector('.dropdown-content');
+                if (content.classList.contains('show')) {
+                    content.classList.remove('show');
+                }
+            });
+        }
+    });
+});

@@ -498,7 +498,7 @@ async def check_attendance(date: str, session: int):
 async def get_user_attendance(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """Get attendance records for a user"""
     try:
-
+        # Verify the token
         try:
             user = supabase.auth.get_user(credentials.credentials)
             user_email = user.user.email
@@ -509,7 +509,7 @@ async def get_user_attendance(credentials: HTTPAuthorizationCredentials = Depend
                 detail="Invalid authentication credentials"
             )
 
-
+        # Fetch attendance records from Supabase
         attendance_records = supabase.table('attendance')\
             .select('*')\
             .eq('student_email', user_email)\
@@ -540,19 +540,19 @@ async def sql_courses_page(request: Request):
 from fastapi.responses import FileResponse
 from pathlib import Path
 from fastapi import FastAPI, Request, HTTPException, Depends, status
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse  # Add this import
 
 @app.get("/api/pdf-proxy/{session_id}")
 async def get_pdf_proxy(session_id: int, credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
-
+        # Verify user authentication
         user = supabase.auth.get_user(credentials.credentials)
 
         # Map session IDs to direct PDF URLs
         pdf_urls = {
-            1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1.pdf?t=2025-01-20T21%3A42%3A33.614Z",
-            2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2.pdf?t=2025-01-20T21%3A24%3A44.334Z",
-            3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3.pdf?t=2025-01-20T21%3A30%3A47.955Z",
+            1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/SQL-Session1.pdf?t=2025-01-20T20%3A21%3A17.607Z",
+            2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_2.pdf",
+            3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_3.pdf",
             4: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_4.pdf",
             5: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_5.pdf",
             6: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_6.pdf"
@@ -628,28 +628,22 @@ async def get_session_resources(session_id: int, credentials: HTTPAuthorizationC
         # Verify user authentication
         user = supabase.auth.get_user(credentials.credentials)
 
-
+        # Map session IDs to resource URLs
         resources = {
             1: [
                 "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1-Assignment.pdf",
-
+                # Add more resource URLs for session 1
             ],
             2: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Master%20Sales%20FY.zip",
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2-Assignment.pdf"
-
+                # Add URLs for session 2
             ],
-
-            3: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3-Assignment.pdf"
-            ]
-
+            # Add more sessions...
         }
 
         if session_id not in resources:
             raise HTTPException(status_code=404, detail="Resources not found")
 
-
+        # Create zip file in memory
         zip_buffer = io.BytesIO()
 
         async with httpx.AsyncClient() as client:
@@ -669,7 +663,7 @@ async def get_session_resources(session_id: int, credentials: HTTPAuthorizationC
                         logger.error(f"Error downloading resource {url}: {str(e)}")
                         continue
 
-
+        # Reset buffer position to start
         zip_buffer.seek(0)
 
         # Return streaming response
