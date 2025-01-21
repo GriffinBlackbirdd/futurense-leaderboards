@@ -550,12 +550,12 @@ async def get_pdf_proxy(session_id: int, credentials: HTTPAuthorizationCredentia
 
         # Map session IDs to direct PDF URLs
         pdf_urls = {
-            1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1.pdf?t=2025-01-20T21%3A42%3A33.614Z",
-            2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2.pdf?t=2025-01-20T21%3A24%3A44.334Z",
-            3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3.pdf?t=2025-01-20T21%3A30%3A47.955Z",
-            4: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_4.pdf",
-            5: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_5.pdf",
-            6: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_6.pdf"
+            # 1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1.pdf?t=2025-01-20T21%3A42%3A33.614Z",
+            # 2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2.pdf?t=2025-01-20T21%3A24%3A44.334Z",
+            # 3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3.pdf?t=2025-01-20T21%3A30%3A47.955Z",
+            # 4: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_4.pdf",
+            # 5: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_5.pdf",
+            # 6: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/sql-pdfs/SQL_Session_6.pdf"
         }
 
         if session_id not in pdf_urls:
@@ -630,19 +630,19 @@ async def get_session_resources(session_id: int, credentials: HTTPAuthorizationC
 
 
         resources = {
-            1: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1-Assignment.pdf",
+            # 1: [
+            #     "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1-Assignment.pdf",
 
-            ],
-            2: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Master%20Sales%20FY.zip",
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2-Assignment.pdf"
+            # ],
+            # 2: [
+            #     "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Master%20Sales%20FY.zip",
+            #     "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2-Assignment.pdf"
 
-            ],
+            # ],
 
-            3: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3-Assignment.pdf"
-            ]
+            # 3: [
+            #     "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3-Assignment.pdf"
+            # ]
 
         }
 
