@@ -561,7 +561,7 @@ async def get_pdf_proxy(
             1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%201%20_%20Details.pdf?t=2025-01-21T08%3A43%3A36.600Z",
             2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%202%20_%20Details.pdf?t=2025-01-21T08%3A43%3A51.072Z",
             3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%203%20_%20Details.pdf?t=2025-01-21T08%3A43%3A59.341Z",
-            4: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201%20_%20Assessment.pdf?t=2025-01-21T17%3A52%3A28.174Z",
+            4: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201.pdf?t=2025-01-22T05%3A09%3A47.532Z",
             5: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%202.pdf?t=2025-01-21T17%3A47%3A48.779Z",
             6: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%203.pdf?t=2025-01-21T17%3A49%3A56.822Z",
         }
