@@ -677,7 +677,7 @@ async def get_session_resources(
                 "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-2%20Resources.zip?t=2025-01-21T17%3A46%3A57.113Z"
             ],
             6: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%203.pdf?t=2025-01-21T17%3A49%3A56.822Z"
+                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-3%20Resources.zip?t=2025-01-22T05%3A16%3A47.876Z"
             ],
         }
 

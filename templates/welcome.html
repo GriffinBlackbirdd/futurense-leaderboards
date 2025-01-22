@@ -1,250 +1,276 @@
 <!-- Well hello there if you are reading this in the inspect mode. -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Futurense Placement Dashboard</title>
-    <link rel="icon" href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico?t=2024-11-23T14%3A47%3A36.771Z" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/welcome.css') }}">
-</head>
-<body>
-
+    <link
+      rel="icon"
+      href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico?t=2024-11-23T14%3A47%3A36.771Z"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/welcome.css') }}"
+    />
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="nav-content">
-            <div class="nav-logo">
-                <img src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" alt="Futurense Logo">
-                <span class="nav-logo-text">Futurense-Leaderboards</span>
-            </div>
-            <div class="nav-links">
-                <div class="dropdown">
-                    <a href="#" class="nav-item dropdown-trigger">Study Material</a>
-                    <div class="dropdown-content">
-                        <a href="/sql-courses">SQL</a>
-                        <!-- <a href="#">Data Engineering</a>
+      <div class="nav-content">
+        <div class="nav-logo">
+          <img
+            src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico"
+            alt="Futurense Logo"
+          />
+          <span class="nav-logo-text">Futurense-Leaderboards</span>
+        </div>
+        <div class="nav-links">
+          <div class="dropdown">
+            <a href="#" class="nav-item dropdown-trigger">Training Modules</a>
+            <div class="dropdown-content">
+              <a href="/sql-courses">SQL & Pandas</a>
+              <!-- <a href="#">Data Engineering</a>
                         <a href="#">System Design</a>
                         <a href="#">DSA Resources</a>
                         <a href="#">Interview Prep</a> -->
-                    </div>
-                </div>
-
             </div>
+          </div>
         </div>
+      </div>
     </nav>
     <div id="particles-js"></div>
     <div class="container">
-        <div class="welcome-content">
-
-            <div class="profile-header">
-                <h1 id="welcomeName">Welcome back!</h1>
-                <p class="user-email"></p>
-            </div>
-
-
-            <div class="stats-grid">
-
-                <div class="stat-card category">
-                    <div class="badge-icon">👑</div>
-                    <div class="stat-info">
-                        <h3>Category</h3>
-                        <p id="userCategory">PLATINUM</p>
-                    </div>
-                </div>
-
-
-                <div class="stat-card rank">
-                    <div class="stat-icon">🏆</div>
-                    <div class="stat-info">
-                        <h3>Current Rank</h3>
-                        <p id="userRank">#1</p>
-                    </div>
-                </div>
-
-                <!-- Points Card -->
-                <div class="stat-card points">
-                    <div class="stat-icon">⭐</div>
-                    <div class="stat-info">
-                        <h3>Total Points</h3>
-                        <p id="userPoints">0</p>
-                        <div class="total-progress-container">
-                            <div class="progress-bar-wrapper">
-
-                                <div class="badge-marker" style="left: 33%;" data-badge="Bronze" data-points="5">
-                                    <div class="badge-icon">🥉</div>
-                                </div>
-                                <div class="badge-marker" style="left: 66%;" data-badge="Silver" data-points="10">
-                                    <div class="badge-icon">🥈</div>
-                                </div>
-                                <div class="badge-marker" style="left: 98%;" data-badge="Gold" data-points="15">
-                                    <div class="badge-icon">🥇</div>
-                                </div>
-
-                                <div class="progress-bar">
-                                    <div class="progress" id="totalProgress"></div>
-                                </div>
-                            </div>
-                            <div class="progress-text">
-                                <span id="progressText">0/15 points</span>
-                            </div>
-                        </div>
-
-                        <div class="badges-showcase" id="earnedBadges">
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Future Card -->
-                <div class="stat-card future">
-                    <div class="stat-info">
-                        <h3>Future-o-Meter</h3>
-                        <div class="future-indicator" id="futureGlow"></div>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-info">
-                        <h3>Daily Progress</h3>
-                        <button onclick="window.location.href='/tracker'" class="track-btn">Track Your Activity</button>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-info">
-                        <h3>Analytics</h3>
-                        <button onclick="window.location.href='/analytics'" class="track-btn">Check your progress</button>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="points-distribution">
-                <h2>Futurense Placement Scoring</h2>
-                <div class="table-container">
-                    <table class="points-table">
-                        <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>Points Earned</th>
-                                <th>Maximum Points</th>
-                                <th>Days Left</th>
-                                <th>Progress</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Resume Building & Personal Branding</td>
-                                <td id="resumePoints">0</td>
-                                <td>1</td>
-                                <td id="resumeDays" class="days-left"></td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress" id="resumeProgress"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Attendance</td>
-                                <td id="aptitudePoints">0</td>
-                                <td>1</td>
-                                <td id="aptitudeDays" class="days-left"></td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress" id="aptitudeProgress"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Mock Interviews</td>
-                                <td id="mockPoints">0</td>
-                                <td>2</td>
-                                <td id="mockDays" class="days-left"></td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress" id="mockProgress"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>DP 900/AI 900</td>
-                                <td id="dp900Points">0</td>
-                                <td>2</td>
-                                <td id="dp900Days" class="days-left"></td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress" id="dp900Progress"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>DP 203/DP 100/PL 300</td>
-                                <td id="dp203Points">0</td>
-                                <td>9</td>
-                                <td id="dp203Days" class="days-left"></td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress" id="dp203Progress"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Final Project</td>
-                                <td id="finalProjectPoints">0</td>
-                                <td>3</td>
-                                <td id="finalProjectDays" class="days-left"></td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress" id="finalProjectProgress"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>AI Certification (Microsoft/NVIDIA)</td>
-                                <td id="aiCertPoints">0</td>
-                                <td>4</td>
-                                <td id="aiCertDays" class="days-left"></td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress" id="aiCertProgress"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Job Readiness</td>
-                                <td id="problemSolvingPoints">0</td>
-                                <td>3</td>
-                                <td id="problemSolvingDays" class="days-left"></td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress" id="problemSolvingProgress"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="total-row">
-                                <td>Total Points</td>
-                                <td id="totalPointsDetail">0</td>
-                                <td>25</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+      <div class="welcome-content">
+        <div class="profile-header">
+          <h1 id="welcomeName">Welcome back!</h1>
+          <p class="user-email"></p>
         </div>
 
+        <div class="stats-grid">
+          <div class="stat-card category">
+            <div class="badge-icon">👑</div>
+            <div class="stat-info">
+              <h3>Category</h3>
+              <p id="userCategory">PLATINUM</p>
+            </div>
+          </div>
 
-        <div class="logout-container">
-            <button class="logout-btn" onclick="logout()">Logout</button>
+          <div class="stat-card rank">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-info">
+              <h3>Current Rank</h3>
+              <p id="userRank">#1</p>
+            </div>
+          </div>
+
+          <!-- Points Card -->
+          <div class="stat-card points">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-info">
+              <h3>Total Points</h3>
+              <p id="userPoints">0</p>
+              <div class="total-progress-container">
+                <div class="progress-bar-wrapper">
+                  <div
+                    class="badge-marker"
+                    style="left: 33%"
+                    data-badge="Bronze"
+                    data-points="5"
+                  >
+                    <div class="badge-icon">🥉</div>
+                  </div>
+                  <div
+                    class="badge-marker"
+                    style="left: 66%"
+                    data-badge="Silver"
+                    data-points="10"
+                  >
+                    <div class="badge-icon">🥈</div>
+                  </div>
+                  <div
+                    class="badge-marker"
+                    style="left: 98%"
+                    data-badge="Gold"
+                    data-points="15"
+                  >
+                    <div class="badge-icon">🥇</div>
+                  </div>
+
+                  <div class="progress-bar">
+                    <div class="progress" id="totalProgress"></div>
+                  </div>
+                </div>
+                <div class="progress-text">
+                  <span id="progressText">0/15 points</span>
+                </div>
+              </div>
+
+              <div class="badges-showcase" id="earnedBadges"></div>
+            </div>
+          </div>
+
+          <!-- Future Card -->
+          <div class="stat-card future">
+            <div class="stat-info">
+              <h3>Future-o-Meter</h3>
+              <div class="future-indicator" id="futureGlow"></div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+              <h3>Daily Progress</h3>
+              <button
+                onclick="window.location.href='/tracker'"
+                class="track-btn"
+              >
+                Track Your Activity
+              </button>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+              <h3>Analytics</h3>
+              <button
+                onclick="window.location.href='/analytics'"
+                class="track-btn"
+              >
+                Check your progress
+              </button>
+            </div>
+          </div>
         </div>
+
+        <div class="points-distribution">
+          <h2>Futurense Placement Scoring</h2>
+          <div class="table-container">
+            <table class="points-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Points Earned</th>
+                  <th>Maximum Points</th>
+                  <th>Days Left</th>
+                  <th>Progress</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Resume Building & Personal Branding</td>
+                  <td id="resumePoints">0</td>
+                  <td>1</td>
+                  <td id="resumeDays" class="days-left"></td>
+                  <td>
+                    <div class="progress-bar">
+                      <div class="progress" id="resumeProgress"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Attendance</td>
+                  <td id="aptitudePoints">0</td>
+                  <td>1</td>
+                  <td id="aptitudeDays" class="days-left"></td>
+                  <td>
+                    <div class="progress-bar">
+                      <div class="progress" id="aptitudeProgress"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Mock Interviews</td>
+                  <td id="mockPoints">0</td>
+                  <td>2</td>
+                  <td id="mockDays" class="days-left"></td>
+                  <td>
+                    <div class="progress-bar">
+                      <div class="progress" id="mockProgress"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>DP 900/AI 900</td>
+                  <td id="dp900Points">0</td>
+                  <td>2</td>
+                  <td id="dp900Days" class="days-left"></td>
+                  <td>
+                    <div class="progress-bar">
+                      <div class="progress" id="dp900Progress"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>DP 203/DP 100/PL 300</td>
+                  <td id="dp203Points">0</td>
+                  <td>9</td>
+                  <td id="dp203Days" class="days-left"></td>
+                  <td>
+                    <div class="progress-bar">
+                      <div class="progress" id="dp203Progress"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Final Project</td>
+                  <td id="finalProjectPoints">0</td>
+                  <td>3</td>
+                  <td id="finalProjectDays" class="days-left"></td>
+                  <td>
+                    <div class="progress-bar">
+                      <div class="progress" id="finalProjectProgress"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>AI Certification (Microsoft/NVIDIA)</td>
+                  <td id="aiCertPoints">0</td>
+                  <td>4</td>
+                  <td id="aiCertDays" class="days-left"></td>
+                  <td>
+                    <div class="progress-bar">
+                      <div class="progress" id="aiCertProgress"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Job Readiness</td>
+                  <td id="problemSolvingPoints">0</td>
+                  <td>3</td>
+                  <td id="problemSolvingDays" class="days-left"></td>
+                  <td>
+                    <div class="progress-bar">
+                      <div class="progress" id="problemSolvingProgress"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="total-row">
+                  <td>Total Points</td>
+                  <td id="totalPointsDetail">0</td>
+                  <td>25</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="logout-container">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
     </div>
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="{{ url_for('static', path='js/login.js') }}"></script>
     <script src="{{ url_for('static', path='js/welcome.js') }}"></script>
-</body>
+  </body>
 </html>
