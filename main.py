@@ -608,33 +608,27 @@ async def get_sql_sessions(
                 "topics": "Fetching the databases on conditions using WHERE Clause and usage of logical operators AND, OR and relational operators like >, <, >=, <=, <>, Applying filteration techniques like DISTINCT, Pattern Matching using LIKE Operator, Column Alias, Applying techniques like commenting which will help prepare documentation.",
                 "pdfUrl": "/api/pdf-proxy/3",
             },
-
             {
                 "id": 4,
-                "title": "Session 1: Basic Pandas operations-I",
+                "title": "Session 1: Pandas-I",
                 "info": "Duration: 2 hours",
                 "topics": "What is Pandas and why use it, installation of Pandas using pip or conda, data structures in Pandas, what a Series is, creation of Series, accessing elements of a Series, attributes of Series, methods of Series, mathematical operations on Series, difference between Series and NumPy array.",
                 "pdfUrl": "/api/pdf-proxy/4",
             },
-
             {
                 "id": 5,
-                "title": "Session 2: Basic Pandas operations-II",
+                "title": "Session 2: Pandas-II",
                 "info": "Duration: 2 hours",
                 "topics": "Data exploration and manipulation: head(), tail(), info(), describe() functions, index and select data using iloc and loc with practical implementation, data alignment and reindexing with examples; Data cleaning and preprocessing: handling missing data using dropna(), fillna(), isna() with examples, imputation techniques (mean, median, mode), removing duplicates using drop_duplicates().",
                 "pdfUrl": "/api/pdf-proxy/5",
             },
-
             {
                 "id": 6,
-                "title": "Session 3: Basic Pandas operations-III",
+                "title": "Session 3: Pandas-III",
                 "info": "Duration: 2 hours",
                 "topics": "Combining data using join(), concat(), and merge() with examples, groupby() function, aggregation functions like sum(), mean(), count(), min(), max() with practical implementation.",
                 "pdfUrl": "/api/pdf-proxy/6",
             },
-
-
-
         ]
 
         return {"success": True, "sessions": sessions}
@@ -676,18 +670,15 @@ async def get_session_resources(
             3: [
                 "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3-Assignment.pdf"
             ],
-
             4: [
                 "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201%20_%20Assessment.pdf?t=2025-01-21T17%3A52%3A28.174Z"
             ],
-
             5: [
                 "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-2%20Resources.zip?t=2025-01-21T17%3A46%3A57.113Z"
             ],
-
             6: [
                 "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%203.pdf?t=2025-01-21T17%3A49%3A56.822Z"
-            ]
+            ],
         }
 
         if session_id not in resources:
