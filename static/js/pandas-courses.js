@@ -34,7 +34,7 @@ const SQLCourses = (function() {
             }
 
             console.log('Fetching sessions...');
-            const response = await fetch('/api/sql-sessions', {
+            const response = await fetch('/api/pandas-sessions', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -126,7 +126,7 @@ const SQLCourses = (function() {
             _elements.downloadBtn.disabled = true;
             _elements.downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
 
-            const response = await fetch(`/api/resources/sql/${sessionId}`, {
+            const response = await fetch(`/api/resources/pandas/${sessionId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -139,7 +139,7 @@ const SQLCourses = (function() {
 
             const a = document.createElement('a');
             a.href = url;
-            a.download = `SQL_Session_${sessionId}_Resources.zip`;
+            a.download = `Pandas_Session_${sessionId}_Resources.zip`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

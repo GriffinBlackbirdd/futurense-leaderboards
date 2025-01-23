@@ -542,6 +542,14 @@ async def get_user_attendance(
 async def sql_courses_page(request: Request):
     return templates.TemplateResponse("sql-course.html", {"request": request})
 
+@app.get("/sql-cheatsheet", response_class=HTMLResponse)
+async def sqlCheatSheet(request: Request):
+    CHEATSHEET_URL = "https://docs.google.com/spreadsheets/d/1ga0CGbYAUs240docApUdxLkJxUYGtsvSSnH3bjbKDpM/edit?gid=0#gid=0"
+    return RedirectResponse(url=CHEATSHEET_URL, status_code = 303)
+
+@app.get("/pandas-courses", response_class=HTMLResponse)
+async def pandas_courses_page(request: Request):
+    return templates.TemplateResponse("pandas-course.html", {"request": request})
 
 from fastapi.responses import FileResponse
 from pathlib import Path
@@ -549,86 +557,105 @@ from fastapi import FastAPI, Request, HTTPException, Depends, status
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
 
-@app.get("/api/pdf-proxy/{session_id}")
+@app.get("/api/pdf-proxy/{course_type}/{session_id}")
 async def get_pdf_proxy(
-    session_id: int, credentials: HTTPAuthorizationCredentials = Depends(security)
+    course_type: str,
+    session_id: int,
+    credentials: HTTPAuthorizationCredentials = Depends(security)
 ):
     try:
         user = supabase.auth.get_user(credentials.credentials)
 
-        # Map session IDs to direct PDF URLs
+        # Separate PDF URLs for SQL and Pandas
         pdf_urls = {
-            1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%201%20_%20Details.pdf?t=2025-01-21T08%3A43%3A36.600Z",
-            2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%202%20_%20Details.pdf?t=2025-01-21T08%3A43%3A51.072Z",
-            3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%203%20_%20Details.pdf?t=2025-01-21T08%3A43%3A59.341Z",
-            4: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201.pdf?t=2025-01-22T05%3A09%3A47.532Z",
-            5: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%202.pdf?t=2025-01-21T17%3A47%3A48.779Z",
-            6: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%203.pdf?t=2025-01-21T17%3A49%3A56.822Z",
+            "sql": {
+                1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%201%20_%20Details.pdf",
+                2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%202%20_%20Details.pdf",
+                3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%203%20_%20Details.pdf",
+                4: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%204%20_%20Details.pdf?t=2025-01-23T19%3A47%3A58.935Z",
+                5: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%205%20_%20Details.pdf?t=2025-01-23T19%3A50%3A22.135Z",
+                6: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%206%20_%20Details.pdf?t=2025-01-23T19%3A57%3A59.573Z",
+                7: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%207%20_%20Details.pdf?t=2025-01-23T19%3A59%3A28.693Z"
+
+            },
+            "pandas": {
+                1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201.pdf",
+                2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%202.pdf",
+                3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%203.pdf",
+            }
         }
 
-        if session_id not in pdf_urls:
-            logger.error(f"PDF URL not found for session_id: {session_id}")
+        if course_type not in pdf_urls or session_id not in pdf_urls[course_type]:
+            logger.error(f"PDF URL not found for {course_type} session_id: {session_id}")
             raise HTTPException(status_code=404, detail="PDF not found")
 
-        return RedirectResponse(url=pdf_urls[session_id], status_code=303)
+        return RedirectResponse(url=pdf_urls[course_type][session_id], status_code=303)
 
     except Exception as e:
         logger.error(f"Error serving PDF: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error serving PDF: {str(e)}")
 
 
+
 @app.get("/api/sql-sessions")
-async def get_sql_sessions(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
-):
+async def get_sql_sessions(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
-        # Verify user authentication
         user = supabase.auth.get_user(credentials.credentials)
 
-        # Session data
         sessions = [
             {
                 "id": 1,
                 "title": "Session 1: Introduction to SQL",
                 "info": "Duration: 2 hours",
-                "topics": "Importance of databases, Different types of databases with example, Introduction of SQL with real world examples , Installation of MySQL and related softwares, Understand the interface of MySQL",
-                "pdfUrl": "/api/pdf-proxy/1",
+                "topics": "Importance of databases, Different types of databases with example, Introduction of SQL with real world examples , Installation of MySQL and related softwares, Understand the interface of MySQL",
+                "pdfUrl": "/api/pdf-proxy/sql/1",
             },
             {
                 "id": 2,
-                "title": "Session 2: Basic database operations-I",
+                "title": "Session 2: Basic database operations-II",
                 "info": "Duration: 2.5 hours",
-                "topics": "Importing the datasets in MySQL workbench. Demonstrating the ways of importing dataset, Defining the datasets which will be used throughout the module, Describe the basics of primary key and foreign key, Explanation on the DESCRIBE function for exploration, Explanation on the data types and their attributes, Running simple queries on the datasets which is the fundamental of SQL like SELECT clause and WHERE clause",
-                "pdfUrl": "/api/pdf-proxy/2",
+                "topics": "Importing the datasets in MySQL workbench. Demonstrating the ways of importing dataset, Defining the datasets which will be used throughout the module, Describe the basics of primary key and foreign key, Explanation on the DESCRIBE function for exploration, Explanation on the data types and their attributes, Running simple queries on the datasets which is the fundamental of SQL like SELECT clause and WHERE clause",
+                "pdfUrl": "/api/pdf-proxy/sql/2",
             },
             {
                 "id": 3,
-                "title": "Session 3: Basic database operations-II",
+                "title": "Session 3: Basic database operations-III",
                 "info": "Duration: 2 hours",
-                "topics": "Fetching the databases on conditions using WHERE Clause and usage of logical operators AND, OR and relational operators like >, <, >=, <=, <>, Applying filteration techniques like DISTINCT, Pattern Matching using LIKE Operator, Column Alias, Applying techniques like commenting which will help prepare documentation.",
-                "pdfUrl": "/api/pdf-proxy/3",
+                "topics": "Fetching the databases on conditions using WHERE Clause and usage of logical operators AND, OR and relational operators like >, <, >=, <=, <>, Applying filteration techniques like DISTINCT, Pattern Matching using LIKE Operator, Column Alias, Applying techniques like commenting which will help prepare documentation.",
+                "pdfUrl": "/api/pdf-proxy/sql/3",
             },
+
             {
                 "id": 4,
-                "title": "Session 1: Pandas-I",
+                "title": "Session 4: Basic database operations-IV",
                 "info": "Duration: 2 hours",
-                "topics": "What is Pandas and why use it, installation of Pandas using pip or conda, data structures in Pandas, what a Series is, creation of Series, accessing elements of a Series, attributes of Series, methods of Series, mathematical operations on Series, difference between Series and NumPy array.",
-                "pdfUrl": "/api/pdf-proxy/4",
+                "topics": "Learning and applying CRUD operations (CREATE, READ, UPDATE, DELETE) on databases, using WHERE and IS NULL for filtering or finding null values, deleting rows (DELETE), and clearing tables while retaining headers (TRUNCATE)",
+                "pdfUrl": "/api/pdf-proxy/sql/4",
             },
+
             {
                 "id": 5,
-                "title": "Session 2: Pandas-II",
+                "title": "Session 5: Basic database operations-V",
                 "info": "Duration: 2 hours",
-                "topics": "Data exploration and manipulation: head(), tail(), info(), describe() functions, index and select data using iloc and loc with practical implementation, data alignment and reindexing with examples; Data cleaning and preprocessing: handling missing data using dropna(), fillna(), isna() with examples, imputation techniques (mean, median, mode), removing duplicates using drop_duplicates().",
-                "pdfUrl": "/api/pdf-proxy/5",
+                "topics": "Data-changing operations include ALTER for modifying tables (ADD, RENAME, DROP, MODIFY columns), INSERT for adding data into one or multiple columns, and applying CREATE, SHOW, DROP, and USE statements",
+                "pdfUrl": "/api/pdf-proxy/sql/5",
             },
+
             {
                 "id": 6,
-                "title": "Session 3: Pandas-III",
+                "title": "Session 6: Basic database operations-VI",
                 "info": "Duration: 2 hours",
-                "topics": "Combining data using join(), concat(), and merge() with examples, groupby() function, aggregation functions like sum(), mean(), count(), min(), max() with practical implementation.",
-                "pdfUrl": "/api/pdf-proxy/6",
+                "topics": "Data-changing operations include ALTER for modifying tables (ADD, RENAME, DROP, MODIFY columns), INSERT for adding data into one or multiple columns, and applying CREATE, SHOW, DROP, and USE statements",
+                "pdfUrl": "/api/pdf-proxy/sql/6",
             },
+
+            {
+                "id": 7,
+                "title": "Session 7: Basic database operations-VII",
+                "info": "Duration: 2 hours",
+                "topics": "Aggregate functions in SQL include SUM, MIN, MAX, AVG, COUNT, and DISTINCT, with practical use cases demonstrated alongside GROUP BY for grouping data, HAVING for filtering grouped data, and applying these functions on a dataset.",
+                "pdfUrl": "/api/pdf-proxy/sql/7",
+            }
         ]
 
         return {"success": True, "sessions": sessions}
@@ -637,6 +664,41 @@ async def get_sql_sessions(
         logger.error(f"Error getting SQL sessions: {str(e)}")
         raise HTTPException(status_code=500, detail="Error fetching session data")
 
+
+@app.get("/api/pandas-sessions")
+async def get_pandas_sessions(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    try:
+        user = supabase.auth.get_user(credentials.credentials)
+
+        sessions = [
+            {
+                "id": 1,
+                "title": "Session 1: Pandas-I",
+                "info": "Duration: 2 hours",
+                "topics": "What is Pandas and why use it, installation of Pandas using pip or conda, data structures in Pandas, what a Series is, creation of Series, accessing elements of a Series, attributes of Series, methods of Series, mathematical operations on Series, difference between Series and NumPy array.",
+                "pdfUrl": "/api/pdf-proxy/pandas/1",
+            },
+            {
+                "id": 2,
+                "title": "Session 2: Pandas-II",
+                "info": "Duration: 2 hours",
+                "topics": "Data exploration and manipulation: head(), tail(), info(), describe() functions, index and select data using iloc and loc with practical implementation, data alignment and reindexing with examples; Data cleaning and preprocessing: handling missing data using dropna(), fillna(), isna() with examples, imputation techniques (mean, median, mode), removing duplicates using drop_duplicates().",
+                "pdfUrl": "/api/pdf-proxy/pandas/2",
+            },
+            {
+                "id": 3,
+                "title": "Session 3: Pandas-III",
+                "info": "Duration: 2 hours",
+                "topics": "Combining data using join(), concat(), and merge() with examples, groupby() function, aggregation functions like sum(), mean(), count(), min(), max() with practical implementation.",
+                "pdfUrl": "/api/pdf-proxy/pandas/3",
+            }
+        ]
+
+        return {"success": True, "sessions": sessions}
+
+    except Exception as e:
+        logger.error(f"Error getting Pandas sessions: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error fetching session data")
 
 import zipfile
 import os
@@ -651,51 +713,47 @@ import os
 from fastapi.responses import StreamingResponse
 
 
-@app.get("/api/resources/{session_id}")
+@app.get("/api/resources/{course_type}/{session_id}")
 async def get_session_resources(
-    session_id: int, credentials: HTTPAuthorizationCredentials = Depends(security)
+    course_type: str,
+    session_id: int,
+    credentials: HTTPAuthorizationCredentials = Depends(security)
 ):
     try:
-        # Verify user authentication
         user = supabase.auth.get_user(credentials.credentials)
 
         resources = {
-            1: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1-Assignment.pdf",
-            ],
-            2: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Master%20Sales%20FY.zip",
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2-Assignment.pdf",
-            ],
-            3: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3-Assignment.pdf"
-            ],
-            4: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201%20_%20Assessment.pdf?t=2025-01-21T17%3A52%3A28.174Z"
-            ],
-            5: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-2%20Resources.zip?t=2025-01-21T17%3A46%3A57.113Z"
-            ],
-            6: [
-                "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-3%20Resources.zip?t=2025-01-22T05%3A16%3A47.876Z"
-            ],
+            "sql": {
+                1: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1-Assignment.pdf"],
+                2: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Master%20Sales%20FY.zip",
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2-Assignment.pdf",
+                ],
+                3: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3-Assignment.pdf"],
+                4: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%204%20_%20Assessment%204.pdf?t=2025-01-23T19%3A50%3A30.790Z"],
+                5: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%205%20_%20Assessment%205.pdf?t=2025-01-23T19%3A56%3A54.957Z"],
+                6: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%206%20_%20Assessment%206.pdf?t=2025-01-23T19%3A56%3A47.670Z"],
+                7: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%207%20_%20Assessment%207.zip?t=2025-01-23T19%3A59%3A11.896Z"]
+            },
+            "pandas": {
+                1: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201%20_%20Assessment.pdf"],
+                2: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-2%20Resources.zip"],
+                3: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-3%20Resources.zip"]
+            }
         }
 
-        if session_id not in resources:
+        if course_type not in resources or session_id not in resources[course_type]:
             raise HTTPException(status_code=404, detail="Resources not found")
 
         zip_buffer = io.BytesIO()
 
         async with httpx.AsyncClient() as client:
             with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-                for url in resources[session_id]:
+                for url in resources[course_type][session_id]:
                     try:
-                        # Download file from URL
                         response = await client.get(url)
                         if response.status_code == 200:
-                            # Get filename from URL
                             filename = os.path.basename(url.split("?")[0])
-                            # Add file to zip
                             zipf.writestr(filename, response.content)
                         else:
                             logger.error(f"Failed to download resource: {url}")
@@ -705,19 +763,17 @@ async def get_session_resources(
 
         zip_buffer.seek(0)
 
-        # Return streaming response
         return StreamingResponse(
             zip_buffer,
             media_type="application/zip",
             headers={
-                "Content-Disposition": f'attachment; filename="Training_{session_id}_Resources.zip"'
+                "Content-Disposition": f'attachment; filename="{course_type.capitalize()}_{session_id}_Resources.zip"'
             },
         )
 
     except Exception as e:
         logger.error(f"Error serving resources: {str(e)}")
         raise HTTPException(status_code=500, detail="Error serving resources")
-
 
 if __name__ == "__main__":
     import uvicorn
