@@ -266,6 +266,7 @@ document.getElementById("pdfCanvas")?.addEventListener("copy", function (e) {
   e.preventDefault();
   return false;
 });
+
 ("use strict");
 
 const SQLCourses = (function () {
