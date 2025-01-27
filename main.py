@@ -254,32 +254,57 @@ async def get_video_content(credentials: HTTPAuthorizationCredentials = Depends(
         # Video content structure
         video_content = {
             "python": [
-                {
-                    "id": "rfscVS0vtbw",
-                    "title": "Python Full Course for Beginners",
-                    "description": "Learn Python like a Professional. Start from the basics and go all the way to creating your own applications and games.",
-                    "duration": "4:26:52"
-                },
-                {
-                    "id": "kqtD5dpn9C8",
-                    "title": "Python for Beginners - Learn Python in 1 Hour",
-                    "description": "This Python tutorial for beginners shows how to get started with Python quickly. Learn to code in 1 hour!",
-                    "duration": "1:00:00"
-                }
+                # {
+                #     "id": "rfscVS0vtbw",
+                #     "title": "Python Full Course for Beginners",
+                #     "description": "Learn Python like a Professional. Start from the basics and go all the way to creating your own applications and games.",
+                #     "duration": "4:26:52"
+                # },
+                # {
+                #     "id": "kqtD5dpn9C8",
+                #     "title": "Python for Beginners - Learn Python in 1 Hour",
+                #     "description": "This Python tutorial for beginners shows how to get started with Python quickly. Learn to code in 1 hour!",
+                #     "duration": "1:00:00"
+                # },
+                # {
+                #     "id": "kqtD5dpn9C8",
+                #     "title": "Python for Beginners - Learn Python in 1 Hour",
+                #     "description": "This Python tutorial for beginners shows how to get started with Python quickly. Learn to code in 1 hour!",
+                #     "duration": "1:00:00"
+                # },
+
             ],
             "data_engineering": [
                 {
-                    "id": "05lfMn125o",
-                    "title": "Data Engineering 101: Your Ultimate Begineer's Guide",
+                    "id": "ember/_05IfMn125o",
+                    "title": "Session - 1: Data Engineering 101: Your Ultimate Begineer's Guide",
                     "description": "Curious about data engineering but not sure where to begin? In this 1-hour session, we’ll break down the basics and guide you through the fundamentals of data engineering. Whether you’re just starting out or hoping to deepen your understanding, this video has everything you need to get started on your journey.",
                     "duration": "1:06:21"
                 },
                 {
                     "id": "aK4Gpx3d2zU",
-                    "title": "Getting Started with Azure: Creating Storage and Understanding the Basics",
+                    "title": "Session - 2: Getting Started with Azure: Creating Storage and Understanding the Basics",
                     "description": "Ready to dive into the world of Azure? In this video, we’ll walk you through the essentials of Microsoft Azure, including how to create and manage Azure Storage. Whether you’re a beginner or just looking to brush up on the basics, this session will help you understand the core concepts and give you hands-on experience.",
                     "duration": "55:21"
-                }
+                },
+                {
+                    "id": "fvfxIIdkSXc",
+                    "title": "Session - 3: Introduction to Azure Data Factory",
+                    "description": "Curious about how to move and transform data in the cloud? In this video, we’ll introduce you to Azure Data Factory (ADF), Microsoft’s powerful data integration and orchestration tool. Whether you’re a beginner or exploring data engineering tools, this session will help you understand how Azure Data Factory works and why it’s essential for modern data workflows.",
+                    "duration": "1:00:04"
+                },
+                {
+                    "id": "1w0956AM7ZU",
+                    "title": "Session - 4: Azure Data Factory 102",
+                    "description": "Ready to take your Azure Data Factory skills to the next level? In this video, we’ll dive deeper into Azure Data Factory (ADF) and explore advanced features that help you design and manage complex data pipelines with ease. Whether you’re expanding your ADF knowledge or refining your data engineering skills, this session is packed with practical insights and tips.",
+                    "duration": "47:40"
+                },
+                {
+                    "id": "LG55zu_2cg0",
+                    "title": "Session - 5: Dynamic Azure Data Factory 103",
+                    "description": "Unlock the full potential of Azure Data Factory (ADF) with dynamic pipelines! In this advanced session, we’ll focus on creating dynamic and reusable workflows, enabling you to streamline data integration processes and maximize efficiency.",
+                    "duration": "1:11:54"
+                },
             ],
             "machine_learning": [
                 # {
@@ -296,32 +321,32 @@ async def get_video_content(credentials: HTTPAuthorizationCredentials = Depends(
                 # }
             ],
             "data_science": [
-                {
-                    "id": "ua-CiDNNj30",
-                    "title": "Data Science Full Course",
-                    "description": "Comprehensive guide to data science concepts, tools, and methodologies.",
-                    "duration": "1:45:15"
-                },
-                {
-                    "id": "LHBE6Q9XlzI",
-                    "title": "Pandas for Data Analysis",
-                    "description": "Master data analysis with Pandas library through practical examples and real-world datasets.",
-                    "duration": "1:15:40"
-                }
+                # {
+                #     "id": "ua-CiDNNj30",
+                #     "title": "Data Science Full Course",
+                #     "description": "Comprehensive guide to data science concepts, tools, and methodologies.",
+                #     "duration": "1:45:15"
+                # },
+                # {
+                #     "id": "LHBE6Q9XlzI",
+                #     "title": "Pandas for Data Analysis",
+                #     "description": "Master data analysis with Pandas library through practical examples and real-world datasets.",
+                #     "duration": "1:15:40"
+                # }
             ],
             "system_design": [
-                {
-                    "id": "xpDnVSmNFX0",
-                    "title": "System Design Fundamentals",
-                    "description": "Learn the core concepts of system design and architecture with practical examples.",
-                    "duration": "2:30:00"
-                },
-                {
-                    "id": "Y6Ev8GIlbxc",
-                    "title": "Scalable System Design Patterns",
-                    "description": "Explore common system design patterns used in building scalable applications.",
-                    "duration": "1:55:30"
-                }
+                # {
+                #     "id": "xpDnVSmNFX0",
+                #     "title": "System Design Fundamentals",
+                #     "description": "Learn the core concepts of system design and architecture with practical examples.",
+                #     "duration": "2:30:00"
+                # },
+                # {
+                #     "id": "Y6Ev8GIlbxc",
+                #     "title": "Scalable System Design Patterns",
+                #     "description": "Explore common system design patterns used in building scalable applications.",
+                #     "duration": "1:55:30"
+                # }
             ]
         }
 
@@ -564,7 +589,8 @@ async def get_students():
     """Get list of students from users table"""
     try:
         # fetch from users table instead of attendance
-        response = supabase.table("users").select("email, name").execute()
+        response = supabase.table("users").select("email, name").eq("cohort", 2026).execute()
+
 
         if not response.data:
             return {"success": True, "students": []}
@@ -927,6 +953,112 @@ async def get_session_resources(
     except Exception as e:
         logger.error(f"Error serving resources: {str(e)}")
         raise HTTPException(status_code=500, detail="Error serving resources")
+
+
+# @passwordReset Functions
+# New route for the password reset page
+@app.get("/reset-password", response_class=HTMLResponse)
+async def reset_password_page(request: Request):
+    """Render the password reset page"""
+    try:
+        return templates.TemplateResponse("forgotPass.html", {"request": request})
+    except Exception as e:
+        logger.error(f"Error rendering password reset page: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+# New route for the update password page
+@app.get("/update-password", response_class=HTMLResponse)
+async def update_password_page(request: Request):
+    """Render the update password page"""
+    try:
+        return templates.TemplateResponse("update-password.html", {"request": request})
+    except Exception as e:
+        logger.error(f"Error rendering update password page: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+# API route to initiate password reset
+
+@app.post("/api/reset-password")
+async def reset_password(email_data: dict):
+    try:
+        email = email_data.get("email")
+        if not email:
+            raise HTTPException(status_code=400, detail="Email is required")
+
+        try:
+            # Use Supabase's password reset functionality
+            reset_response = supabase.auth.reset_password_email(email)
+            return {"success": True, "message": "Password reset email sent"}
+        except Exception as auth_error:
+            logger.error(f"Password reset failed: {auth_error}")
+            raise HTTPException(
+                status_code=400,
+                detail="Failed to send reset email"
+            )
+
+    except HTTPException as http_error:
+        raise http_error
+    except Exception as e:
+        logger.error(f"Error initiating password reset: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to initiate password reset"
+        )
+# API route to update password
+import httpx
+
+class PasswordUpdateData(BaseModel):
+    token: str
+    password: str
+
+@app.post("/api/update-password")
+async def update_password(password_data: PasswordUpdateData):
+    try:
+        # Extract access token from the full token string (which might include the URL)
+        access_token = password_data.token.split('access_token=')[1].split('&')[0]
+
+        if not access_token or not password_data.password:
+            raise HTTPException(
+                status_code=400,
+                detail="Access token and new password are required"
+            )
+
+        # Make direct request to Supabase REST API
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
+
+        async with httpx.AsyncClient() as client:
+            response = await client.put(
+                f'{SUPABASE_URL}/auth/v1/user',
+                headers=headers,
+                json={'password': password_data.password}
+            )
+
+            if response.status_code == 200:
+                return {
+                    "success": True,
+                    "message": "Password updated successfully"
+                }
+            else:
+                logger.error(f"Password update failed: {response.text}")
+                raise HTTPException(
+                    status_code=response.status_code,
+                    detail="Failed to update password"
+                )
+
+    except HTTPException as http_error:
+        raise http_error
+    except Exception as e:
+        logger.error(f"Error updating password: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to update password"
+        )
+
+
 
 if __name__ == "__main__":
     import uvicorn

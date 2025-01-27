@@ -128,7 +128,22 @@ input::placeholder {
   align-self: flex-start;
 }
 
+.forgot-password {
+  text-align: left;
+  /* top: 30px; */
+  margin-top: 1rem;
+}
 
+.forgot-password a {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.forgot-password a:hover {
+  color: #2980b9;
+}
 
 .logo {
   max-width: 45px;

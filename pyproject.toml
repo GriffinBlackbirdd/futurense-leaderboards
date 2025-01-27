@@ -86,5 +86,6 @@ dependencies = [
     "uvicorn>=0.34.0",
     "wcwidth>=0.2.13",
     "websockets>=13.1",
+    "xlsxwriter>=3.2.1",
     "yarl>=1.18.3",
 ]

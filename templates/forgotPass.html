@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password | Futurense</title>
+    <link rel="icon" href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #2b1055, #7597de, #4b6cb7, #182848, #2b1055);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-container {
+            background: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 40px;
+            height: auto;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .welcome-text {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.1);
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(45deg, #4b6cb7, #182848);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(75, 108, 183, 0.3);
+        }
+
+        .reset-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .notification {
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .success {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        #gmailButton {
+            display: none;
+            text-align: center;
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        #gmailButton.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gmail-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: white;
+            color: #666;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .gmail-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .gmail-logo {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .check-email-text {
+            color: #4b6cb7;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo-container">
+                <img src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" alt="SkillSync Logo" class="logo">
+            </div>
+            <h1>Reset Password</h1>
+            <p class="welcome-text">Enter your email to receive a password reset link</p>
+        </div>
+
+        <div class="notification success" id="successNotification"></div>
+        <div class="notification error" id="errorNotification"></div>
+
+        <form id="resetForm">
+            <div class="input-group">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <button type="submit" class="reset-btn">Send Reset Link</button>
+        </form>
+
+        <div id="gmailButton">
+            <p class="check-email-text">
+                <i class="fas fa-check-circle"></i>
+                Reset link sent! Check your inbox
+            </p>
+            <a href="https://gmail.com" target="_blank" rel="noopener noreferrer" class="gmail-btn">
+                <img src="https://www.google.com/gmail/about/static/images/logo-gmail.png?cache=1adba63"
+                     alt="Gmail" class="gmail-logo">
+                Open Gmail
+            </a>
+        </div>
+    </div>
+
+    <script>
+
+particlesJS('particles-js', {
+  "particles": {
+      "number": {
+          "value": 80,
+          "density": {
+              "enable": true,
+              "value_area": 800
+          }
+      },
+      "color": {
+          "value": ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96E6B3", "#FFD93D"]
+      },
+      "shape": {
+          "type": ["circle", "triangle"],
+          "stroke": {
+              "width": 0,
+              "color": "#000000"
+          }
+      },
+      "opacity": {
+          "value": 0.6,
+          "random": true,
+          "anim": {
+              "enable": true,
+              "speed": 1,
+              "opacity_min": 0.3,
+              "sync": false
+          }
+      },
+      "size": {
+          "value": 4,
+          "random": true,
+          "anim": {
+              "enable": true,
+              "speed": 2,
+              "size_min": 0.1,
+              "sync": false
+          }
+      },
+      "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#4ECDC4",
+          "opacity": 0.4,
+          "width": 1
+      },
+      "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "bounce",
+          "bounce": true,
+          "attract": {
+              "enable": true,
+              "rotateX": 600,
+              "rotateY": 1200
+          }
+      }
+  },
+  "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+          "onhover": {
+              "enable": true,
+              "mode": "bubble"
+          },
+          "onclick": {
+              "enable": true,
+              "mode": "push"
+          },
+          "resize": true
+      },
+      "modes": {
+          "grab": {
+              "distance": 200,
+              "line_linked": {
+                  "opacity": 0.8
+              }
+          },
+          "bubble": {
+              "distance": 200,
+              "size": 6,
+              "duration": 2,
+              "opacity": 0.8,
+              "speed": 3
+          },
+          "repulse": {
+              "distance": 200,
+              "duration": 0.4
+          },
+          "push": {
+              "particles_nb": 4
+          },
+          "remove": {
+              "particles_nb": 2
+          }
+      }
+  },
+  "retina_detect": true
+});
+
+// HELLO, if you are reading this in the inspect mode.
+function detectDevTools() {
+  const widthThreshold = window.outerWidth - window.innerWidth > 160;
+  const heightThreshold = window.outerHeight - window.innerHeight > 160;
+
+  if (widthThreshold || heightThreshold) {
+    document.body.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        ">
+            <div style="
+                padding: 20px 40px;
+                background: rgba(255, 0, 0, 0.1);
+                border: 2px solid red;
+                border-radius: 20px;
+                box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+                animation: pulse 2s infinite;
+            ">
+                <h1 style="
+                    font-size: 3rem;
+                    font-weight: bold;
+                    margin: 0;
+                    text-shadow: 2px 2px 5px black;
+                ">
+                    Dev Tools Are Not Allowed
+                </h1>
+                <p style="
+                    margin-top: 10px;
+                    font-size: 1.2rem;
+                    color: #ff4444;
+                    text-shadow: 1px 1px 2px black;
+                ">
+                    You will be redirected to the login page now...
+                </p>
+            </div>
+        </div>
+    `;
+
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 3000);
+  }
+}
+//Disable right-click
+document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+  return false;
+});
+
+//Detect keyboard shortcuts
+document.addEventListener("keydown", function (e) {
+  // Disable F12
+  if (e.key === "F12") {
+    document.body.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        ">
+            <div style="
+                padding: 20px 40px;
+                background: rgba(255, 0, 0, 0.1);
+                border: 2px solid red;
+                border-radius: 20px;
+                box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+                animation: pulse 2s infinite;
+            ">
+                <h1 style="
+                    font-size: 3rem;
+                    font-weight: bold;
+                    margin: 0;
+                    text-shadow: 2px 2px 5px black;
+                ">
+                    Dev Tools Are Not Allowed
+                </h1>
+                <p style="
+                    margin-top: 10px;
+                    font-size: 1.2rem;
+                    color: #ff4444;
+                    text-shadow: 1px 1px 2px black;
+                ">
+                    You will be redirected to the login page now...
+                </p>
+            </div>
+        </div>
+    `;
+
+    e.preventDefault();
+    return false;
+  }
+
+  // Disable Ctrl+Shift+I / Cmd+Option+I
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "I") {
+    document.body.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        ">
+            <div style="
+                padding: 20px 40px;
+                background: rgba(255, 0, 0, 0.1);
+                border: 2px solid red;
+                border-radius: 20px;
+                box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+                animation: pulse 2s infinite;
+            ">
+                <h1 style="
+                    font-size: 3rem;
+                    font-weight: bold;
+                    margin: 0;
+                    text-shadow: 2px 2px 5px black;
+                ">
+                    Dev Tools Are Not Allowed
+                </h1>
+                <p style="
+                    margin-top: 10px;
+                    font-size: 1.2rem;
+                    color: #ff4444;
+                    text-shadow: 1px 1px 2px black;
+                ">
+                    You will be redirected to the login page now...
+                </p>
+            </div>
+        </div>
+    `;
+
+    e.preventDefault();
+    return false;
+  }
+
+  // Disable Ctrl+Shift+J / Cmd+Option+J
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "J") {
+    document.body.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        ">
+            <div style="
+                padding: 20px 40px;
+                background: rgba(255, 0, 0, 0.1);
+                border: 2px solid red;
+                border-radius: 20px;
+                box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+                animation: pulse 2s infinite;
+            ">
+                <h1 style="
+                    font-size: 3rem;
+                    font-weight: bold;
+                    margin: 0;
+                    text-shadow: 2px 2px 5px black;
+                ">
+                    Dev Tools Are Not Allowed
+                </h1>
+                <p style="
+                    margin-top: 10px;
+                    font-size: 1.2rem;
+                    color: #ff4444;
+                    text-shadow: 1px 1px 2px black;
+                ">
+                    You will be redirected to the login page now...
+                </p>
+            </div>
+        </div>
+    `;
+    e.preventDefault();
+    return false;
+  }
+
+  // Disable Ctrl+U / Cmd+U (view source)
+  if ((e.ctrlKey || e.metaKey) && e.key === "u") {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// Clear console messages
+setInterval(function () {
+  console.clear();
+}, 1000);
+
+// Debug detection
+function detectDebugger() {
+  let debugging = false;
+  const startTime = new Date();
+  debugger;
+  const endTime = new Date();
+
+  if (endTime - startTime > 100) {
+    debugging = true;
+    window.location.href = "/"; //red to home
+  }
+
+  return debugging;
+}
+
+// Monitor element changes
+const observer = new MutationObserver(function (mutations) {
+  mutations.forEach(function (mutation) {
+    if (mutation.target.getAttribute("data-secure") === "true") {
+      window.location.href = "/"; // Red to home if the president is modigfied (secure element)
+    }
+  });
+});
+
+// Start monitoring for dev tools
+window.addEventListener("resize", detectDevTools);
+setInterval(detectDevTools, 1000);
+setInterval(detectDebugger, 1000);
+
+// Add protection to specific elements
+document.querySelectorAll(".secure-content").forEach((element) => {
+  element.setAttribute("data-secure", "true");
+  observer.observe(element, {
+    attributes: true,
+    childList: true,
+    characterData: true,
+  });
+});
+
+// Additional protection for the PDF viewer
+document.getElementById("pdfCanvas")?.addEventListener("copy", function (e) {
+  e.preventDefault();
+  return false;
+});
+        document.getElementById('resetForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const errorMessage = document.getElementById('errorNotification');
+            const successMessage = document.getElementById('successNotification');
+            const gmailButton = document.getElementById('gmailButton');
+            const submitButton = document.querySelector('.reset-btn');
+
+            try {
+                // Reset notifications
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+                gmailButton.style.display = 'none';
+
+                // Disable button and show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+                const response = await fetch('/api/reset-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Hide the form with fade out effect
+                    this.style.opacity = '0';
+                    this.style.transform = 'translateY(-10px)';
+                    setTimeout(() => {
+                        this.style.display = 'none';
+
+                        // Show Gmail button with fade in effect
+                        gmailButton.style.display = 'block';
+                        setTimeout(() => {
+                            gmailButton.classList.add('visible');
+                        }, 50);
+                    }, 300);
+                } else {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = data.detail || 'Failed to send reset link.';
+                }
+            } catch (error) {
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'An error occurred. Please try again.';
+            } finally {
+                if (!data?.success) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Send Reset Link';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
