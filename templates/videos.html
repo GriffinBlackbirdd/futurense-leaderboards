@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Videos | Futurense</title>
+    <link rel="icon" href="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/videos.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/logo.ico" alt="Futurense Logo" class="logo">
+            </div>
+            <h1>Learning Videos</h1>
+            <p>Expand your knowledge with our curated video content</p>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="search-section">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search videos...">
+            </div>
+            <div class="filter-container" id="filterContainer">
+                <button class="filter-btn active" data-category="all">All</button>
+                <!-- Category filters will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Video Grid -->
+        <div class="video-grid" id="videoGrid">
+            <!-- Video sections will be dynamically added here -->
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="window.location.href='/welcome'">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="video-container">
+                <div id="player"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="{{ url_for('static', path='js/videos.js') }}"></script>
+</body>
+</html>

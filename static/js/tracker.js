@@ -120,6 +120,11 @@ const projectTypes = ["ml", "de", "ds", "cert", "proj", "sd"];
 
 //current date
 document.addEventListener("DOMContentLoaded", function () {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  if (!userData) {
+    window.location.href = "/";
+    return;
+  }
   const options = {
     weekday: "long",
     year: "numeric",
@@ -417,9 +422,12 @@ document
     submitBtn.classList.add("loading");
     submitBtn.disabled = true;
 
+    const userData = JSON.parse(localStorage.getItem("userData"));
+
     const formData = {
       date: new Date().toISOString(),
-      userid: JSON.parse(localStorage.getItem("userData")).email,
+      userid: userData.email,
+      cohort: userData.cohort, // Add cohort to the form data
       dsa_attempted: dsaAttempted.value === "true",
       dsa_easy: parseInt(dsaEasyInput.value) || 0,
       dsa_medium: parseInt(dsaMediumInput.value) || 0,
@@ -464,16 +472,13 @@ document
 
       const data = await response.json();
 
-      //artificial delay
       await new Promise((resolve) => setTimeout(resolve, 800));
 
       if (data.success) {
         showNotification("Activity logged successfully!", "success");
-
-        // waiting for notif to show so we can redirect back to dashboard
         setTimeout(() => {
           window.location.href = "/welcome";
-        }, 1500); // a smol 1.5 seconds delay for notifi visibility
+        }, 1500);
       } else {
         showNotification(data.detail || "Failed to log activity", "error");
         submitBtn.classList.remove("loading");

@@ -85,6 +85,7 @@ particlesJS('particles-js', {
     problemSolving: '2025-03-01'
   };
 
+
   const BADGES = {
     BRONZE: {
         name: 'Bronze',
@@ -284,16 +285,28 @@ document.head.appendChild(style);
     }
   }
 
-  function updateDeadlines() {
-    Object.entries(DEADLINES).forEach(([key, deadline]) => {
-        const element = document.getElementById(`${key}Days`);
-        if (element) {
-            const { days, color } = calculateDaysRemaining(deadline);
-            element.textContent = `${days} days`;
-            element.style.color = color;
-        }
-    });
-  }
+  function updateDeadlines(cohort) {
+    // Only show deadlines for 2026 batch
+    if (cohort === '2026') {
+        Object.entries(DEADLINES).forEach(([key, deadline]) => {
+            const element = document.getElementById(`${key}Days`);
+            if (element) {
+                const { days, color } = calculateDaysRemaining(deadline);
+                element.textContent = `${days} days`;
+                element.style.color = color;
+            }
+        });
+    } else {
+        // For 2028 batch, show N/A
+        Object.keys(DEADLINES).forEach((key) => {
+            const element = document.getElementById(`${key}Days`);
+            if (element) {
+                element.textContent = 'N/A';
+                element.style.color = 'rgba(255, 255, 255, 0.5)';
+            }
+        });
+    }
+}
 
   function updatePointsDistribution(userData) {
     // Update individual points and progress bars
@@ -346,19 +359,30 @@ document.head.appendChild(style);
     const userData = JSON.parse(localStorage.getItem('userData'));
 
     if (userData) {
-        document.getElementById('welcomeName').textContent = `Welcome back, ${userData.name}!`;
+        // Remove any existing hardcoded category values
+        document.getElementById('welcomeName').textContent = `Welcome back, ${userData.name}`;
         document.querySelector('.user-email').textContent = userData.email;
-        document.getElementById('userCategory').textContent = userData.category;
-        document.getElementById('userRank').textContent = `#${userData.rank}`;
-        document.getElementById('userPoints').textContent = formatNumber(userData.points);
+
+        // Correctly set the category
+        const userCategory = document.getElementById('userCategory');
+        if (userCategory) {
+            userCategory.textContent = userData.category || 'Not Assigned';
+        }
+
+        // Set cohort badge
+        const cohortBadge = document.getElementById('cohortBadge');
+        if (cohortBadge) {
+            cohortBadge.textContent = userData.cohort === '2026' ? '3rd Year' : '1st Year';
+            cohortBadge.classList.add(`cohort-${userData.cohort}`);
+        }
 
         updatePointsDistribution(userData);
         updateFutureGlow(userData.rank);
-        updateDeadlines();
+        updateDeadlines(userData.cohort);
     } else {
         window.location.href = '/';
     }
-  });
+});
 
   // Logout Function
   function logout() {

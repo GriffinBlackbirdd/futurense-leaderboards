@@ -12,6 +12,12 @@ from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, time, timedelta
 import pytz
+from cryptography.fernet import Fernet
+import hashlib
+import time
+import base64
+import hmac
+
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -88,6 +94,7 @@ class UserResponse(BaseModel):
 class ActivityData(BaseModel):
     date: str
     userid: str
+    cohort: str
     dsa_attempted: bool = False
     dsa_easy: int = 0
     dsa_medium: int = 0
@@ -124,6 +131,7 @@ class AttendanceData(BaseModel):
     date: str
     session: int  # 1 for morning, 2 for afternoon
     attendance: list[AttendanceRecord]
+
 
 
 # Exception Handlers
@@ -184,6 +192,150 @@ async def tracker_page(request: Request):
     except Exception as e:
         logger.error(f"Error rendering tracker page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
+
+@app.get("/videos", response_class=HTMLResponse)
+async def videos_page(request: Request):
+    """Render the videos page"""
+    try:
+        return templates.TemplateResponse("videos.html", {"request": request})
+    except Exception as e:
+        logger.error(f"Error rendering videos page: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@app.get("/api/video-thumbnail/{video_id}")
+async def get_video_thumbnail(video_id: str):
+    """Fetch and return YouTube video thumbnail with fallback"""
+    try:
+        # Try to get YouTube thumbnail
+        async with httpx.AsyncClient() as client:
+            response = await client.get(f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg")
+
+            # If maxresdefault fails, try hqdefault
+            if response.status_code != 200:
+                response = await client.get(f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg")
+
+            if response.status_code == 200:
+                return StreamingResponse(
+                    BytesIO(response.content),
+                    media_type="image/jpeg",
+                    headers={"Cache-Control": "public, max-age=31536000"}
+                )
+
+        # If both thumbnail attempts fail, return default placeholder
+        default_path = "static/images/video-placeholder.jpg"
+        if os.path.exists(default_path):
+            return FileResponse(
+                default_path,
+                headers={"Cache-Control": "public, max-age=31536000"}
+            )
+
+    except Exception as e:
+        logger.error(f"Error serving video thumbnail: {str(e)}")
+
+    # Last resort: Return a generated placeholder
+    fallback_url = "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/randoms/video-placeholder.jpg"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(fallback_url)
+        if response.status_code == 200:
+            return StreamingResponse(
+                BytesIO(response.content),
+                media_type="image/jpeg"
+            )
+
+    raise HTTPException(status_code=404, detail="Thumbnail not found")
+
+@app.get("/api/video-content")
+async def get_video_content(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Return the video content data"""
+    try:
+        # Verify the token
+        user = supabase.auth.get_user(credentials.credentials)
+
+        # Video content structure
+        video_content = {
+            "python": [
+                {
+                    "id": "rfscVS0vtbw",
+                    "title": "Python Full Course for Beginners",
+                    "description": "Learn Python like a Professional. Start from the basics and go all the way to creating your own applications and games.",
+                    "duration": "4:26:52"
+                },
+                {
+                    "id": "kqtD5dpn9C8",
+                    "title": "Python for Beginners - Learn Python in 1 Hour",
+                    "description": "This Python tutorial for beginners shows how to get started with Python quickly. Learn to code in 1 hour!",
+                    "duration": "1:00:00"
+                }
+            ],
+            "data_engineering": [
+                {
+                    "id": "05lfMn125o",
+                    "title": "Data Engineering 101: Your Ultimate Begineer's Guide",
+                    "description": "Curious about data engineering but not sure where to begin? In this 1-hour session, we’ll break down the basics and guide you through the fundamentals of data engineering. Whether you’re just starting out or hoping to deepen your understanding, this video has everything you need to get started on your journey.",
+                    "duration": "1:06:21"
+                },
+                {
+                    "id": "aK4Gpx3d2zU",
+                    "title": "Getting Started with Azure: Creating Storage and Understanding the Basics",
+                    "description": "Ready to dive into the world of Azure? In this video, we’ll walk you through the essentials of Microsoft Azure, including how to create and manage Azure Storage. Whether you’re a beginner or just looking to brush up on the basics, this session will help you understand the core concepts and give you hands-on experience.",
+                    "duration": "55:21"
+                }
+            ],
+            "machine_learning": [
+                # {
+                #     "id": "KNAWp2S3w94",
+                #     "title": "Machine Learning Basics",
+                #     "description": "Introduction to machine learning concepts, algorithms, and practical applications.",
+                #     "duration": "2:10:25"
+                # },
+                # {
+                #     "id": "JcI5E2Ng6r4",
+                #     "title": "Scikit-Learn Tutorial",
+                #     "description": "Learn how to use Scikit-Learn for machine learning tasks with hands-on examples.",
+                #     "duration": "1:30:15"
+                # }
+            ],
+            "data_science": [
+                {
+                    "id": "ua-CiDNNj30",
+                    "title": "Data Science Full Course",
+                    "description": "Comprehensive guide to data science concepts, tools, and methodologies.",
+                    "duration": "1:45:15"
+                },
+                {
+                    "id": "LHBE6Q9XlzI",
+                    "title": "Pandas for Data Analysis",
+                    "description": "Master data analysis with Pandas library through practical examples and real-world datasets.",
+                    "duration": "1:15:40"
+                }
+            ],
+            "system_design": [
+                {
+                    "id": "xpDnVSmNFX0",
+                    "title": "System Design Fundamentals",
+                    "description": "Learn the core concepts of system design and architecture with practical examples.",
+                    "duration": "2:30:00"
+                },
+                {
+                    "id": "Y6Ev8GIlbxc",
+                    "title": "Scalable System Design Patterns",
+                    "description": "Explore common system design patterns used in building scalable applications.",
+                    "duration": "1:55:30"
+                }
+            ]
+        }
+
+        return {
+            "success": True,
+            "content": video_content
+        }
+
+    except Exception as e:
+        logger.error(f"Error fetching video content: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch video content"
+        )
 
 
 @app.get("/analytics", response_class=HTMLResponse)
@@ -250,6 +402,7 @@ async def login(login_data: LoginData):
                 "points": user_details.get("points", 0),
                 "category": user_details.get("category", ""),
                 "rank": user_details.get("rank", 0),
+                "cohort": user_details.get("cohort", ""),
                 "resumePoints": user_details.get("resume_points", 0),
                 "aptitudePoints": user_details.get("aptitude_points", 0),
                 "mockPoints": user_details.get("mock_points", 0),
@@ -312,7 +465,6 @@ async def get_user_activities(
 
 @app.post("/api/track-activity")
 async def track_activity(activity_data: ActivityData):
-    """Handle daily activity tracking"""
     try:
         # Convert activity date to IST
         activity_date = datetime.fromisoformat(
@@ -354,6 +506,7 @@ async def track_activity(activity_data: ActivityData):
             .insert(
                 {
                     "userid": activity_data.userid,
+                    "cohort": activity_data.cohort,
                     "date": tracking_date.isoformat(),
                     "dsa_attempted": activity_data.dsa_attempted,
                     "dsa_easy": activity_data.dsa_easy,
