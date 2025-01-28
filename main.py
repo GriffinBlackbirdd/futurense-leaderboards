@@ -134,7 +134,6 @@ class AttendanceData(BaseModel):
     attendance: list[AttendanceRecord]
 
 
-
 # Exception Handlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
@@ -194,6 +193,7 @@ async def tracker_page(request: Request):
         logger.error(f"Error rendering tracker page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
 @app.get("/videos", response_class=HTMLResponse)
 async def videos_page(request: Request):
     """Render the videos page"""
@@ -203,31 +203,35 @@ async def videos_page(request: Request):
         logger.error(f"Error rendering videos page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
 @app.get("/api/video-thumbnail/{video_id}")
 async def get_video_thumbnail(video_id: str):
     """Fetch and return YouTube video thumbnail with fallback"""
     try:
         # Try to get YouTube thumbnail
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg")
+            response = await client.get(
+                f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg"
+            )
 
             # If maxresdefault fails, try hqdefault
             if response.status_code != 200:
-                response = await client.get(f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg")
+                response = await client.get(
+                    f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
+                )
 
             if response.status_code == 200:
                 return StreamingResponse(
                     BytesIO(response.content),
                     media_type="image/jpeg",
-                    headers={"Cache-Control": "public, max-age=31536000"}
+                    headers={"Cache-Control": "public, max-age=31536000"},
                 )
 
         # If both thumbnail attempts fail, return default placeholder
         default_path = "static/images/video-placeholder.jpg"
         if os.path.exists(default_path):
             return FileResponse(
-                default_path,
-                headers={"Cache-Control": "public, max-age=31536000"}
+                default_path, headers={"Cache-Control": "public, max-age=31536000"}
             )
 
     except Exception as e:
@@ -238,15 +242,15 @@ async def get_video_thumbnail(video_id: str):
     async with httpx.AsyncClient() as client:
         response = await client.get(fallback_url)
         if response.status_code == 200:
-            return StreamingResponse(
-                BytesIO(response.content),
-                media_type="image/jpeg"
-            )
+            return StreamingResponse(BytesIO(response.content), media_type="image/jpeg")
 
     raise HTTPException(status_code=404, detail="Thumbnail not found")
 
+
 @app.get("/api/video-content")
-async def get_video_content(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_video_content(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+):
     """Return the video content data"""
     try:
         # Verify the token
@@ -273,38 +277,37 @@ async def get_video_content(credentials: HTTPAuthorizationCredentials = Depends(
                 #     "description": "This Python tutorial for beginners shows how to get started with Python quickly. Learn to code in 1 hour!",
                 #     "duration": "1:00:00"
                 # },
-
             ],
             "data_engineering": [
                 {
-                    "id": "ember/_05IfMn125o",
-                    "title": "Session - 1: Data Engineering 101: Your Ultimate Begineer's Guide",
+                    "id": "c7McnBw0JWY",
+                    "title": "Session - 1: Data Engineering 101: Your Ultimate Beginner's Guide",
                     "description": "Curious about data engineering but not sure where to begin? In this 1-hour session, we’ll break down the basics and guide you through the fundamentals of data engineering. Whether you’re just starting out or hoping to deepen your understanding, this video has everything you need to get started on your journey.",
-                    "duration": "1:06:21"
+                    "duration": "1:06:21",
                 },
                 {
                     "id": "aK4Gpx3d2zU",
                     "title": "Session - 2: Getting Started with Azure: Creating Storage and Understanding the Basics",
                     "description": "Ready to dive into the world of Azure? In this video, we’ll walk you through the essentials of Microsoft Azure, including how to create and manage Azure Storage. Whether you’re a beginner or just looking to brush up on the basics, this session will help you understand the core concepts and give you hands-on experience.",
-                    "duration": "55:21"
+                    "duration": "55:21",
                 },
                 {
                     "id": "fvfxIIdkSXc",
                     "title": "Session - 3: Introduction to Azure Data Factory",
                     "description": "Curious about how to move and transform data in the cloud? In this video, we’ll introduce you to Azure Data Factory (ADF), Microsoft’s powerful data integration and orchestration tool. Whether you’re a beginner or exploring data engineering tools, this session will help you understand how Azure Data Factory works and why it’s essential for modern data workflows.",
-                    "duration": "1:00:04"
+                    "duration": "1:00:04",
                 },
                 {
                     "id": "1w0956AM7ZU",
                     "title": "Session - 4: Azure Data Factory 102",
                     "description": "Ready to take your Azure Data Factory skills to the next level? In this video, we’ll dive deeper into Azure Data Factory (ADF) and explore advanced features that help you design and manage complex data pipelines with ease. Whether you’re expanding your ADF knowledge or refining your data engineering skills, this session is packed with practical insights and tips.",
-                    "duration": "47:40"
+                    "duration": "47:40",
                 },
                 {
                     "id": "LG55zu_2cg0",
                     "title": "Session - 5: Dynamic Azure Data Factory 103",
                     "description": "Unlock the full potential of Azure Data Factory (ADF) with dynamic pipelines! In this advanced session, we’ll focus on creating dynamic and reusable workflows, enabling you to streamline data integration processes and maximize efficiency.",
-                    "duration": "1:11:54"
+                    "duration": "1:11:54",
                 },
             ],
             "machine_learning": [
@@ -348,19 +351,16 @@ async def get_video_content(credentials: HTTPAuthorizationCredentials = Depends(
                 #     "description": "Explore common system design patterns used in building scalable applications.",
                 #     "duration": "1:55:30"
                 # }
-            ]
+            ],
         }
 
-        return {
-            "success": True,
-            "content": video_content
-        }
+        return {"success": True, "content": video_content}
 
     except Exception as e:
         logger.error(f"Error fetching video content: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to fetch video content"
+            detail="Failed to fetch video content",
         )
 
 
@@ -588,8 +588,9 @@ async def get_students():
     """Get list of students from users table"""
     try:
         # fetch from users table instead of attendance
-        response = supabase.table("users").select("email, name").eq("cohort", 2026).execute()
-
+        response = (
+            supabase.table("users").select("email, name").eq("cohort", 2026).execute()
+        )
 
         if not response.data:
             return {"success": True, "students": []}
@@ -720,14 +721,17 @@ async def get_user_attendance(
 async def sql_courses_page(request: Request):
     return templates.TemplateResponse("sql-course.html", {"request": request})
 
+
 @app.get("/sql-cheatsheet", response_class=HTMLResponse)
 async def sqlCheatSheet(request: Request):
     CHEATSHEET_URL = "https://docs.google.com/spreadsheets/d/1ga0CGbYAUs240docApUdxLkJxUYGtsvSSnH3bjbKDpM/edit?gid=0#gid=0"
-    return RedirectResponse(url=CHEATSHEET_URL, status_code = 303)
+    return RedirectResponse(url=CHEATSHEET_URL, status_code=303)
+
 
 @app.get("/pandas-courses", response_class=HTMLResponse)
 async def pandas_courses_page(request: Request):
     return templates.TemplateResponse("pandas-course.html", {"request": request})
+
 
 from fastapi.responses import FileResponse
 from pathlib import Path
@@ -739,7 +743,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 async def get_pdf_proxy(
     course_type: str,
     session_id: int,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     try:
         user = supabase.auth.get_user(credentials.credentials)
@@ -753,18 +757,19 @@ async def get_pdf_proxy(
                 4: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%204%20_%20Details.pdf?t=2025-01-23T19%3A47%3A58.935Z",
                 5: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%205%20_%20Details.pdf?t=2025-01-23T19%3A50%3A22.135Z",
                 6: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%206%20_%20Details.pdf?t=2025-01-23T19%3A57%3A59.573Z",
-                7: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%207%20_%20Details.pdf?t=2025-01-23T19%3A59%3A28.693Z"
-
+                7: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%207%20_%20Details.pdf?t=2025-01-23T19%3A59%3A28.693Z",
             },
             "pandas": {
                 1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201.pdf",
                 2: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%202.pdf",
                 3: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%203.pdf",
-            }
+            },
         }
 
         if course_type not in pdf_urls or session_id not in pdf_urls[course_type]:
-            logger.error(f"PDF URL not found for {course_type} session_id: {session_id}")
+            logger.error(
+                f"PDF URL not found for {course_type} session_id: {session_id}"
+            )
             raise HTTPException(status_code=404, detail="PDF not found")
 
         return RedirectResponse(url=pdf_urls[course_type][session_id], status_code=303)
@@ -774,9 +779,10 @@ async def get_pdf_proxy(
         raise HTTPException(status_code=500, detail=f"Error serving PDF: {str(e)}")
 
 
-
 @app.get("/api/sql-sessions")
-async def get_sql_sessions(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_sql_sessions(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+):
     try:
         user = supabase.auth.get_user(credentials.credentials)
 
@@ -802,7 +808,6 @@ async def get_sql_sessions(credentials: HTTPAuthorizationCredentials = Depends(s
                 "topics": "Fetching the databases on conditions using WHERE Clause and usage of logical operators AND, OR and relational operators like >, <, >=, <=, <>, Applying filteration techniques like DISTINCT, Pattern Matching using LIKE Operator, Column Alias, Applying techniques like commenting which will help prepare documentation.",
                 "pdfUrl": "/api/pdf-proxy/sql/3",
             },
-
             {
                 "id": 4,
                 "title": "Session 4: Basic database operations-IV",
@@ -810,7 +815,6 @@ async def get_sql_sessions(credentials: HTTPAuthorizationCredentials = Depends(s
                 "topics": "Learning and applying CRUD operations (CREATE, READ, UPDATE, DELETE) on databases, using WHERE and IS NULL for filtering or finding null values, deleting rows (DELETE), and clearing tables while retaining headers (TRUNCATE)",
                 "pdfUrl": "/api/pdf-proxy/sql/4",
             },
-
             {
                 "id": 5,
                 "title": "Session 5: Basic database operations-V",
@@ -818,7 +822,6 @@ async def get_sql_sessions(credentials: HTTPAuthorizationCredentials = Depends(s
                 "topics": "Data-changing operations include ALTER for modifying tables (ADD, RENAME, DROP, MODIFY columns), INSERT for adding data into one or multiple columns, and applying CREATE, SHOW, DROP, and USE statements",
                 "pdfUrl": "/api/pdf-proxy/sql/5",
             },
-
             {
                 "id": 6,
                 "title": "Session 6: Basic database operations-VI",
@@ -826,14 +829,13 @@ async def get_sql_sessions(credentials: HTTPAuthorizationCredentials = Depends(s
                 "topics": "Data-changing operations include ALTER for modifying tables (ADD, RENAME, DROP, MODIFY columns), INSERT for adding data into one or multiple columns, and applying CREATE, SHOW, DROP, and USE statements",
                 "pdfUrl": "/api/pdf-proxy/sql/6",
             },
-
             {
                 "id": 7,
                 "title": "Session 7: Basic database operations-VII",
                 "info": "Duration: 2 hours",
                 "topics": "Aggregate functions in SQL include SUM, MIN, MAX, AVG, COUNT, and DISTINCT, with practical use cases demonstrated alongside GROUP BY for grouping data, HAVING for filtering grouped data, and applying these functions on a dataset.",
                 "pdfUrl": "/api/pdf-proxy/sql/7",
-            }
+            },
         ]
 
         return {"success": True, "sessions": sessions}
@@ -844,7 +846,9 @@ async def get_sql_sessions(credentials: HTTPAuthorizationCredentials = Depends(s
 
 
 @app.get("/api/pandas-sessions")
-async def get_pandas_sessions(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_pandas_sessions(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+):
     try:
         user = supabase.auth.get_user(credentials.credentials)
 
@@ -869,7 +873,7 @@ async def get_pandas_sessions(credentials: HTTPAuthorizationCredentials = Depend
                 "info": "Duration: 2 hours",
                 "topics": "Combining data using join(), concat(), and merge() with examples, groupby() function, aggregation functions like sum(), mean(), count(), min(), max() with practical implementation.",
                 "pdfUrl": "/api/pdf-proxy/pandas/3",
-            }
+            },
         ]
 
         return {"success": True, "sessions": sessions}
@@ -877,6 +881,7 @@ async def get_pandas_sessions(credentials: HTTPAuthorizationCredentials = Depend
     except Exception as e:
         logger.error(f"Error getting Pandas sessions: {str(e)}")
         raise HTTPException(status_code=500, detail="Error fetching session data")
+
 
 import zipfile
 import os
@@ -895,29 +900,47 @@ from fastapi.responses import StreamingResponse
 async def get_session_resources(
     course_type: str,
     session_id: int,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     try:
         user = supabase.auth.get_user(credentials.credentials)
 
         resources = {
             "sql": {
-                1: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1-Assignment.pdf"],
+                1: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session1-Assignment.pdf"
+                ],
                 2: [
                     "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Master%20Sales%20FY.zip",
                     "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session2-Assignment.pdf",
                 ],
-                3: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3-Assignment.pdf"],
-                4: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%204%20_%20Assessment%204.pdf?t=2025-01-23T19%3A50%3A30.790Z"],
-                5: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%205%20_%20Assessment%205.pdf?t=2025-01-23T19%3A56%3A54.957Z"],
-                6: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%206%20_%20Assessment%206.pdf?t=2025-01-23T19%3A56%3A47.670Z"],
-                7: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%207%20_%20Assessment%207.zip?t=2025-01-23T19%3A59%3A11.896Z"]
+                3: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/SQL-Session3-Assignment.pdf"
+                ],
+                4: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%204%20_%20Assessment%204.pdf?t=2025-01-23T19%3A50%3A30.790Z"
+                ],
+                5: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%205%20_%20Assessment%205.pdf?t=2025-01-23T19%3A56%3A54.957Z"
+                ],
+                6: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%206%20_%20Assessment%206.pdf?t=2025-01-23T19%3A56%3A47.670Z"
+                ],
+                7: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%207%20_%20Assessment%207.zip?t=2025-01-23T19%3A59%3A11.896Z"
+                ],
             },
             "pandas": {
-                1: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201%20_%20Assessment.pdf"],
-                2: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-2%20Resources.zip"],
-                3: ["https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-3%20Resources.zip"]
-            }
+                1: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201%20_%20Assessment.pdf"
+                ],
+                2: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-2%20Resources.zip"
+                ],
+                3: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas-3%20Resources.zip"
+                ],
+            },
         }
 
         if course_type not in resources or session_id not in resources[course_type]:
@@ -965,6 +988,7 @@ async def reset_password_page(request: Request):
         logger.error(f"Error rendering password reset page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
 # New route for the update password page
 @app.get("/update-password", response_class=HTMLResponse)
 async def update_password_page(request: Request):
@@ -975,7 +999,9 @@ async def update_password_page(request: Request):
         logger.error(f"Error rendering update password page: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
 # API route to initiate password reset
+
 
 @app.post("/api/reset-password")
 async def reset_password(email_data: dict):
@@ -990,73 +1016,62 @@ async def reset_password(email_data: dict):
             return {"success": True, "message": "Password reset email sent"}
         except Exception as auth_error:
             logger.error(f"Password reset failed: {auth_error}")
-            raise HTTPException(
-                status_code=400,
-                detail="Failed to send reset email"
-            )
+            raise HTTPException(status_code=400, detail="Failed to send reset email")
 
     except HTTPException as http_error:
         raise http_error
     except Exception as e:
         logger.error(f"Error initiating password reset: {e}")
-        raise HTTPException(
-            status_code=500,
-            detail="Failed to initiate password reset"
-        )
+        raise HTTPException(status_code=500, detail="Failed to initiate password reset")
+
+
 # API route to update password
 import httpx
+
 
 class PasswordUpdateData(BaseModel):
     token: str
     password: str
 
+
 @app.post("/api/update-password")
 async def update_password(password_data: PasswordUpdateData):
     try:
         # Extract access token from the full token string (which might include the URL)
-        access_token = password_data.token.split('access_token=')[1].split('&')[0]
+        access_token = password_data.token.split("access_token=")[1].split("&")[0]
 
         if not access_token or not password_data.password:
             raise HTTPException(
-                status_code=400,
-                detail="Access token and new password are required"
+                status_code=400, detail="Access token and new password are required"
             )
 
         # Make direct request to Supabase REST API
         headers = {
-            'apikey': SUPABASE_KEY,
-            'Authorization': f'Bearer {access_token}',
-            'Content-Type': 'application/json'
+            "apikey": SUPABASE_KEY,
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
         }
 
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                f'{SUPABASE_URL}/auth/v1/user',
+                f"{SUPABASE_URL}/auth/v1/user",
                 headers=headers,
-                json={'password': password_data.password}
+                json={"password": password_data.password},
             )
 
             if response.status_code == 200:
-                return {
-                    "success": True,
-                    "message": "Password updated successfully"
-                }
+                return {"success": True, "message": "Password updated successfully"}
             else:
                 logger.error(f"Password update failed: {response.text}")
                 raise HTTPException(
-                    status_code=response.status_code,
-                    detail="Failed to update password"
+                    status_code=response.status_code, detail="Failed to update password"
                 )
 
     except HTTPException as http_error:
         raise http_error
     except Exception as e:
         logger.error(f"Error updating password: {e}")
-        raise HTTPException(
-            status_code=500,
-            detail="Failed to update password"
-        )
-
+        raise HTTPException(status_code=500, detail="Failed to update password")
 
 
 if __name__ == "__main__":

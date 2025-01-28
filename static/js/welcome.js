@@ -438,21 +438,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const userData = JSON.parse(localStorage.getItem('userData'));
 
     if (userData) {
-        // Add debug logs
+
         console.log("Initial userData:", userData);
         console.log("Initial rank:", userData.rank);
 
-        // Get the rank element
+
         const rankElement = document.getElementById('userRank');
         console.log("Initial rank display:", rankElement.textContent);
 
-        // Set the rank with a more specific format
         rankElement.textContent = `#${userData.rank || 1}`;
 
-        // Add a debug log after setting
+
         console.log("Rank after setting:", rankElement.textContent);
 
-        // Add a MutationObserver to detect if something changes the rank
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 console.log('Rank element was modified:', {

@@ -634,3 +634,236 @@ const SQLCourses = (function () {
 })();
 
 document.addEventListener("DOMContentLoaded", SQLCourses.init);
+function initializeMatrixBackground() {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'matrix-bg';
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+  const fontSize = 14;
+  const columns = Math.floor(width / fontSize);
+  const drops = [];
+
+  // Initialize drops
+  for (let i = 0; i < columns; i++) {
+      drops[i] = Math.floor(Math.random() * -100);
+  }
+
+  function draw() {
+
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = '#00ff9d';
+      ctx.font = `${fontSize}px monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+          const char = chars[Math.floor(Math.random() * chars.length)];
+          const x = i * fontSize;
+          const y = drops[i] * fontSize;
+
+          const gradient = ctx.createLinearGradient(x, y - fontSize, x, y);
+          gradient.addColorStop(0, '#00ff9d'); // Bright green
+          gradient.addColorStop(1, '#003322'); // Darker green
+          ctx.fillStyle = gradient;
+
+          ctx.fillText(char, x, y);
+
+          if (y > height && Math.random() > 0.975) {
+              drops[i] = 0;
+          }
+          drops[i]++;
+      }
+      requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+
+      drops.length = Math.floor(width / fontSize);
+      for (let i = 0; i < drops.length; i++) {
+          drops[i] = Math.floor(Math.random() * -100);
+      }
+  });
+
+  draw();
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  SQLCourses.init();
+
+
+  initializeMatrixBackground();
+});
+
+function createFloatingParticles() {
+  for(let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'floating-particle';
+      particle.style.left = `${Math.random() * 100}vw`;
+      particle.style.top = `${Math.random() * 100}vh`;
+      particle.style.animationDelay = `${Math.random() * 4}s`;
+      document.body.appendChild(particle);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  createFloatingParticles();
+});
+
+
+function enhanceCards() {
+  const cards = document.querySelectorAll('.session-card');
+
+  cards.forEach(card => {
+
+    const corners = ['tl', 'tr', 'bl', 'br'];
+    corners.forEach(corner => {
+      const div = document.createElement('div');
+      div.className = `electric-corner electric-corner--${corner}`;
+      card.appendChild(div);
+    });
+
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / card.clientWidth) * 100;
+      const y = ((e.clientY - rect.top) / card.clientHeight) * 100;
+
+      card.style.setProperty('--x', `${x}%`);
+      card.style.setProperty('--y', `${y}%`);
+    });
+
+
+    card.addEventListener('click', (e) => {
+
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      const rect = card.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size/2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+      card.appendChild(ripple);
+
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+}
+
+
+function createElectricityEffect() {
+  const cards = document.querySelectorAll('.session-card');
+
+  cards.forEach(card => {
+    setInterval(() => {
+      const electricity = document.createElement('div');
+      electricity.className = 'electricity';
+
+      const side = Math.floor(Math.random() * 4);
+      const position = Math.random() * 100;
+
+      switch(side) {
+        case 0:
+          electricity.style.top = '0';
+          electricity.style.left = `${position}%`;
+          break;
+        case 1:
+          electricity.style.right = '0';
+          electricity.style.top = `${position}%`;
+          break;
+        case 2:
+          electricity.style.bottom = '0';
+          electricity.style.left = `${position}%`;
+          break;
+        case 3:
+          electricity.style.left = '0';
+          electricity.style.top = `${position}%`;
+          break;
+      }
+
+      card.appendChild(electricity);
+      setTimeout(() => electricity.remove(), 600);
+    }, 3000 + Math.random() * 2000); // Random interval between 3-5 seconds
+  });
+}
+
+
+function addTiltEffect() {
+  const cards = document.querySelectorAll('.session-card');
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = (y - centerY) / 20;
+      const rotateY = (centerX - x) / 20;
+
+      card.style.transform = `
+        perspective(1000px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        translateZ(10px)
+        scale3d(1.02, 1.02, 1.02)
+      `;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'none';
+    });
+  });
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  enhanceCards();
+  createElectricityEffect();
+  addTiltEffect();
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 255, 157, 0.1);
+      transform: scale(0);
+      animation: ripple 1s linear;
+      pointer-events: none;
+    }
+
+    .electricity {
+      position: absolute;
+      width: 2px;
+      height: 10px;
+      background: rgba(0, 255, 157, 0.8);
+      filter: blur(1px);
+      animation: spark 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    @keyframes spark {
+      0%, 100% { opacity: 0; height: 0; }
+      50% { opacity: 1; height: 20px; }
+    }
+  `;
+  document.head.appendChild(style);
+});
