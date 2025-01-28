@@ -72,6 +72,12 @@ particlesJS('particles-js', {
     },
     "retina_detect": true
   });
+console.log("User data stored:", JSON.parse(localStorage.getItem("userData")));
+// Add this to where you display the rank
+const userRank = document.getElementById("userRank");
+const userData = JSON.parse(localStorage.getItem("userData"));
+console.log("Rank from userData:", userData.rank);
+userRank.textContent = `#${userData.rank || 1}`;  // Make sure you're using userData.rank
 
   // Constants
   const DEADLINES = {
@@ -426,4 +432,42 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    if (userData) {
+        // Add debug logs
+        console.log("Initial userData:", userData);
+        console.log("Initial rank:", userData.rank);
+
+        // Get the rank element
+        const rankElement = document.getElementById('userRank');
+        console.log("Initial rank display:", rankElement.textContent);
+
+        // Set the rank with a more specific format
+        rankElement.textContent = `#${userData.rank || 1}`;
+
+        // Add a debug log after setting
+        console.log("Rank after setting:", rankElement.textContent);
+
+        // Add a MutationObserver to detect if something changes the rank
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                console.log('Rank element was modified:', {
+                    oldValue: mutation.oldValue,
+                    newValue: mutation.target.textContent,
+                    timestamp: new Date().toISOString()
+                });
+            });
+        });
+
+        observer.observe(rankElement, {
+            characterData: true,
+            childList: true,
+            subtree: true,
+            characterDataOldValue: true
+        });
+    }
 });

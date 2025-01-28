@@ -17,6 +17,7 @@ import hashlib
 import time
 import base64
 import hmac
+from datetime import datetime, time, timedelta
 
 
 logging.basicConfig(
@@ -492,9 +493,7 @@ async def get_user_activities(
 async def track_activity(activity_data: ActivityData):
     try:
         # Convert activity date to IST
-        activity_date = datetime.fromisoformat(
-            activity_data.date.replace("Z", "+00:00")
-        )
+        activity_date = datetime.fromisoformat(activity_data.date.replace("Z", "+00:00"))
         ist_now = datetime.now(pytz.timezone("Asia/Kolkata"))
 
         # Check if user has already logged activity for the current tracking day

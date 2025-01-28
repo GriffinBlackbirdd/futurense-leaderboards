@@ -6,7 +6,7 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-filePath = 'E:\\leaderboards\\data\\userData.xlsx'
+filePath = 'E:\\leaderboards\\futurense-leaderboards\\data\\trial.xlsx'
 df = pd.read_excel(filePath)
 
 
@@ -19,12 +19,13 @@ def runCreateUser():
       email = row['email']
       password = row['password']
       createUser(email, password)
+   # print("Done")
 
 
 def uniqueUser():
-   email = "arreyansocials@gmail.com"
-   password = "arreyansocials"
+   email = "lallubacha08@gmail.com"
+   password = "abcd1@"
    response = supabase.auth.sign_up({"email": email, "password": password})
 
-uniqueUser()
-# runCreateUser()
+# uniqueUser()
+runCreateUser()
