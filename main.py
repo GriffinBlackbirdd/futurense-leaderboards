@@ -493,7 +493,9 @@ async def get_user_activities(
 async def track_activity(activity_data: ActivityData):
     try:
         # Convert activity date to IST
-        activity_date = datetime.fromisoformat(activity_data.date.replace("Z", "+00:00"))
+        activity_date = datetime.fromisoformat(
+            activity_data.date.replace("Z", "+00:00")
+        )
         ist_now = datetime.now(pytz.timezone("Asia/Kolkata"))
 
         # Check if user has already logged activity for the current tracking day
@@ -758,6 +760,7 @@ async def get_pdf_proxy(
                 5: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%205%20_%20Details.pdf?t=2025-01-23T19%3A50%3A22.135Z",
                 6: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%206%20_%20Details.pdf?t=2025-01-23T19%3A57%3A59.573Z",
                 7: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%207%20_%20Details.pdf?t=2025-01-23T19%3A59%3A28.693Z",
+                8: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial//SQL%20-%20Retail%20Analytics%20(1).pdf",
             },
             "pandas": {
                 1: "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Pandas%201.pdf",
@@ -835,6 +838,13 @@ async def get_sql_sessions(
                 "info": "Duration: 2 hours",
                 "topics": "Aggregate functions in SQL include SUM, MIN, MAX, AVG, COUNT, and DISTINCT, with practical use cases demonstrated alongside GROUP BY for grouping data, HAVING for filtering grouped data, and applying these functions on a dataset.",
                 "pdfUrl": "/api/pdf-proxy/sql/7",
+            },
+            {
+                "id": 8,
+                "title": "Case Study 1: Retail",
+                "info": "Duration: 2 hours",
+                "topics": "Practice Case Study",
+                "pdfUrl": "/api/pdf-proxy/sql/8",
             },
         ]
 
@@ -928,6 +938,9 @@ async def get_session_resources(
                 ],
                 7: [
                     "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial/Session%207%20_%20Assessment%207.zip?t=2025-01-23T19%3A59%3A11.896Z"
+                ],
+                8: [
+                    "https://qqeanlpfsgowrbzukhie.supabase.co/storage/v1/object/public/studymaterial//caseStudy1Retail.zip"
                 ],
             },
             "pandas": {
