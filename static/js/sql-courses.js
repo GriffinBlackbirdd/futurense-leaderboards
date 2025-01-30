@@ -1,211 +1,108 @@
-// HELLO, if you are reading this in the inspect mode.
+// DevTools detection and security
 function detectDevTools() {
   const widthThreshold = window.outerWidth - window.innerWidth > 160;
   const heightThreshold = window.outerHeight - window.innerHeight > 160;
 
   if (widthThreshold || heightThreshold) {
     document.body.innerHTML = `
-          <div style="
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              background: linear-gradient(135deg, #141e30, #243b55);
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              padding: 20px;
-              color: white;
-              font-family: Arial, sans-serif;
-              text-align: center;
-          ">
-              <div style="
-                  padding: 20px 40px;
-                  background: rgba(255, 0, 0, 0.1);
-                  border: 2px solid red;
-                  border-radius: 20px;
-                  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
-                  animation: pulse 2s infinite;
-              ">
-                  <h1 style="
-                      font-size: 3rem;
-                      font-weight: bold;
-                      margin: 0;
-                      text-shadow: 2px 2px 5px black;
-                  ">
-                      Dev Tools Are Not Allowed
-                  </h1>
-                  <p style="
-                      margin-top: 10px;
-                      font-size: 1.2rem;
-                      color: #ff4444;
-                      text-shadow: 1px 1px 2px black;
-                  ">
-                      You will be redirected to the login page now...
-                  </p>
-              </div>
-          </div>
-      `;
+      <div style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #141e30, #243b55);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;">
+        <div style="
+          padding: 20px 40px;
+          background: rgba(255, 0, 0, 0.1);
+          border: 2px solid red;
+          border-radius: 20px;
+          box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+          animation: pulse 2s infinite;">
+          <h1 style="
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 2px 2px 5px black;">
+            Dev Tools Are Not Allowed
+          </h1>
+          <p style="
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #ff4444;
+            text-shadow: 1px 1px 2px black;">
+            You will be redirected to the login page now...
+          </p>
+        </div>
+      </div>`;
 
     setTimeout(() => {
       window.location.href = "/";
     }, 3000);
   }
 }
-//Disable right-click
+
+// Disable right-click
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
   return false;
 });
 
-//Detect keyboard shortcuts
+// Detect keyboard shortcuts
 document.addEventListener("keydown", function (e) {
+  const devToolsMessage = `
+    <div style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;">
+      <div style="
+        padding: 20px 40px;
+        background: rgba(255, 0, 0, 0.1);
+        border: 2px solid red;
+        border-radius: 20px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+        animation: pulse 2s infinite;">
+        <h1 style="
+          font-size: 3rem;
+          font-weight: bold;
+          margin: 0;
+          text-shadow: 2px 2px 5px black;">
+          Dev Tools Are Not Allowed
+        </h1>
+        <p style="
+          margin-top: 10px;
+          font-size: 1.2rem;
+          color: #ff4444;
+          text-shadow: 1px 1px 2px black;">
+          You will be redirected to the login page now...
+        </p>
+      </div>
+    </div>`;
+
   // Disable F12
-  if (e.key === "F12") {
-    document.body.innerHTML = `
-          <div style="
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              background: linear-gradient(135deg, #141e30, #243b55);
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              padding: 20px;
-              color: white;
-              font-family: Arial, sans-serif;
-              text-align: center;
-          ">
-              <div style="
-                  padding: 20px 40px;
-                  background: rgba(255, 0, 0, 0.1);
-                  border: 2px solid red;
-                  border-radius: 20px;
-                  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
-                  animation: pulse 2s infinite;
-              ">
-                  <h1 style="
-                      font-size: 3rem;
-                      font-weight: bold;
-                      margin: 0;
-                      text-shadow: 2px 2px 5px black;
-                  ">
-                      Dev Tools Are Not Allowed
-                  </h1>
-                  <p style="
-                      margin-top: 10px;
-                      font-size: 1.2rem;
-                      color: #ff4444;
-                      text-shadow: 1px 1px 2px black;
-                  ">
-                      You will be redirected to the login page now...
-                  </p>
-              </div>
-          </div>
-      `;
-
-    e.preventDefault();
-    return false;
-  }
-
-  // Disable Ctrl+Shift+I / Cmd+Option+I
-  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "I") {
-    document.body.innerHTML = `
-          <div style="
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              background: linear-gradient(135deg, #141e30, #243b55);
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              padding: 20px;
-              color: white;
-              font-family: Arial, sans-serif;
-              text-align: center;
-          ">
-              <div style="
-                  padding: 20px 40px;
-                  background: rgba(255, 0, 0, 0.1);
-                  border: 2px solid red;
-                  border-radius: 20px;
-                  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
-                  animation: pulse 2s infinite;
-              ">
-                  <h1 style="
-                      font-size: 3rem;
-                      font-weight: bold;
-                      margin: 0;
-                      text-shadow: 2px 2px 5px black;
-                  ">
-                      Dev Tools Are Not Allowed
-                  </h1>
-                  <p style="
-                      margin-top: 10px;
-                      font-size: 1.2rem;
-                      color: #ff4444;
-                      text-shadow: 1px 1px 2px black;
-                  ">
-                      You will be redirected to the login page now...
-                  </p>
-              </div>
-          </div>
-      `;
-
-    e.preventDefault();
-    return false;
-  }
-
-  // Disable Ctrl+Shift+J / Cmd+Option+J
-  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "J") {
-    document.body.innerHTML = `
-          <div style="
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              background: linear-gradient(135deg, #141e30, #243b55);
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              padding: 20px;
-              color: white;
-              font-family: Arial, sans-serif;
-              text-align: center;
-          ">
-              <div style="
-                  padding: 20px 40px;
-                  background: rgba(255, 0, 0, 0.1);
-                  border: 2px solid red;
-                  border-radius: 20px;
-                  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
-                  animation: pulse 2s infinite;
-              ">
-                  <h1 style="
-                      font-size: 3rem;
-                      font-weight: bold;
-                      margin: 0;
-                      text-shadow: 2px 2px 5px black;
-                  ">
-                      Dev Tools Are Not Allowed
-                  </h1>
-                  <p style="
-                      margin-top: 10px;
-                      font-size: 1.2rem;
-                      color: #ff4444;
-                      text-shadow: 1px 1px 2px black;
-                  ">
-                      You will be redirected to the login page now...
-                  </p>
-              </div>
-          </div>
-      `;
+  if (
+    e.key === "F12" ||
+    ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "I") ||
+    ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "J")
+  ) {
+    document.body.innerHTML = devToolsMessage;
     e.preventDefault();
     return false;
   }
@@ -228,12 +125,10 @@ function detectDebugger() {
   const startTime = new Date();
   debugger;
   const endTime = new Date();
-
   if (endTime - startTime > 100) {
     debugging = true;
-    window.location.href = "/"; //red to home
+    window.location.href = "/";
   }
-
   return debugging;
 }
 
@@ -241,7 +136,7 @@ function detectDebugger() {
 const observer = new MutationObserver(function (mutations) {
   mutations.forEach(function (mutation) {
     if (mutation.target.getAttribute("data-secure") === "true") {
-      window.location.href = "/"; // Red to home if the president is modigfied (secure element)
+      window.location.href = "/";
     }
   });
 });
@@ -261,14 +156,7 @@ document.querySelectorAll(".secure-content").forEach((element) => {
   });
 });
 
-// Additional protection for the PDF viewer
-document.getElementById("pdfCanvas")?.addEventListener("copy", function (e) {
-  e.preventDefault();
-  return false;
-});
-
-("use strict");
-
+// SQL Courses Module
 const SQLCourses = (function () {
   // Private variables
   let _pdfDoc = null;
@@ -292,53 +180,18 @@ const SQLCourses = (function () {
 
   const _ctx = _elements.canvas?.getContext("2d");
 
-  async function _fetchSessions() {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No authentication token found");
-        window.location.href = "/login";
-        return [];
-      }
-
-      console.log("Fetching sessions...");
-      const response = await fetch("/api/sql-sessions", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      console.log("Response status:", response.status);
-
-      if (!response.ok) {
-        console.error("Response not OK:", response.status);
-        throw new Error(`Failed to fetch sessions: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Fetched data:", data);
-
-      if (!data.success || !data.sessions) {
-        console.error("Invalid response format:", data);
-        throw new Error("Invalid response format");
-      }
-
-      return data.sessions;
-    } catch (error) {
-      console.error("Error in _fetchSessions:", error);
-      return [];
-    }
-  }
-
   async function _renderPage(num) {
     if (!_pdfDoc) return;
+
+    // Validate and normalize page number
+    num = Math.max(1, Math.min(num, _pdfDoc.numPages));
+    console.log(`Rendering page ${num}`);
 
     _pageRendering = true;
     _elements.loadingEl.style.display = "block";
 
     try {
       const page = await _pdfDoc.getPage(num);
-
       const viewport = page.getViewport({ scale: 1.0 });
       const container = document.querySelector(".pdf-container");
       const maxWidth = container.clientWidth - 80;
@@ -359,6 +212,7 @@ const SQLCourses = (function () {
       _elements.currentPage.textContent = num;
       _elements.totalPages.textContent = _pdfDoc.numPages;
 
+      // Update navigation buttons
       document.getElementById("prevPage").disabled = num <= 1;
       document.getElementById("firstPage").disabled = num <= 1;
       document.getElementById("nextPage").disabled = num >= _pdfDoc.numPages;
@@ -374,14 +228,49 @@ const SQLCourses = (function () {
     } catch (error) {
       console.error("Error rendering page:", error);
       _elements.loadingEl.textContent = "Error rendering page";
+      _pageRendering = false; // Ensure flag is cleared even on error
     }
   }
 
   function _queueRenderPage(num) {
+    console.log(`Queueing page render for page: ${num}`);
     if (_pageRendering) {
       _pageNumPending = num;
     } else {
       _renderPage(num);
+    }
+  }
+
+  async function _fetchSessions() {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No authentication token found");
+        window.location.href = "/login";
+        return [];
+      }
+
+      console.log("Fetching sessions...");
+      const response = await fetch("/api/sql-sessions", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch sessions: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data.success || !data.sessions) {
+        throw new Error("Invalid response format");
+      }
+
+      return data.sessions;
+    } catch (error) {
+      console.error("Error in _fetchSessions:", error);
+      return [];
     }
   }
 
@@ -404,7 +293,6 @@ const SQLCourses = (function () {
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-
       const a = document.createElement("a");
       a.href = url;
       a.download = `SQL_Session_${sessionId}_Resources.zip`;
@@ -422,114 +310,9 @@ const SQLCourses = (function () {
     }
   }
 
-  async function _loadPDF(pdfUrl, title, sessionId) {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Please login to view PDF content");
-        window.location.href = "/login";
-        return;
-      }
-
-      _elements.modal.style.display = "block";
-      _elements.modalTitle.textContent = title;
-      document.body.style.overflow = "hidden";
-      _elements.loadingEl.style.display = "block";
-      _elements.loadingEl.textContent = "Loading PDF...";
-      _currentSessionId = sessionId;
-
-      const loadingTask = pdfjsLib.getDocument({
-        url: pdfUrl,
-        httpHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      loadingTask.onProgress = function (progress) {
-        if (progress.total) {
-          const percent = (progress.loaded / progress.total) * 100;
-          _elements.loadingEl.textContent = `Loading PDF... ${Math.round(
-            percent
-          )}%`;
-        }
-      };
-
-      _pdfDoc = await loadingTask.promise;
-      _pageNum = 1;
-      _scale = 1.5;
-      _updateZoomLevel();
-      await _renderPage(_pageNum);
-    } catch (error) {
-      console.error("Error loading PDF:", error);
-      _elements.loadingEl.textContent = "Error loading PDF";
-
-      if (error.message.includes("401")) {
-        alert("Session expired. Please login again.");
-        window.location.href = "/login";
-      } else {
-        alert("Error loading PDF. Please try again.");
-      }
-    }
-  }
-
   function _updateZoomLevel() {
     if (_elements.zoomLevel) {
       _elements.zoomLevel.textContent = `${Math.round(_scale * 100)}%`;
-    }
-  }
-
-  async function _createSessionCards() {
-    console.log("Creating session cards...");
-    if (!_elements.sessionsGrid) {
-      console.error("Sessions grid element not found");
-      return;
-    }
-
-    try {
-      _elements.sessionsGrid.innerHTML =
-        '<div class="loading">Loading courses...</div>';
-
-      const sessions = await _fetchSessions();
-      console.log("Sessions received:", sessions);
-
-      if (!sessions || sessions.length === 0) {
-        console.error("No sessions received");
-        _elements.sessionsGrid.innerHTML =
-          '<div class="error">No courses available. Please try again later.</div>';
-        return;
-      }
-
-      _elements.sessionsGrid.innerHTML = "";
-
-      sessions.forEach((session, index) => {
-        console.log(`Creating card for session ${index + 1}`);
-        const card = document.createElement("div");
-        card.className = "session-card";
-        card.innerHTML = `
-                    <h3 class="session-title">${
-                      session.title || "Untitled Session"
-                    }</h3>
-                    <p class="session-info">
-                        <i class="far fa-clock"></i> ${
-                          session.info || "Duration not specified"
-                        }
-                    </p>
-                    <p class="session-topics">
-                        <strong>Topics covered:</strong><br>
-                        ${session.topics || "Topics not specified"}
-                    </p>
-                `;
-        card.addEventListener("click", () => {
-          console.log(`Clicked session ${session.id}`);
-          _loadPDF(session.pdfUrl, session.title, session.id);
-        });
-        _elements.sessionsGrid.appendChild(card);
-      });
-      console.log("Session cards created successfully");
-    } catch (error) {
-      console.error("Error creating session cards:", error);
-      _elements.sessionsGrid.innerHTML =
-        '<div class="error">Error loading courses. Please try again later.</div>';
     }
   }
 
@@ -542,6 +325,7 @@ const SQLCourses = (function () {
 
     document.getElementById("firstPage")?.addEventListener("click", () => {
       if (_pageNum !== 1) {
+        console.log("Moving to first page");
         _pageNum = 1;
         _queueRenderPage(_pageNum);
       }
@@ -549,20 +333,25 @@ const SQLCourses = (function () {
 
     document.getElementById("prevPage")?.addEventListener("click", () => {
       if (_pageNum > 1) {
-        _pageNum--;
+        console.log(`Current page: ${_pageNum}, Moving to previous page`);
+        _pageNum = Math.max(1, _pageNum - 1);
+        console.log(`New page number: ${_pageNum}`);
         _queueRenderPage(_pageNum);
       }
     });
 
     document.getElementById("nextPage")?.addEventListener("click", () => {
       if (_pdfDoc && _pageNum < _pdfDoc.numPages) {
-        _pageNum++;
+        console.log(`Current page: ${_pageNum}, Moving to next page`);
+        _pageNum = Math.min(_pageNum + 1, _pdfDoc.numPages);
+        console.log(`New page number: ${_pageNum}`);
         _queueRenderPage(_pageNum);
       }
     });
 
     document.getElementById("lastPage")?.addEventListener("click", () => {
       if (_pdfDoc && _pageNum !== _pdfDoc.numPages) {
+        console.log("Moving to last page");
         _pageNum = _pdfDoc.numPages;
         _queueRenderPage(_pageNum);
       }
@@ -615,6 +404,107 @@ const SQLCourses = (function () {
     });
   }
 
+  async function _loadPDF(pdfUrl, title, sessionId) {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please login to view PDF content");
+        window.location.href = "/login";
+        return;
+      }
+
+      _elements.modal.style.display = "block";
+      _elements.modalTitle.textContent = title;
+      document.body.style.overflow = "hidden";
+      _elements.loadingEl.style.display = "block";
+      _elements.loadingEl.textContent = "Loading PDF...";
+      _currentSessionId = sessionId;
+
+      const loadingTask = pdfjsLib.getDocument({
+        url: pdfUrl,
+        httpHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      loadingTask.onProgress = function (progress) {
+        if (progress.total) {
+          const percent = (progress.loaded / progress.total) * 100;
+          _elements.loadingEl.textContent = `Loading PDF... ${Math.round(
+            percent
+          )}%`;
+        }
+      };
+
+      _pdfDoc = await loadingTask.promise;
+      _pageNum = 1;
+      _scale = 1.5;
+      _updateZoomLevel();
+      await _renderPage(_pageNum);
+    } catch (error) {
+      console.error("Error loading PDF:", error);
+      // Previous code remains the same up until _loadPDF function
+      _elements.loadingEl.textContent = "Error loading PDF";
+      if (error.message.includes("401")) {
+        alert("Session expired. Please login again.");
+        window.location.href = "/login";
+      } else {
+        alert("Error loading PDF. Please try again.");
+      }
+    }
+  }
+
+  async function _createSessionCards() {
+    console.log("Creating session cards...");
+    if (!_elements.sessionsGrid) {
+      console.error("Sessions grid element not found");
+      return;
+    }
+
+    try {
+      _elements.sessionsGrid.innerHTML =
+        '<div class="loading">Loading courses...</div>';
+
+      const sessions = await _fetchSessions();
+      console.log("Sessions received:", sessions);
+
+      if (!sessions || sessions.length === 0) {
+        console.error("No sessions received");
+        _elements.sessionsGrid.innerHTML =
+          '<div class="error">No courses available. Please try again later.</div>';
+        return;
+      }
+
+      _elements.sessionsGrid.innerHTML = "";
+
+      sessions.forEach((session, index) => {
+        console.log(`Creating card for session ${index + 1}`);
+        const card = document.createElement("div");
+        card.className = "session-card";
+        card.innerHTML = `
+    <h3 class="session-title">${session.title || "Untitled Session"}</h3>
+    <p class="session-info">
+      <i class="far fa-clock"></i> ${session.info || "Duration not specified"}
+    </p>
+    <p class="session-topics">
+      <strong>Topics covered:</strong><br>
+      ${session.topics || "Topics not specified"}
+    </p>
+  `;
+        card.addEventListener("click", () => {
+          console.log(`Clicked session ${session.id}`);
+          _loadPDF(session.pdfUrl, session.title, session.id);
+        });
+        _elements.sessionsGrid.appendChild(card);
+      });
+      console.log("Session cards created successfully");
+    } catch (error) {
+      console.error("Error creating session cards:", error);
+      _elements.sessionsGrid.innerHTML =
+        '<div class="error">Error loading courses. Please try again later.</div>';
+    }
+  }
+
   async function init() {
     console.log("Initializing SQL Courses...");
     try {
@@ -633,237 +523,128 @@ const SQLCourses = (function () {
   return { init };
 })();
 
-document.addEventListener("DOMContentLoaded", SQLCourses.init);
+// Matrix Background Effect
 function initializeMatrixBackground() {
-  const canvas = document.createElement('canvas');
-  canvas.id = 'matrix-bg';
+  const canvas = document.createElement("canvas");
+  canvas.id = "matrix-bg";
   document.body.insertBefore(canvas, document.body.firstChild);
 
-  const ctx = canvas.getContext('2d');
-  let width = canvas.width = window.innerWidth;
-  let height = canvas.height = window.innerHeight;
+  const ctx = canvas.getContext("2d");
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
 
-  const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+  const chars =
+    "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789";
   const fontSize = 14;
   const columns = Math.floor(width / fontSize);
   const drops = [];
 
-  // Initialize drops
   for (let i = 0; i < columns; i++) {
-      drops[i] = Math.floor(Math.random() * -100);
+    drops[i] = Math.floor(Math.random() * -100);
   }
 
   function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = "#00ff9d";
+    ctx.font = `${fontSize}px monospace`;
 
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, width, height);
+    for (let i = 0; i < drops.length; i++) {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
 
-      ctx.fillStyle = '#00ff9d';
-      ctx.font = `${fontSize}px monospace`;
+      const gradient = ctx.createLinearGradient(x, y - fontSize, x, y);
+      gradient.addColorStop(0, "#00ff9d");
+      gradient.addColorStop(1, "#003322");
+      ctx.fillStyle = gradient;
 
-      for (let i = 0; i < drops.length; i++) {
-          const char = chars[Math.floor(Math.random() * chars.length)];
-          const x = i * fontSize;
-          const y = drops[i] * fontSize;
+      ctx.fillText(char, x, y);
 
-          const gradient = ctx.createLinearGradient(x, y - fontSize, x, y);
-          gradient.addColorStop(0, '#00ff9d'); // Bright green
-          gradient.addColorStop(1, '#003322'); // Darker green
-          ctx.fillStyle = gradient;
-
-          ctx.fillText(char, x, y);
-
-          if (y > height && Math.random() > 0.975) {
-              drops[i] = 0;
-          }
-          drops[i]++;
+      if (y > height && Math.random() > 0.975) {
+        drops[i] = 0;
       }
-      requestAnimationFrame(draw);
+      drops[i]++;
+    }
+    requestAnimationFrame(draw);
   }
 
-  window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-
-      drops.length = Math.floor(width / fontSize);
-      for (let i = 0; i < drops.length; i++) {
-          drops[i] = Math.floor(Math.random() * -100);
-      }
+  window.addEventListener("resize", () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    drops.length = Math.floor(width / fontSize);
+    for (let i = 0; i < drops.length; i++) {
+      drops[i] = Math.floor(Math.random() * -100);
+    }
   });
 
   draw();
 }
 
-
-document.addEventListener('DOMContentLoaded', function() {
-
-  SQLCourses.init();
-
-
-  initializeMatrixBackground();
-});
-
-function createFloatingParticles() {
-  for(let i = 0; i < 20; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'floating-particle';
-      particle.style.left = `${Math.random() * 100}vw`;
-      particle.style.top = `${Math.random() * 100}vh`;
-      particle.style.animationDelay = `${Math.random() * 4}s`;
-      document.body.appendChild(particle);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  createFloatingParticles();
-});
-
-
+// Card Enhancement Effects
 function enhanceCards() {
-  const cards = document.querySelectorAll('.session-card');
-
-  cards.forEach(card => {
-
-    const corners = ['tl', 'tr', 'bl', 'br'];
-    corners.forEach(corner => {
-      const div = document.createElement('div');
+  const cards = document.querySelectorAll(".session-card");
+  cards.forEach((card) => {
+    const corners = ["tl", "tr", "bl", "br"];
+    corners.forEach((corner) => {
+      const div = document.createElement("div");
       div.className = `electric-corner electric-corner--${corner}`;
       card.appendChild(div);
     });
 
-
-    card.addEventListener('mousemove', (e) => {
+    // Add hover effect
+    card.addEventListener("mousemove", (e) => {
       const rect = card.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / card.clientWidth) * 100;
       const y = ((e.clientY - rect.top) / card.clientHeight) * 100;
-
-      card.style.setProperty('--x', `${x}%`);
-      card.style.setProperty('--y', `${y}%`);
+      card.style.setProperty("--x", `${x}%`);
+      card.style.setProperty("--y", `${y}%`);
     });
 
-
-    card.addEventListener('click', (e) => {
-
-      const ripple = document.createElement('div');
-      ripple.className = 'ripple';
+    // Add click effect
+    card.addEventListener("click", (e) => {
+      const ripple = document.createElement("div");
+      ripple.className = "ripple";
       const rect = card.getBoundingClientRect();
       const size = Math.max(rect.width, rect.height);
       ripple.style.width = ripple.style.height = `${size}px`;
-      ripple.style.left = `${e.clientX - rect.left - size/2}px`;
-      ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
       card.appendChild(ripple);
-
       setTimeout(() => ripple.remove(), 1000);
     });
   });
 }
 
-
-function createElectricityEffect() {
-  const cards = document.querySelectorAll('.session-card');
-
-  cards.forEach(card => {
-    setInterval(() => {
-      const electricity = document.createElement('div');
-      electricity.className = 'electricity';
-
-      const side = Math.floor(Math.random() * 4);
-      const position = Math.random() * 100;
-
-      switch(side) {
-        case 0:
-          electricity.style.top = '0';
-          electricity.style.left = `${position}%`;
-          break;
-        case 1:
-          electricity.style.right = '0';
-          electricity.style.top = `${position}%`;
-          break;
-        case 2:
-          electricity.style.bottom = '0';
-          electricity.style.left = `${position}%`;
-          break;
-        case 3:
-          electricity.style.left = '0';
-          electricity.style.top = `${position}%`;
-          break;
-      }
-
-      card.appendChild(electricity);
-      setTimeout(() => electricity.remove(), 600);
-    }, 3000 + Math.random() * 2000); // Random interval between 3-5 seconds
-  });
-}
-
-
-function addTiltEffect() {
-  const cards = document.querySelectorAll('.session-card');
-
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateX = (y - centerY) / 20;
-      const rotateY = (centerX - x) / 20;
-
-      card.style.transform = `
-        perspective(1000px)
-        rotateX(${rotateX}deg)
-        rotateY(${rotateY}deg)
-        translateZ(10px)
-        scale3d(1.02, 1.02, 1.02)
-      `;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'none';
-    });
-  });
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize everything
+document.addEventListener("DOMContentLoaded", function () {
+  SQLCourses.init();
+  initializeMatrixBackground();
   enhanceCards();
-  createElectricityEffect();
-  addTiltEffect();
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
-    .ripple {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(0, 255, 157, 0.1);
-      transform: scale(0);
-      animation: ripple 1s linear;
-      pointer-events: none;
-    }
+.ripple {
+position: absolute;
+border-radius: 50%;
+background: rgba(0, 255, 157, 0.1);
+transform: scale(0);
+animation: ripple 1s linear;
+pointer-events: none;
+}
 
-    .electricity {
-      position: absolute;
-      width: 2px;
-      height: 10px;
-      background: rgba(0, 255, 157, 0.8);
-      filter: blur(1px);
-      animation: spark 0.6s linear;
-      pointer-events: none;
-    }
-
-    @keyframes ripple {
-      to {
-        transform: scale(4);
-        opacity: 0;
-      }
-    }
-
-    @keyframes spark {
-      0%, 100% { opacity: 0; height: 0; }
-      50% { opacity: 1; height: 20px; }
-    }
-  `;
+@keyframes ripple {
+to {
+  transform: scale(4);
+  opacity: 0;
+}
+}
+`;
   document.head.appendChild(style);
+
+  // Block PDF canvas copying
+  document.getElementById("pdfCanvas")?.addEventListener("copy", function (e) {
+    e.preventDefault();
+    return false;
+  });
 });
