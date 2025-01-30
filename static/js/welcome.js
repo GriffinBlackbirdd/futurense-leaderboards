@@ -292,7 +292,6 @@ document.head.appendChild(style);
   }
 
   function updateDeadlines(cohort) {
-    // Only show deadlines for 2026 batch
     if (cohort === '2026') {
         Object.entries(DEADLINES).forEach(([key, deadline]) => {
             const element = document.getElementById(`${key}Days`);
@@ -303,7 +302,6 @@ document.head.appendChild(style);
             }
         });
     } else {
-        // For 2028 batch, show N/A
         Object.keys(DEADLINES).forEach((key) => {
             const element = document.getElementById(`${key}Days`);
             if (element) {
@@ -313,6 +311,7 @@ document.head.appendChild(style);
         });
     }
 }
+
 
   function updatePointsDistribution(userData) {
     // Update individual points and progress bars

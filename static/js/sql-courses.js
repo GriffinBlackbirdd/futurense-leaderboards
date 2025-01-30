@@ -523,7 +523,7 @@ const SQLCourses = (function () {
   return { init };
 })();
 
-// Matrix Background Effect
+//matrix effect
 function initializeMatrixBackground() {
   const canvas = document.createElement("canvas");
   canvas.id = "matrix-bg";
@@ -581,7 +581,7 @@ function initializeMatrixBackground() {
   draw();
 }
 
-// Card Enhancement Effects
+
 function enhanceCards() {
   const cards = document.querySelectorAll(".session-card");
   cards.forEach((card) => {
@@ -592,7 +592,7 @@ function enhanceCards() {
       card.appendChild(div);
     });
 
-    // Add hover effect
+
     card.addEventListener("mousemove", (e) => {
       const rect = card.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / card.clientWidth) * 100;
@@ -601,7 +601,6 @@ function enhanceCards() {
       card.style.setProperty("--y", `${y}%`);
     });
 
-    // Add click effect
     card.addEventListener("click", (e) => {
       const ripple = document.createElement("div");
       ripple.className = "ripple";
@@ -616,7 +615,7 @@ function enhanceCards() {
   });
 }
 
-// Initialize everything
+
 document.addEventListener("DOMContentLoaded", function () {
   SQLCourses.init();
   initializeMatrixBackground();
@@ -642,7 +641,6 @@ to {
 `;
   document.head.appendChild(style);
 
-  // Block PDF canvas copying
   document.getElementById("pdfCanvas")?.addEventListener("copy", function (e) {
     e.preventDefault();
     return false;

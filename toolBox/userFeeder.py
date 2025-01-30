@@ -6,7 +6,7 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-filePath = 'E:\\leaderboards\\futurense-leaderboards\\data\\trial.xlsx'
+filePath = 'E:\\leaderboards\\futurense-leaderboards\\data\\year2user.xlsx'
 df = pd.read_excel(filePath)
 
 
